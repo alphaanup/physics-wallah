@@ -13,6 +13,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body {
@@ -24,6 +29,78 @@
       flex-direction: column;
       align-items: center;
       padding: 16px;
+    }
+
+    /* Login Screen Styles */
+    #login-container {
+      width: 100%;
+      max-width: 400px;
+      margin-top: 60px;
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    #login-container h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    #login-container p {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 12px;
+      color: #38bdf8;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 14px;
+      background: #080c14;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: #38bdf8;
+    }
+
+    #error-msg {
+      color: #ef4444;
+      font-size: 12px;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    /* Main Content Container (Locked by default) */
+    #main-content {
+      display: none;
+      width: 100%;
+      max-width: 480px;
+      flex-direction: column;
+      align-items: center;
     }
 
     .navbar { width: 100%; max-width: 480px; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 20px; }
@@ -41,10 +118,18 @@
       text-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
     }
 
-    .menu-btn { background: #111827; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; width: 40px; height: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; cursor: pointer; }
-    .menu-btn span { display: block; width: 18px; height: 2px; background: #38bdf8; border-radius: 2px; box-shadow: 0 0 8px #38bdf8; }
+    .logout-btn { 
+      background: #ef4444; 
+      color: #fff; 
+      border: none; 
+      border-radius: 10px; 
+      padding: 8px 14px; 
+      font-size: 12px; 
+      font-weight: 700; 
+      cursor: pointer; 
+    }
 
-    .hero { width: 100%; max-width: 480px; text-align: center; margin-bottom: 24px; }
+    .hero { width: 100%; text-align: center; margin-bottom: 24px; }
     .pill-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); color: #38bdf8; font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 30px; margin-bottom: 14px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.15); }
     .dot { width: 6px; height: 6px; background: #06b6d4; border-radius: 50%; box-shadow: 0 0 8px #06b6d4; }
     
@@ -52,8 +137,8 @@
     .hero h1 span { background: linear-gradient(135deg, #38bdf8 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .hero p { color: #94a3b8; font-size: 13px; line-height: 1.5; margin-bottom: 18px; padding: 0 10px; }
 
-    .btn-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
-    .btn { width: 100%; padding: 14px; border-radius: 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s ease; }
+    .btn-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; width: 100%; }
+    .btn { width: 100%; padding: 14px; border-radius: 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s ease; border: none; cursor: pointer; }
     
     .btn-primary { 
       background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); 
@@ -66,11 +151,11 @@
     .btn-whatsapp { background: #0f172a; color: #22c55e; border: 1.5px solid #22c55e; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.15); }
     .btn-youtube { background: #0f172a; color: #ef4444; border: 1.5px solid #ef4444; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.15); }
 
-    .stats-bar { width: 100%; max-width: 480px; display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; padding: 14px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); border-bottom: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 30px; background: rgba(17, 24, 39, 0.4); border-radius: 16px; }
+    .stats-bar { width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; padding: 14px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); border-bottom: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 30px; background: rgba(17, 24, 39, 0.4); border-radius: 16px; }
     .stat-item .num { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: #38bdf8; margin-bottom: 2px; }
     .stat-item .label { font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
 
-    .section-container { width: 100%; max-width: 480px; }
+    .section-container { width: 100%; }
     .section-tag { font-size: 11px; color: #38bdf8; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px; }
     .section-title { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 6px; }
     .section-desc { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
@@ -89,59 +174,135 @@
 </head>
 <body>
 
-  <nav class="navbar">
-    <a href="#" class="nav-brand">
-      <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Rajnish Prime Logo" class="nav-logo-img">
-      <span class="nav-title">RAJNISH PRIME</span>
-    </a>
-    <div class="menu-btn" onclick="vibratePhone(30)">
-      <span></span><span></span><span></span>
-    </div>
-  </nav>
-
-  <header class="hero">
-    <div class="pill-badge">
-      <span class="dot"></span> 100% Free • Premium Courses Unlocked
-    </div>
-    <h1>Study Smarter. Pay <span>Nothing.</span></h1>
-    <p>Access premium paid courses from Physics Wallah — completely free. All your favourite educators, one place.</p>
+  <!-- LOGIN SCREEN -->
+  <div id="login-container">
+    <h2>Student Login</h2>
+    <p>Please login to access Rajnish Prime courses</p>
     
-    <div class="btn-group">
-      <a href="#apps" class="btn btn-primary" onclick="vibratePhone(40)">🚀 Explore Apps</a>
-      <a href="https://t.me/+g0wmAK8VCGEwMTJl" class="btn btn-telegram" onclick="vibratePhone(40)">✈️ Join Telegram Channel</a>
-      <a href="https://whatsapp.com/channel/0029VbDI4yFK5cDHjEHcNk16" class="btn btn-whatsapp" onclick="vibratePhone(40)">📢 Join WhatsApp Channel</a>
-      <a href="https://youtube.com/@rajnishstudyshorts?si=mPxFar33SZb9pHjA" class="btn btn-youtube" onclick="vibratePhone(40)">📺 Subscribe YouTube</a>
-    </div>
-  </header>
+    <div id="error-msg"></div>
 
-  <div class="stats-bar">
-    <div class="stat-item"><div class="num">100+</div><div class="label">Batches</div></div>
-    <div class="stat-item"><div class="num">1</div><div class="label">Platform</div></div>
-    <div class="stat-item"><div class="num">₹0</div><div class="label">Cost</div></div>
-    <div class="stat-item"><div class="num">24/7</div><div class="label">Access</div></div>
+    <div class="input-group">
+      <label>Email Address</label>
+      <input type="email" id="email" placeholder="Enter your registered email">
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Enter password">
+    </div>
+
+    <button class="btn btn-primary" onclick="loginUser()">🔓 Login to Access</button>
   </div>
 
-  <div class="section-container" id="apps">
-    <p class="section-tag">Official Platform</p>
-    <h2 class="section-title">Explore Our App</h2>
-    <p class="section-desc">Get instant free access to all premium batches.</p>
-
-    <div class="apps-list">
-      <!-- 1. Physics Wallah -->
-      <a href="https://pwthor.live/study/batches" target="_blank" class="app-card" onclick="vibratePhone(35)">
-        <div class="app-card-top">
-          <img src="https://i.ibb.co/8LJLjzD4/Physics-Wallah-Logo.jpg" alt="Physics-Wallah-Logo" class="app-icon">
-          <div class="app-info">
-            <h3>Physics Wallah</h3>
-            <p>Master Physics concepts with high-quality free lectures and notes.</p>
-          </div>
-        </div>
-        <div class="live-badge"><span class="live-dot"></span> LIVE BATCHES AVAILABLE</div>
+  <!-- MAIN WEBSITE CONTENT -->
+  <div id="main-content">
+    <nav class="navbar">
+      <a href="#" class="nav-brand">
+        <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Rajnish Prime Logo" class="nav-logo-img">
+        <span class="nav-title">RAJNISH PRIME</span>
       </a>
+      <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </nav>
+
+    <header class="hero">
+      <div class="pill-badge">
+        <span class="dot"></span> 100% Free • Premium Courses Unlocked
+      </div>
+      <h1>Study Smarter. Pay <span>Nothing.</span></h1>
+      <p>Access premium paid courses from Physics Wallah — completely free. All your favourite educators, one place.</p>
+      
+      <div class="btn-group">
+        <a href="#apps" class="btn btn-primary" onclick="vibratePhone(40)">🚀 Explore Apps</a>
+        <a href="https://t.me/+g0wmAK8VCGEwMTJl" class="btn btn-telegram" onclick="vibratePhone(40)">✈️ Join Telegram Channel</a>
+        <a href="https://whatsapp.com/channel/0029VbDI4yFK5cDHjEHcNk16" class="btn btn-whatsapp" onclick="vibratePhone(40)">📢 Join WhatsApp Channel</a>
+        <a href="https://youtube.com/@rajnishstudyshorts?si=mPxFar33SZb9pHjA" class="btn btn-youtube" onclick="vibratePhone(40)">📺 Subscribe YouTube</a>
+      </div>
+    </header>
+
+    <div class="stats-bar">
+      <div class="stat-item"><div class="num">100+</div><div class="label">Batches</div></div>
+      <div class="stat-item"><div class="num">1</div><div class="label">Platform</div></div>
+      <div class="stat-item"><div class="num">₹0</div><div class="label">Cost</div></div>
+      <div class="stat-item"><div class="num">24/7</div><div class="label">Access</div></div>
+    </div>
+
+    <div class="section-container" id="apps">
+      <p class="section-tag">Official Platform</p>
+      <h2 class="section-title">Explore Our App</h2>
+      <p class="section-desc">Get instant free access to all premium batches.</p>
+
+      <div class="apps-list">
+        <!-- 1. Physics Wallah -->
+        <a href="https://pwthor.live/study/batches" target="_blank" class="app-card" onclick="vibratePhone(35)">
+          <div class="app-card-top">
+            <img src="https://i.ibb.co/8LJLjzD4/Physics-Wallah-Logo.jpg" alt="Physics-Wallah-Logo" class="app-icon">
+            <div class="app-info">
+              <h3>Physics Wallah</h3>
+              <p>Master Physics concepts with high-quality free lectures and notes.</p>
+            </div>
+          </div>
+          <div class="live-badge"><span class="live-dot"></span> LIVE BATCHES AVAILABLE</div>
+        </a>
+      </div>
     </div>
   </div>
 
   <script>
+    // FIREBASE CONFIGURATION
+    const firebaseConfig = {
+      apiKey: "AIzaSyAAGqLUxejE8m3iskC2akdt_ZUNxwjBKFNM",
+      authDomain: "alphasatyayadav995564.firebaseapp.com",
+      projectId: "alphasatyayadav995564",
+      storageBucket: "alphasatyayadav995564.firebasestorage.app",
+      messagingSenderId: "654601844751",
+      appId: "1:654601844751:web:e0c02d058e14dbd1bacb7a",
+      measurementId: "G-NK81RDHMYS"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+
+    // Check auth status
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        document.getElementById("login-container").style.display = "none";
+        document.getElementById("main-content").style.display = "flex";
+      } else {
+        document.getElementById("login-container").style.display = "block";
+        document.getElementById("main-content").style.display = "none";
+      }
+    });
+
+    // Login Action
+    function loginUser() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const errorMsg = document.getElementById("error-msg");
+
+      if (!email || !password) {
+        errorMsg.style.display = "block";
+        errorMsg.innerText = "Kripya email aur password dono daalein.";
+        return;
+      }
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          errorMsg.style.display = "none";
+        })
+        .catch((error) => {
+          errorMsg.style.display = "block";
+          errorMsg.innerText = "Galat Email ya Password! Kripya sahi details daalein.";
+        });
+    }
+
+    // Logout Action
+    function logoutUser() {
+      auth.signOut();
+    }
+
     function vibratePhone(ms) {
       if ("vibrate" in navigator) {
         navigator.vibrate(ms);
