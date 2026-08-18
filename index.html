@@ -13,10 +13,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -31,7 +27,6 @@
       padding: 16px;
     }
 
-    /* Login Screen Styles */
     #login-container {
       width: 100%;
       max-width: 400px;
@@ -94,7 +89,6 @@
       display: none;
     }
 
-    /* Main Content Container (Locked by default) */
     #main-content {
       display: none;
       width: 100%;
@@ -176,22 +170,17 @@
 
   <!-- LOGIN SCREEN -->
   <div id="login-container">
-    <h2>Student Login</h2>
-    <p>Please login to access Rajnish Prime courses</p>
+    <h2>Student Access</h2>
+    <p>Password daal kar access karein</p>
     
     <div id="error-msg"></div>
 
     <div class="input-group">
-      <label>Email Address</label>
-      <input type="email" id="email" placeholder="Enter your registered email">
+      <label>Access Password</label>
+      <input type="password" id="password" placeholder="Password daalein">
     </div>
 
-    <div class="input-group">
-      <label>Password</label>
-      <input type="password" id="password" placeholder="Enter password">
-    </div>
-
-    <button class="btn btn-primary" onclick="loginUser()">🔓 Login to Access</button>
+    <button class="btn btn-primary" onclick="loginUser()">🔓 Unlock Website</button>
   </div>
 
   <!-- MAIN WEBSITE CONTENT -->
@@ -248,59 +237,37 @@
   </div>
 
   <script>
-    // FIREBASE CONFIGURATION
-    const firebaseConfig = {
-      apiKey: "AIzaSyAAGqLUxejE8m3iskC2akdt_ZUNxwjBKFNM",
-      authDomain: "alphasatyayadav995564.firebaseapp.com",
-      projectId: "alphasatyayadav995564",
-      storageBucket: "alphasatyayadav995564.firebasestorage.app",
-      messagingSenderId: "654601844751",
-      appId: "1:654601844751:web:e0c02d058e14dbd1bacb7a",
-      measurementId: "G-NK81RDHMYS"
-    };
+    // FIX PASSWORD SET HERE
+    const CORRECT_PASSWORD = "admin123";
 
-    // Initialize Firebase
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
+    // Check if already logged in
+    if (localStorage.getItem("isLoggedIn") === "true") {
+      showMainContent();
     }
-    const auth = firebase.auth();
 
-    // Check auth status
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        document.getElementById("login-container").style.display = "none";
-        document.getElementById("main-content").style.display = "flex";
-      } else {
-        document.getElementById("login-container").style.display = "block";
-        document.getElementById("main-content").style.display = "none";
-      }
-    });
-
-    // Login Action
     function loginUser() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      const passwordInput = document.getElementById("password").value;
       const errorMsg = document.getElementById("error-msg");
 
-      if (!email || !password) {
+      if (passwordInput === CORRECT_PASSWORD) {
+        localStorage.setItem("isLoggedIn", "true");
+        showMainContent();
+      } else {
         errorMsg.style.display = "block";
-        errorMsg.innerText = "Kripya email aur password dono daalein.";
-        return;
+        errorMsg.innerText = "Galat Password! Sahi password daalein.";
       }
-
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          errorMsg.style.display = "none";
-        })
-        .catch((error) => {
-          errorMsg.style.display = "block";
-          errorMsg.innerText = "Galat Email ya Password! Kripya sahi details daalein.";
-        });
     }
 
-    // Logout Action
+    function showMainContent() {
+      document.getElementById("login-container").style.display = "none";
+      document.getElementById("main-content").style.display = "flex";
+    }
+
     function logoutUser() {
-      auth.signOut();
+      localStorage.removeItem("isLoggedIn");
+      document.getElementById("login-container").style.display = "block";
+      document.getElementById("main-content").style.display = "none";
+      document.getElementById("password").value = "";
     }
 
     function vibratePhone(ms) {
