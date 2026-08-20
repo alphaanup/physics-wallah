@@ -240,8 +240,8 @@
     // NAYA PASSWORD YAHAN SET KIYA GAYA HAI
     const CORRECT_PASSWORD = "Rajnish2026";
 
-    // Check if already logged in
-    if (localStorage.getItem("isLoggedIn") === "true") {
+    // Storage Key ko badal diya taaki purana session automatically clear ho jaye
+    if (localStorage.getItem("isLoggedIn_v2") === "true") {
       showMainContent();
     }
 
@@ -250,7 +250,7 @@
       const errorMsg = document.getElementById("error-msg");
 
       if (passwordInput === CORRECT_PASSWORD) {
-        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("isLoggedIn_v2", "true");
         showMainContent();
       } else {
         errorMsg.style.display = "block";
@@ -264,7 +264,7 @@
     }
 
     function logoutUser() {
-      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("isLoggedIn_v2");
       document.getElementById("login-container").style.display = "block";
       document.getElementById("main-content").style.display = "none";
       document.getElementById("password").value = "";
@@ -279,3 +279,4 @@
 
 </body>
 </html>
+
