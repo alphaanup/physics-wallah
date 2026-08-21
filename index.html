@@ -240,7 +240,8 @@
     // UPDATED PASSWORD
     const CORRECT_PASSWORD = "Anup@Prime2026";
 
-    if (localStorage.getItem("isLoggedIn_v2") === "true") {
+    // Storage Key ko v3 kar diya gaya hai, jisse purane sabhi users automatic LOGOUT ho jayenge
+    if (localStorage.getItem("isLoggedIn_v3") === "true") {
       showMainContent();
     }
 
@@ -249,7 +250,7 @@
       const errorMsg = document.getElementById("error-msg");
 
       if (passwordInput === CORRECT_PASSWORD) {
-        localStorage.setItem("isLoggedIn_v2", "true");
+        localStorage.setItem("isLoggedIn_v3", "true");
         showMainContent();
       } else {
         errorMsg.style.display = "block";
@@ -263,7 +264,7 @@
     }
 
     function logoutUser() {
-      localStorage.removeItem("isLoggedIn_v2");
+      localStorage.removeItem("isLoggedIn_v3");
       document.getElementById("login-container").style.display = "block";
       document.getElementById("main-content").style.display = "none";
       document.getElementById("password").value = "";
@@ -278,3 +279,4 @@
 
 </body>
 </html>
+
