@@ -354,10 +354,14 @@
   </div>
 
   <script>
-    // Updated Password Here
     const CORRECT_PASSWORD = "Rajnish@59";
 
-    if (localStorage.getItem("isLoggedIn_v5") === "true") {
+    // LOGIN VERSION CONTROL KEY
+    // Jab bhi sabhi devices se logout karwana ho, 
+    // bas 'isLoggedIn_v6' ke number ko badal kar 'isLoggedIn_v7' kar dein.
+    const LOGIN_KEY = "isLoggedIn_v6";
+
+    if (localStorage.getItem(LOGIN_KEY) === "true") {
       showSplashScreen();
     }
 
@@ -366,7 +370,7 @@
       const errorMsg = document.getElementById("error-msg");
 
       if (passwordInput === CORRECT_PASSWORD) {
-        localStorage.setItem("isLoggedIn_v5", "true");
+        localStorage.setItem(LOGIN_KEY, "true");
         showSplashScreen();
       } else {
         errorMsg.style.display = "block";
@@ -396,7 +400,7 @@
     }
 
     function logoutUser() {
-      localStorage.removeItem("isLoggedIn_v5");
+      localStorage.removeItem(LOGIN_KEY);
       document.getElementById("splash-screen").style.display = "none";
       document.getElementById("main-content").style.display = "none";
       document.getElementById("login-container").style.display = "block";
