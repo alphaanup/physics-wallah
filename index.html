@@ -314,7 +314,7 @@
       <p class="section-desc">Get instant free access to all premium batches.</p>
 
       <div class="apps-list">
-        <!-- 1. ALL IN ONE Platform (FIRST PLATFORM AT TOP) -->
+        <!-- 1. ALL IN ONE Platform -->
         <a href="https://on-test-tan.vercel.app/tg/keys/open?code=bind_success" target="_blank" class="app-card" onclick="vibratePhone(35)">
           <div class="app-card-top">
             <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="ALL IN ONE Platform Logo" class="app-icon">
@@ -354,10 +354,10 @@
   </div>
 
   <script>
-    const CORRECT_PASSWORD = "Anup@Prime2026";
+    // Updated Password Here
+    const CORRECT_PASSWORD = "Rajnish@59";
 
-    // Auto-login logic
-    if (localStorage.getItem("isLoggedIn_v3") === "true") {
+    if (localStorage.getItem("isLoggedIn_v5") === "true") {
       showSplashScreen();
     }
 
@@ -366,7 +366,7 @@
       const errorMsg = document.getElementById("error-msg");
 
       if (passwordInput === CORRECT_PASSWORD) {
-        localStorage.setItem("isLoggedIn_v3", "true");
+        localStorage.setItem("isLoggedIn_v5", "true");
         showSplashScreen();
       } else {
         errorMsg.style.display = "block";
@@ -384,7 +384,6 @@
       splash.style.display = "flex";
       splashContent.classList.remove("show");
 
-      // 1 Second delay
       setTimeout(() => {
         splashContent.classList.add("show");
       }, 1000);
@@ -397,7 +396,7 @@
     }
 
     function logoutUser() {
-      localStorage.removeItem("isLoggedIn_v3");
+      localStorage.removeItem("isLoggedIn_v5");
       document.getElementById("splash-screen").style.display = "none";
       document.getElementById("main-content").style.display = "none";
       document.getElementById("login-container").style.display = "block";
