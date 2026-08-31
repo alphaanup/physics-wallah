@@ -264,8 +264,8 @@
 
     <button class="btn btn-primary" onclick="loginUser()">🔓 Unlock Website</button>
   </div>
-
-  <!-- SPLASH LANDING SCREEN -->
+  
+    <!-- SPLASH LANDING SCREEN -->
   <div id="splash-screen">
     <div class="splash-logo-box">
       <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Rajnish Prime Logo">
@@ -291,7 +291,7 @@
         <span class="dot"></span> 100% Free • Premium Courses Unlocked
       </div>
       <h1>Study Smarter. Pay <span>Nothing.</span></h1>
-      <p>Access premium paid courses from Physics Wallah — completely free. All your favourite educators, one place.</p>
+      <p>Access premium paid courses from top platforms — completely free. All your favourite educators, one place.</p>
       
       <div class="btn-group">
         <a href="#apps" class="btn btn-primary" onclick="vibratePhone(40)">🚀 Explore Apps</a>
@@ -303,27 +303,39 @@
 
     <div class="stats-bar">
       <div class="stat-item"><div class="num">100+</div><div class="label">Batches</div></div>
-      <div class="stat-item"><div class="num">1</div><div class="label">Platform</div></div>
+      <div class="stat-item"><div class="num">2</div><div class="label">Platforms</div></div>
       <div class="stat-item"><div class="num">₹0</div><div class="label">Cost</div></div>
       <div class="stat-item"><div class="num">24/7</div><div class="label">Access</div></div>
     </div>
 
     <div class="section-container" id="apps">
-      <p class="section-tag">Official Platform</p>
-      <h2 class="section-title">Explore Our App</h2>
+      <p class="section-tag">Official Platforms</p>
+      <h2 class="section-title">Explore Our Apps</h2>
       <p class="section-desc">Get instant free access to all premium batches.</p>
 
       <div class="apps-list">
         <!-- 1. Physics Wallah -->
         <a href="https://pwthor.live/study/batches" target="_blank" class="app-card" onclick="vibratePhone(35)">
           <div class="app-card-top">
-            <img src="https://i.ibb.co/8LJLjzD4/Physics-Wallah-Logo.jpg" alt="Physics-Wallah-Logo" class="app-icon">
+            <img src="https://i.ibb.co/8LJLjzD4/Physics-Wallah-Logo.jpg" alt="Physics Wallah Logo" class="app-icon">
             <div class="app-info">
               <h3>Physics Wallah</h3>
               <p>Master Physics concepts with high-quality free lectures and notes.</p>
             </div>
           </div>
           <div class="live-badge"><span class="live-dot"></span> LIVE BATCHES AVAILABLE</div>
+        </a>
+
+        <!-- 2. NIRMAN BATCH 2026 (NEW PLATFORM ADDED) -->
+        <a href="https://nirmanbatch.edgeone.dev/" target="_blank" class="app-card" onclick="vibratePhone(35)">
+          <div class="app-card-top">
+            <img src="https://i.ibb.co/fzRX8jNW/logo.jpg" alt="NIRMAN BATCH 2026 Logo" class="app-icon">
+            <div class="app-info">
+              <h3>NIRMAN BATCH 2026</h3>
+              <p>Complete index for Biology, Physics & Chemistry subjects free access.</p>
+            </div>
+          </div>
+          <div class="live-badge"><span class="live-dot"></span> NEW BATCH AVAILABLE</div>
         </a>
       </div>
     </div>
@@ -360,7 +372,7 @@
       splash.style.display = "flex";
       splashContent.classList.remove("show");
 
-      // 1 Second ke delay ke baad "RAJNISH PRIME" aur "Open Now" button aayega
+      // 1 Second delay
       setTimeout(() => {
         splashContent.classList.add("show");
       }, 1000);
