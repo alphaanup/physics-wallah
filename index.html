@@ -92,7 +92,6 @@
     .btn { width: 100%; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; cursor: pointer; }
     .btn-primary { background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); color: #ffffff; }
     .btn-telegram { background: #0f172a; color: #38bdf8; border: 1.5px solid #38bdf8; }
-    .btn-whatsapp { background: #0f172a; color: #22c55e; border: 1.5px solid #22c55e; }
     .btn-youtube { background: #0f172a; color: #ef4444; border: 1.5px solid #ef4444; }
 
     .apps-list { display: flex; flex-direction: column; gap: 16px; width: 100%; }
@@ -105,13 +104,12 @@
 
   <div id="access-screen" class="feature-card">
     <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
-    <h2> Enter Access Code</h2>
+    <h2>📖 Enter Access Code</h2>
     <p>Apna access code daal kar website unlock karein</p>
 
     <div class="info-box" style="text-align: center; margin-bottom: 15px;">
-      <b> Suggested Passwords:</b><br>
-      User Access Code: <span style="color:#fff;">Admin@123</span><br>
-      Admin Password: <span style="color:#fff;">Rajnish@59</span>
+      <b>💡 Sample User Access Codes:</b><br>
+      <span style="color:#fff;">Admin@123</span> or <span style="color:#fff;">Rajnish2026</span>
     </div>
 
     <div class="input-group">
@@ -119,12 +117,12 @@
       <input type="text" id="accessCodeInput" placeholder="Enter code (e.g. Admin@123)">
     </div>
     <button class="btn btn-primary" onclick="checkAccessCode()">Get Access ></button>
-    <span class="link-action" onclick="showAdminLogin()"> Admin Panel</span>
+    <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
   </div>
 
   <div id="payment-screen" class="feature-card" style="display:none;">
-    <h2>Membership Fee: 199</h2>
-    <p>Scan & Pay 199 using any UPI App</p>
+    <h2>Membership Fee: ₹199</h2>
+    <p>Scan & Pay ₹199 using any UPI App</p>
 
     <div class="qr-box">
       <svg width="180" height="180" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
@@ -191,12 +189,12 @@
   </div>
 
   <div id="pending-screen" class="feature-card" style="display:none;">
-    <div style="font-size: 40px; margin-bottom: 10px;"></div>
+    <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
     <h2>Verification Pending</h2>
     <p>Namaste, <b id="userPendingName" style="color:#38bdf8;">Student</b>!</p>
 
     <div class="info-box" style="text-align: center; background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; color: #fbbf24;">
-       Waiting for Admin Approval
+      🟡 Waiting for Admin Approval
     </div>
 
     <button class="btn btn-primary" style="margin-bottom:10px;" onclick="window.location.href='https://t.me/RajnishPrimeBot'">Send Screenshot on Telegram</button>
@@ -208,14 +206,12 @@
     <p>Quick Access Control</p>
 
     <div id="adminLoginBox">
-      <div class="info-box" style="margin-bottom: 12px;">
-         Admin Password: <b style="color:#fff;">Rajnish@59</b>
-      </div>
       <div class="input-group">
         <label>Admin Password</label>
         <input type="password" id="adminPassInput" placeholder="Enter admin password">
       </div>
       <button class="btn btn-primary" onclick="loginAdmin()">Login as Admin</button>
+      <span class="link-action" onclick="showScreen('access-screen')">Back to Home</span>
     </div>
 
     <div id="adminDashBox" style="display:none; text-align: left;">
@@ -234,7 +230,7 @@
     </div>
     <div class="splash-content" id="splash-content">
       <div class="splash-title">RAJNISH<br>PRIME</div>
-      <button class="open-now-btn" onclick="openMainContent()"> Open Now </button>
+      <button class="open-now-btn" onclick="openMainContent()">🔥 Open Now 🔥</button>
     </div>
   </div>
 
@@ -248,9 +244,9 @@
     </nav>
 
     <header class="hero">
-      <div class="pill-badge"><span class="dot"></span> 100% Free � Premium Courses Unlocked</div>
+      <div class="pill-badge"><span class="dot"></span> 100% Free • Premium Courses Unlocked</div>
       <h1>Study Smarter. Pay <span>Nothing.</span></h1>
-      <p>Access premium paid courses from top platforms � completely free.</p>
+      <p>Access premium paid courses from top platforms — completely free.</p>
     </header>
 
     <div class="apps-list">
@@ -269,7 +265,6 @@
   <script>
     let activeCode = "";
 
-    // 1. AUTO LOGIN CHECK ON PAGE LOAD (Baar baar login nahi maangega)
     window.onload = function() {
       const isSessionApproved = localStorage.getItem('rp_login_session');
       if (isSessionApproved === 'true') {
@@ -322,10 +317,10 @@
       const codeStatus = localStorage.getItem('rp_code_' + activeCode);
       if (codeStatus === 'approved') {
         localStorage.setItem('rp_login_session', 'true');
-        alert(" Status: Approved! Opening Website...");
+        alert("🎉 Status: Approved! Opening Website...");
         showSplashScreen();
       } else {
-        alert(" Status: Still Pending! Admin approval ka wait karein.");
+        alert("⏳ Status: Still Pending! Admin approval ka wait karein.");
       }
     }
 
@@ -337,9 +332,11 @@
 
     function loginAdmin() {
       const pass = document.getElementById('adminPassInput').value;
+      // Secret Admin Password: Rajnish@59 (Screen par show nahi hoga)
       if (pass === "Rajnish@59") {
         document.getElementById('adminLoginBox').style.display = 'none';
         document.getElementById('adminDashBox').style.display = 'block';
+        document.getElementById('adminPassInput').value = ""; // Clear input for security
       } else {
         alert("Wrong Admin Password!");
       }
@@ -371,4 +368,3 @@
   </script>
 </body>
 </html>
-
