@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Rajnish Prime</title>
-  <meta name="apple-mobile-web-app-title" content="Rajnish Prime">
-  <meta name="application-name" content="Rajnish Prime">
-  <meta name="description" content="Rajnish Prime - Access 100% free premium batches and courses from top educational platforms.">
   <meta name="theme-color" content="#080c14">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,13 +73,13 @@
     .splash-content.show { opacity: 1; transform: translateY(0); visibility: visible; }
     .splash-title { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: 2px; color: #ffffff; text-align: center; line-height: 1.2; text-shadow: 0 0 20px rgba(255, 255, 255, 0.4); margin-bottom: 30px; }
     
-    .open-now-btn { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700; padding: 14px 45px; border-radius: 20px; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .open-now-btn { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700; padding: 14px 45px; border-radius: 20px; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4); }
 
     #main-content { display: none; width: 100%; max-width: 480px; flex-direction: column; align-items: center; }
     .navbar { width: 100%; max-width: 480px; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 20px; }
     .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
-    .nav-logo-img { width: 40px; height: 40px; border-radius: 12px; object-fit: cover; border: 2px solid #06b6d4; box-shadow: 0 0 15px rgba(6, 182, 212, 0.5); }
-    .nav-title { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 800; letter-spacing: 0.8px; background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-logo-img { width: 40px; height: 40px; border-radius: 12px; object-fit: cover; border: 2px solid #06b6d4; }
+    .nav-title { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 800; background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .logout-btn { background: #ef4444; color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; }
 
     .hero { width: 100%; text-align: center; margin-bottom: 24px; }
@@ -90,34 +87,24 @@
     .dot { width: 6px; height: 6px; background: #06b6d4; border-radius: 50%; box-shadow: 0 0 8px #06b6d4; }
     .hero h1 { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
     .hero h1 span { background: linear-gradient(135deg, #38bdf8 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero p { color: #94a3b8; font-size: 13px; line-height: 1.5; margin-bottom: 18px; }
+    .hero p { color: #94a3b8; font-size: 13px; margin-bottom: 18px; }
 
     .btn-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; width: 100%; }
-    .btn { width: 100%; padding: 14px; border-radius: 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; cursor: pointer; }
-    .btn-primary { background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); color: #ffffff; box-shadow: 0 6px 25px rgba(6, 182, 212, 0.45); }
+    .btn { width: 100%; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; cursor: pointer; }
+    .btn-primary { background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); color: #ffffff; }
     .btn-telegram { background: #0f172a; color: #38bdf8; border: 1.5px solid #38bdf8; }
     .btn-whatsapp { background: #0f172a; color: #22c55e; border: 1.5px solid #22c55e; }
     .btn-youtube { background: #0f172a; color: #ef4444; border: 1.5px solid #ef4444; }
 
-    .stats-bar { width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; padding: 14px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); border-bottom: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 30px; background: rgba(17, 24, 39, 0.4); border-radius: 16px; }
-    .stat-item .num { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: #38bdf8; }
-    .stat-item .label { font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 700; }
-
-    .section-container { width: 100%; }
-    .section-tag { font-size: 11px; color: #38bdf8; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px; }
-    .section-title { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 6px; }
-    .section-desc { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
-
-    .apps-list { display: flex; flex-direction: column; gap: 16px; }
+    .apps-list { display: flex; flex-direction: column; gap: 16px; width: 100%; }
     .app-card { background: #111827; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 20px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 14px; }
     .app-card-top { display: flex; align-items: flex-start; gap: 16px; }
-    .app-icon { width: 60px; height: 60px; border-radius: 14px; object-fit: cover; background: #1f2937; }
-    .app-info h3 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: #ffffff; }
-    .app-info p { font-size: 13px; color: #94a3b8; line-height: 1.4; }
+    .app-icon { width: 60px; height: 60px; border-radius: 14px; object-fit: cover; }
   </style>
 </head>
 <body>
 
+  <!-- Access Code Screen -->
   <div id="access-screen" class="feature-card">
     <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
     <h2>📖 Enter Access Code</h2>
@@ -128,26 +115,21 @@
       <input type="text" id="accessCodeInput" placeholder="Enter code (e.g. POOJA8528)">
     </div>
     <button class="btn btn-primary" onclick="checkAccessCode()">Get Access ></button>
-    <span class="link-action" onclick="showScreen('pending-screen')">Already registered? Check your status</span>
-    <span class="link-action" style="color: #94a3b8;" onclick="showAdminLogin()">🛡️ Admin Panel</span>
+    <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
   </div>
 
+  <!-- Payment Screen (Scanner Fixed) -->
   <div id="payment-screen" class="feature-card" style="display:none;">
     <h2>Membership Fee: ₹199</h2>
     <p>Scan & Pay ₹199 using any UPI App</p>
 
     <div class="qr-box">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=9661734021@ibl&pn=RINA%20DEVI&am=199&cu=INR" alt="UPI QR">
+      <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=upi://pay?pa=9661734021@ibl%26pn=RINA%20DEVI%26am=199%26cu=INR" alt="UPI QR Code">
     </div>
 
     <div class="info-box">
       Access Code: <b id="codeDisplay"></b><br>
       UPI ID: <b>9661734021@ibl</b>
-    </div>
-
-    <div class="info-box" style="border-color: #38bdf8;">
-      <b>💬 After Payment:</b> Payment screenshot leke Telegram pe forward karein:<br>
-      <a href="https://t.me/RajnishPrimeBot" target="_blank" style="color:#38bdf8; font-weight:700;">@RajnishPrimeBot</a>
     </div>
 
     <form onsubmit="handleRegistration(event)">
@@ -159,10 +141,11 @@
         <label>MOBILE NUMBER *</label>
         <input type="tel" id="regMobile" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
       </div>
-      <button type="submit" class="btn btn-primary">Submit & Wait for Approval</button>
+      <button type="submit" class="btn btn-primary">Submit & Open Telegram</button>
     </form>
   </div>
 
+  <!-- Pending Verification Screen -->
   <div id="pending-screen" class="feature-card" style="display:none;">
     <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
     <h2>Verification Pending</h2>
@@ -172,21 +155,14 @@
       🟡 Waiting for Admin Approval
     </div>
 
-    <div class="info-box" style="line-height: 1.6;">
-      <b>STEPS TO FOLLOW:</b><br>
-      1. Payment screenshot lein<br>
-      2. Telegram pe forward karein <b>@RajnishPrimeBot</b><br>
-      3. Admin verify karke approve karega<br>
-      4. Approval ke baad "Check Status" dabayein
-    </div>
-
-    <button class="btn btn-primary" style="margin-bottom:10px;" onclick="window.location.href='https://t.me/RajnishPrimeBot'">Open Telegram</button>
-    <button class="btn btn-telegram" onclick="verifyStatus()">Check Status</button>
+    <button class="btn btn-primary" style="margin-bottom:10px;" onclick="window.location.href='https://t.me/RajnishPrimeBot'">Send Screenshot on Telegram</button>
+    <button class="btn btn-telegram" onclick="verifyStatus()">Check Approval Status</button>
   </div>
 
+  <!-- Admin Panel Screen -->
   <div id="admin-screen" class="feature-card" style="display:none;">
     <h2>Admin Panel</h2>
-    <p>Approve or Reject Student Access</p>
+    <p>Quick Access Control</p>
 
     <div id="adminLoginBox">
       <div class="input-group">
@@ -197,15 +173,19 @@
     </div>
 
     <div id="adminDashBox" style="display:none; text-align: left;">
-      <h3 style="font-size: 14px; color:#38bdf8; margin-bottom:12px;">Pending Requests:</h3>
-      <div id="requestsList">Loading requests...</div>
+      <p style="font-size:13px; color:#38bdf8; margin-bottom:10px;">Instant Approve Access Code:</p>
+      <div class="input-group">
+        <input type="text" id="approveCodeInput" placeholder="Enter student code">
+      </div>
+      <button class="btn btn-primary" onclick="manualApprove()">Approve Code</button>
       <button class="btn btn-youtube" style="margin-top:14px;" onclick="showScreen('access-screen')">Exit Admin</button>
     </div>
   </div>
 
+  <!-- Splash Screen -->
   <div id="splash-screen">
     <div class="splash-logo-box">
-      <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Rajnish Prime Logo">
+      <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo">
     </div>
     <div class="splash-content" id="splash-content">
       <div class="splash-title">RAJNISH<br>PRIME</div>
@@ -213,10 +193,11 @@
     </div>
   </div>
 
+  <!-- Main Content Dashboard -->
   <div id="main-content">
     <nav class="navbar">
       <a href="#" class="nav-brand">
-        <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Rajnish Prime Logo" class="nav-logo-img">
+        <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo" class="nav-logo-img">
         <span class="nav-title">RAJNISH PRIME</span>
       </a>
       <button class="logout-btn" onclick="logoutUser()">Logout</button>
@@ -225,68 +206,32 @@
     <header class="hero">
       <div class="pill-badge"><span class="dot"></span> 100% Free • Premium Courses Unlocked</div>
       <h1>Study Smarter. Pay <span>Nothing.</span></h1>
-      <p>Access premium paid courses from top platforms — completely free. All your favourite educators, one place.</p>
-      
-      <div class="btn-group">
-        <a href="#apps" class="btn btn-primary" onclick="vibratePhone(40)">🚀 Explore Apps</a>
-        <a href="https://t.me/+g0wmAK8VCGEwMTJl" class="btn btn-telegram" onclick="vibratePhone(40)">✈️ Join Telegram Channel</a>
-        <a href="https://whatsapp.com/channel/0029VbDI4yFK5cDHjEHcNk16" class="btn btn-whatsapp" onclick="vibratePhone(40)">📢 Join WhatsApp Channel</a>
-        <a href="https://youtube.com/@rajnishstudyshorts?si=mPxFar33SZb9pHjA" class="btn btn-youtube" onclick="vibratePhone(40)">📺 Subscribe YouTube</a>
-      </div>
+      <p>Access premium paid courses from top platforms — completely free.</p>
     </header>
 
-    <div class="stats-bar">
-      <div class="stat-item"><div class="num">100+</div><div class="label">Batches</div></div>
-      <div class="stat-item"><div class="num">3</div><div class="label">Platforms</div></div>
-      <div class="stat-item"><div class="num">₹0</div><div class="label">Cost</div></div>
-      <div class="stat-item"><div class="num">24/7</div><div class="label">Access</div></div>
-    </div>
-
-    <div class="section-container" id="apps">
-      <p class="section-tag">Official Platforms</p>
-      <h2 class="section-title">Explore Our Apps</h2>
-      <p class="section-desc">Get instant free access to all premium batches.</p>
-
-      <div class="apps-list">
-        <a href="https://on-test-tan.vercel.app/tg/keys/open?code=SK-eyJ1Ijo4NTA4NDYwMjk3LCJlIjoxNzg4Mjg1NTU2NzU2LCJjIjoxNzg4MTk5MTU2NzU2LCJzIjoiMjRoIiwibSI6MCwiayI6ImJkNmEyNzA0In0.Yo6Tor73duoA27Yn2R_7OiozNPaVISOgY4oxipjbYbs" target="_blank" class="app-card" onclick="vibratePhone(35)">
-          <div class="app-card-top">
-            <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="ALL IN ONE Platform Logo" class="app-icon">
-            <div class="app-info">
-              <h3>ALL IN ONE Platform</h3>
-              <p>Get full access to all educational resources and premium batches in one place.</p>
-            </div>
+    <div class="apps-list">
+      <a href="https://on-test-tan.vercel.app/tg/keys/open?code=SK-eyJ1Ijo8NTA4NDYwMjk3LCJlIjoxNzg4Mjg1NTU2NzU2LCJjIjoxNzg4MTk5MTU2NzU2LCJzIjoiMjRoIiwibSI6MCwiayI6ImJkNmEyNzA0In0.Yo6Tor73duoA27Yn2R_7OiozNPaVISOgY4oxipjbYbs" target="_blank" class="app-card">
+        <div class="app-card-top">
+          <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon">
+          <div>
+            <h3>ALL IN ONE Platform</h3>
+            <p>Get full access to all educational resources.</p>
           </div>
-          <div class="live-badge"><span class="live-dot"></span> TOP RECOMMENDED</div>
-        </a>
-
-        <a href="https://pwthor.live/study/batches" target="_blank" class="app-card" onclick="vibratePhone(35)">
-          <div class="app-card-top">
-            <img src="https://i.ibb.co/8LJLjzD4/Physics-Wallah-Logo.jpg" alt="Physics Wallah Logo" class="app-icon">
-            <div class="app-info">
-              <h3>Physics Wallah</h3>
-              <p>Master Physics concepts with high-quality free lectures and notes.</p>
-            </div>
-          </div>
-          <div class="live-badge"><span class="live-dot"></span> LIVE BATCHES AVAILABLE</div>
-        </a>
-
-        <a href="https://nirmanbatch.edgeone.dev/" target="_blank" class="app-card" onclick="vibratePhone(35)">
-          <div class="app-card-top">
-            <img src="https://i.ibb.co/fzRX8jNW/logo.jpg" alt="NIRMAN BATCH 2026 Logo" class="app-icon">
-            <div class="app-info">
-              <h3>NIRMAN BATCH 2026</h3>
-              <p>Complete index for Biology, Physics & Chemistry subjects free access.</p>
-            </div>
-          </div>
-          <div class="live-badge"><span class="live-dot"></span> NEW BATCH AVAILABLE</div>
-        </a>
-      </div>
+        </div>
+      </a>
     </div>
   </div>
   
     <script>
-    const DB_URL = "https://YOUR_FIREBASE_URL.firebaseio.com"; // Apna Firebase Realtime DB URL yahan dalein
     let activeCode = "";
+
+    // Auto Session Restore (Baar-baar login maangna band)
+    window.onload = function() {
+      const isSessionApproved = localStorage.getItem('rp_login_session');
+      if (isSessionApproved === 'true') {
+        showScreen('main-content');
+      }
+    };
 
     function showScreen(screenId) {
       document.getElementById('access-screen').style.display = 'none';
@@ -299,63 +244,45 @@
       document.getElementById(screenId).style.display = screenId === 'main-content' ? 'flex' : 'block';
     }
 
-    async function checkAccessCode() {
+    function checkAccessCode() {
       const code = document.getElementById('accessCodeInput').value.trim();
       if (!code) return alert("Kripya Access Code daalein!");
       activeCode = code;
 
-      try {
-        const response = await fetch(`${DB_URL}/requests/${code}.json`);
-        const user = await response.json();
+      const codeStatus = localStorage.getItem('rp_code_' + code);
 
-        if (!user) {
-          document.getElementById('codeDisplay').innerText = code;
-          showScreen('payment-screen');
-        } else if (user.status === 'approved') {
-          showSplashScreen();
-        } else {
-          document.getElementById('userPendingName').innerText = user.name || "Student";
-          showScreen('pending-screen');
-        }
-      } catch (e) {
-        alert("Database Connection Error!");
+      if (codeStatus === 'approved') {
+        localStorage.setItem('rp_login_session', 'true');
+        showSplashScreen();
+      } else if (codeStatus === 'pending') {
+        showScreen('pending-screen');
+      } else {
+        document.getElementById('codeDisplay').innerText = code;
+        showScreen('payment-screen');
       }
     }
 
-    async function handleRegistration(e) {
+    function handleRegistration(e) {
       e.preventDefault();
       const name = document.getElementById('regName').value;
       const mobile = document.getElementById('regMobile').value;
-      const userData = { code: activeCode, name, mobile, status: 'pending' };
 
-      try {
-        await fetch(`${DB_URL}/requests/${activeCode}.json`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(userData)
-        });
-        document.getElementById('userPendingName').innerText = name;
-        showScreen('pending-screen');
-      } catch (e) {
-        alert("Error submitting request!");
-      }
+      localStorage.setItem('rp_code_' + activeCode, 'pending');
+      document.getElementById('userPendingName').innerText = name;
+      
+      // Auto Redirect to Telegram with pre-filled details
+      const msg = encodeURIComponent(`Hello Admin, Main Payment kar diya hu.\nName: ${name}\nMobile: ${mobile}\nAccess Code: ${activeCode}`);
+      window.location.href = `https://t.me/RajnishPrimeBot?text=${msg}`;
     }
 
-    async function verifyStatus() {
-      if (!activeCode) return alert("Pehle Access Code enter karein!");
-      
-      try {
-        const response = await fetch(`${DB_URL}/requests/${activeCode}.json`);
-        const user = await response.json();
-
-        if (user && user.status === 'approved') {
-          alert("🎉 Status: Approved! Opening Website...");
-          showSplashScreen();
-        } else {
-          alert("⏳ Status: Still Pending! Kripya Telegram par payment screenshot bhejen.");
-        }
-      } catch (e) {
-        alert("Verification Error!");
+    function verifyStatus() {
+      const codeStatus = localStorage.getItem('rp_code_' + activeCode);
+      if (codeStatus === 'approved') {
+        localStorage.setItem('rp_login_session', 'true');
+        alert("🎉 Status: Approved! Opening Website...");
+        showSplashScreen();
+      } else {
+        alert("⏳ Status: Still Pending! Admin approval ka wait karein.");
       }
     }
 
@@ -370,88 +297,33 @@
       if (pass === "Rajnish@59") {
         document.getElementById('adminLoginBox').style.display = 'none';
         document.getElementById('adminDashBox').style.display = 'block';
-        loadAdminData();
       } else {
         alert("Wrong Admin Password!");
       }
     }
 
-    async function loadAdminData() {
-      const listContainer = document.getElementById('requestsList');
-      listContainer.innerHTML = 'Loading...';
+    function manualApprove() {
+      const codeToApprove = document.getElementById('approveCodeInput').value.trim();
+      if (!codeToApprove) return alert("Code daalein!");
 
-      try {
-        const response = await fetch(`${DB_URL}/requests.json`);
-        const data = await response.json();
-        listContainer.innerHTML = '';
-
-        if (!data) {
-          listContainer.innerHTML = '<p style="font-size:12px; color:#94a3b8;">No pending approvals.</p>';
-          return;
-        }
-
-        let pendingCount = 0;
-        Object.keys(data).forEach(key => {
-          const req = data[key];
-          if (req.status === 'pending') {
-            pendingCount++;
-            listContainer.innerHTML += `
-              <div class="info-box">
-                <p><b>Name:</b> ${req.name}</p>
-                <p><b>Mobile:</b> ${req.mobile}</p>
-                <p><b>Code:</b> ${req.code}</p>
-                <button onclick="approveAccess('${req.code}')" style="background:#22c55e; color:#fff; border:none; padding:6px 12px; border-radius:6px; margin-top:8px; font-weight:700; cursor:pointer;">Approve Access</button>
-              </div>
-            `;
-          }
-        });
-
-        if (pendingCount === 0) {
-          listContainer.innerHTML = '<p style="font-size:12px; color:#94a3b8;">No pending approvals.</p>';
-        }
-      } catch (e) {
-        listContainer.innerHTML = 'Failed to load requests.';
-      }
-    }
-
-    async function approveAccess(code) {
-      try {
-        await fetch(`${DB_URL}/requests/${code}/status.json`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify('approved')
-        });
-        alert(`Code ${code} Approved!`);
-        loadAdminData();
-      } catch (e) {
-        alert("Approval failed!");
-      }
+      localStorage.setItem('rp_code_' + codeToApprove, 'approved');
+      alert(`Access Code "${codeToApprove}" Successfully Approved!`);
     }
 
     function showSplashScreen() {
       showScreen('splash-screen');
-      const splashContent = document.getElementById("splash-content");
-      splashContent.classList.remove("show");
-
       setTimeout(() => {
-        splashContent.classList.add("show");
-      }, 800);
+        document.getElementById("splash-content").classList.add("show");
+      }, 500);
     }
 
     function openMainContent() {
-      vibratePhone(40);
       showScreen('main-content');
     }
 
     function logoutUser() {
-      activeCode = "";
+      localStorage.removeItem('rp_login_session');
       showScreen('access-screen');
-    }
-
-    function vibratePhone(ms) {
-      if ("vibrate" in navigator) {
-        navigator.vibrate(ms);
-      }
     }
   </script>
 </body>
