@@ -96,7 +96,6 @@
 </head>
 <body>
 
-  <!-- Access Code Screen -->
   <div id="access-screen" class="feature-card">
     <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
     <h2>📖 Enter Access Code</h2>
@@ -111,16 +110,14 @@
       <label>Access Code</label>
       <input type="text" id="accessCodeInput" placeholder="Enter code (e.g. Admin@123)">
     </div>
-    <button class="btn btn-primary" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="checkAccessCode()">Get Access ></button>
+    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="checkAccessCode()">Get Access ></button>
     <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
   </div>
 
-  <!-- Payment Screen (QR Code at Top, Details & Form Below) -->
   <div id="payment-screen" class="feature-card" style="display:none;">
     <h2>Membership Fee: ₹199</h2>
     <p>Scan & Pay ₹199 using any UPI App</p>
 
-    <!-- QR Code on Top -->
     <div class="qr-box">
       <svg width="150" height="150" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
         <path d="M0 0H15V15H0V0ZM3 3V12H12V3H3Z" fill="black"/>
@@ -167,13 +164,11 @@
       </svg>
     </div>
 
-    <!-- Details Box Below QR -->
     <div class="info-box">
       Access Code: <b id="codeDisplay"></b><br>
       UPI ID: <b>9661734021@ibl</b>
     </div>
 
-    <!-- Form Below Details -->
     <form onsubmit="handleRegistration(event)">
       <div class="input-group">
         <label>FULL NAME *</label>
@@ -183,11 +178,10 @@
         <label>MOBILE NUMBER *</label>
         <input type="tel" id="regMobile" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
       </div>
-      <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;">Submit & Open Telegram</button>
+      <button type="submit" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;">Submit & Open Telegram</button>
     </form>
   </div>
 
-  <!-- Pending Verification Screen -->
   <div id="pending-screen" class="feature-card" style="display:none;">
     <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
     <h2>Verification Pending</h2>
@@ -197,12 +191,11 @@
       🟡 Waiting for Admin Approval
     </div>
 
-    <button class="btn btn-primary" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; margin-bottom:12px; cursor:pointer;" onclick="window.open('https://t.me/RajnishPrimeBot', '_blank')">Send Screenshot on Telegram</button>
+    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; margin-bottom:12px; cursor:pointer;" onclick="openTelegram()">Send Screenshot on Telegram</button>
     
-    <button class="btn" style="width:100%; padding:14px; border-radius:14px; background:#0f172a; color:#22c55e; border:1.5px solid #22c55e; font-weight:700; cursor:pointer;" onclick="verifyApprovalStatus()">🔄 Check Approval Status</button>
+    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:#0f172a; color:#22c55e; border:1.5px solid #22c55e; font-weight:700; cursor:pointer;" onclick="verifyApprovalStatus()">🔄 Check Approval Status</button>
   </div>
 
-  <!-- Admin Panel Screen -->
   <div id="admin-screen" class="feature-card" style="display:none;">
     <h2>Admin Panel</h2>
     <p>Quick Access Control</p>
@@ -212,7 +205,7 @@
         <label>Admin Password</label>
         <input type="password" id="adminPassInput" placeholder="Enter admin password">
       </div>
-      <button class="btn btn-primary" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="loginAdmin()">Login as Admin</button>
+      <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="loginAdmin()">Login as Admin</button>
       <span class="link-action" onclick="showScreen('access-screen')">Back to Home</span>
     </div>
 
@@ -221,30 +214,28 @@
       <div class="input-group">
         <input type="text" id="approveCodeInput" placeholder="Enter student code">
       </div>
-      <button class="btn btn-primary" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="manualApprove()">Approve Code</button>
+      <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="manualApprove()">Approve Code</button>
       <span class="link-action" style="color:#ef4444; margin-top:14px; text-align:center;" onclick="showScreen('access-screen')">Exit Admin</span>
     </div>
   </div>
 
-  <!-- Splash Screen -->
   <div id="splash-screen">
     <div class="splash-logo-box">
       <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo">
     </div>
     <div class="splash-content" id="splash-content">
       <div class="splash-title">RAJNISH<br>PRIME</div>
-      <button class="open-now-btn" onclick="openMainContent()">🔥 Open Now 🔥</button>
+      <button type="button" class="open-now-btn" onclick="openMainContent()">🔥 Open Now 🔥</button>
     </div>
   </div>
 
-  <!-- Main Content Dashboard -->
   <div id="main-content">
     <nav class="navbar">
       <a href="#" class="nav-brand">
         <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo" class="nav-logo-img">
         <span class="nav-title">RAJNISH PRIME</span>
       </a>
-      <button class="logout-btn" onclick="logoutUser()">Logout</button>
+      <button type="button" class="logout-btn" onclick="logoutUser()">Logout</button>
     </nav>
 
     <header class="hero">
@@ -297,7 +288,10 @@
 
     function checkAccessCode() {
       const code = document.getElementById('accessCodeInput').value.trim();
-      if (!code) return alert("Kripya Access Code daalein!");
+      if (!code) {
+        alert("Kripya Access Code daalein!");
+        return;
+      }
       activeCode = code;
       localStorage.setItem('rp_last_code', code);
 
@@ -324,8 +318,13 @@
       document.getElementById('userPendingName').innerText = name;
       
       showScreen('pending-screen');
+      
       const msg = encodeURIComponent(`Hello Admin, Main Payment kar diya hu.\nName: ${name}\nMobile: ${mobile}\nAccess Code: ${activeCode}`);
       window.open(`https://t.me/RajnishPrimeBot?text=${msg}`, '_blank');
+    }
+
+    function openTelegram() {
+      window.open('https://t.me/RajnishPrimeBot', '_blank');
     }
 
     function verifyApprovalStatus() {
@@ -367,10 +366,14 @@
 
     function manualApprove() {
       const codeToApprove = document.getElementById('approveCodeInput').value.trim();
-      if (!codeToApprove) return alert("Code daalein!");
+      if (!codeToApprove) {
+        alert("Code daalein!");
+        return;
+      }
 
       localStorage.setItem('rp_code_' + codeToApprove, 'approved');
       alert(`Access Code "${codeToApprove}" Successfully Approved! Ab user check status karke website khol sakta hai.`);
+      document.getElementById('approveCodeInput').value = "";
     }
 
     function showSplashScreen() {
@@ -386,4 +389,9 @@
 
     function logoutUser() {
       localStorage.removeItem('rp_login_session');
-      localStorage.removeItem(
+      localStorage.removeItem('rp_last_code');
+      showScreen('access-screen');
+    }
+  </script>
+</body>
+</html>
