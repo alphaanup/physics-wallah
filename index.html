@@ -147,7 +147,6 @@
 
     <div class="info-box" style="border-color: #38bdf8;">
       <b>💬 After Payment:</b> Payment screenshot leke Telegram pe forward karein:<br>
-      <!-- UPDATED TO RAJNISH PRIME BOT -->
       <a href="https://t.me/RajnishPrimeBot" target="_blank" style="color:#38bdf8; font-weight:700;">@RajnishPrimeBot</a>
     </div>
 
@@ -176,13 +175,11 @@
     <div class="info-box" style="line-height: 1.6;">
       <b>STEPS TO FOLLOW:</b><br>
       1. Payment screenshot lein<br>
-      <!-- UPDATED TO RAJNISH PRIME BOT -->
       2. Telegram pe forward karein <b>@RajnishPrimeBot</b><br>
       3. Admin verify karke approve karega<br>
       4. Approval ke baad "Check Status" dabayein
     </div>
 
-    <!-- UPDATED TO RAJNISH PRIME BOT -->
     <button class="btn btn-primary" style="margin-bottom:10px;" onclick="window.location.href='https://t.me/RajnishPrimeBot'">Open Telegram</button>
     <button class="btn btn-telegram" onclick="verifyStatus()">Check Status</button>
   </div>
@@ -201,7 +198,7 @@
 
     <div id="adminDashBox" style="display:none; text-align: left;">
       <h3 style="font-size: 14px; color:#38bdf8; margin-bottom:12px;">Pending Requests:</h3>
-      <div id="requestsList"></div>
+      <div id="requestsList">Loading requests...</div>
       <button class="btn btn-youtube" style="margin-top:14px;" onclick="showScreen('access-screen')">Exit Admin</button>
     </div>
   </div>
@@ -288,6 +285,7 @@
   </div>
   
     <script>
+    const DB_URL = "https://YOUR_FIREBASE_URL.firebaseio.com"; // Apna Firebase Realtime DB URL yahan dalein
     let activeCode = "";
 
     function showScreen(screenId) {
@@ -301,49 +299,63 @@
       document.getElementById(screenId).style.display = screenId === 'main-content' ? 'flex' : 'block';
     }
 
-    function checkAccessCode() {
+    async function checkAccessCode() {
       const code = document.getElementById('accessCodeInput').value.trim();
       if (!code) return alert("Kripya Access Code daalein!");
       activeCode = code;
 
-      const user = JSON.parse(localStorage.getItem('rp_user_' + code));
+      try {
+        const response = await fetch(`${DB_URL}/requests/${code}.json`);
+        const user = await response.json();
 
-      if (!user) {
-        document.getElementById('codeDisplay').innerText = code;
-        showScreen('payment-screen');
-      } else if (user.status === 'approved') {
-        showSplashScreen();
-      } else {
-        document.getElementById('userPendingName').innerText = user.name || "Student";
-        showScreen('pending-screen');
+        if (!user) {
+          document.getElementById('codeDisplay').innerText = code;
+          showScreen('payment-screen');
+        } else if (user.status === 'approved') {
+          showSplashScreen();
+        } else {
+          document.getElementById('userPendingName').innerText = user.name || "Student";
+          showScreen('pending-screen');
+        }
+      } catch (e) {
+        alert("Database Connection Error!");
       }
     }
 
-    function handleRegistration(e) {
+    async function handleRegistration(e) {
       e.preventDefault();
       const name = document.getElementById('regName').value;
       const mobile = document.getElementById('regMobile').value;
-
       const userData = { code: activeCode, name, mobile, status: 'pending' };
-      localStorage.setItem('rp_user_' + activeCode, JSON.stringify(userData));
 
-      let requests = JSON.parse(localStorage.getItem('rp_admin_requests') || '[]');
-      requests.push(userData);
-      localStorage.setItem('rp_admin_requests', JSON.stringify(requests));
-
-      document.getElementById('userPendingName').innerText = name;
-      showScreen('pending-screen');
+      try {
+        await fetch(`${DB_URL}/requests/${activeCode}.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userData)
+        });
+        document.getElementById('userPendingName').innerText = name;
+        showScreen('pending-screen');
+      } catch (e) {
+        alert("Error submitting request!");
+      }
     }
 
-    function verifyStatus() {
+    async function verifyStatus() {
       if (!activeCode) return alert("Pehle Access Code enter karein!");
-      const user = JSON.parse(localStorage.getItem('rp_user_' + activeCode) || '{}');
+      
+      try {
+        const response = await fetch(`${DB_URL}/requests/${activeCode}.json`);
+        const user = await response.json();
 
-      if (user.status === 'approved') {
-        alert("🎉 Status: Approved! Opening Website...");
-        showSplashScreen();
-      } else {
-        alert("⏳ Status: Still Pending! Kripya Telegram par payment screenshot bhejen.");
+        if (user && user.status === 'approved') {
+          alert("🎉 Status: Approved! Opening Website...");
+          showSplashScreen();
+        } else {
+          alert("⏳ Status: Still Pending! Kripya Telegram par payment screenshot bhejen.");
+        }
+      } catch (e) {
+        alert("Verification Error!");
       }
     }
 
@@ -355,7 +367,7 @@
 
     function loginAdmin() {
       const pass = document.getElementById('adminPassInput').value;
-      if (pass === "Rajnish@59") { // Admin Password
+      if (pass === "Rajnish@59") {
         document.getElementById('adminLoginBox').style.display = 'none';
         document.getElementById('adminDashBox').style.display = 'block';
         loadAdminData();
@@ -364,38 +376,55 @@
       }
     }
 
-    function loadAdminData() {
-      const requests = JSON.parse(localStorage.getItem('rp_admin_requests') || '[]');
+    async function loadAdminData() {
       const listContainer = document.getElementById('requestsList');
-      listContainer.innerHTML = '';
+      listContainer.innerHTML = 'Loading...';
 
-      const pending = requests.filter(r => r.status === 'pending');
-      if (pending.length === 0) listContainer.innerHTML = '<p style="font-size:12px; color:#94a3b8;">No pending approvals.</p>';
+      try {
+        const response = await fetch(`${DB_URL}/requests.json`);
+        const data = await response.json();
+        listContainer.innerHTML = '';
 
-      pending.forEach(req => {
-        listContainer.innerHTML += `
-          <div class="info-box">
-            <p><b>Name:</b> ${req.name}</p>
-            <p><b>Mobile:</b> ${req.mobile}</p>
-            <p><b>Code:</b> ${req.code}</p>
-            <button onclick="approveAccess('${req.code}')" style="background:#22c55e; color:#fff; border:none; padding:6px 12px; border-radius:6px; margin-top:8px; font-weight:700; cursor:pointer;">Approve Access</button>
-          </div>
-        `;
-      });
+        if (!data) {
+          listContainer.innerHTML = '<p style="font-size:12px; color:#94a3b8;">No pending approvals.</p>';
+          return;
+        }
+
+        let pendingCount = 0;
+        Object.keys(data).forEach(key => {
+          const req = data[key];
+          if (req.status === 'pending') {
+            pendingCount++;
+            listContainer.innerHTML += `
+              <div class="info-box">
+                <p><b>Name:</b> ${req.name}</p>
+                <p><b>Mobile:</b> ${req.mobile}</p>
+                <p><b>Code:</b> ${req.code}</p>
+                <button onclick="approveAccess('${req.code}')" style="background:#22c55e; color:#fff; border:none; padding:6px 12px; border-radius:6px; margin-top:8px; font-weight:700; cursor:pointer;">Approve Access</button>
+              </div>
+            `;
+          }
+        });
+
+        if (pendingCount === 0) {
+          listContainer.innerHTML = '<p style="font-size:12px; color:#94a3b8;">No pending approvals.</p>';
+        }
+      } catch (e) {
+        listContainer.innerHTML = 'Failed to load requests.';
+      }
     }
 
-    function approveAccess(code) {
-      let user = JSON.parse(localStorage.getItem('rp_user_' + code));
-      if (user) {
-        user.status = 'approved';
-        localStorage.setItem('rp_user_' + code, JSON.stringify(user));
-
-        let requests = JSON.parse(localStorage.getItem('rp_admin_requests') || '[]');
-        requests = requests.map(r => r.code === code ? { ...r, status: 'approved' } : r);
-        localStorage.setItem('rp_admin_requests', JSON.stringify(requests));
-
+    async function approveAccess(code) {
+      try {
+        await fetch(`${DB_URL}/requests/${code}/status.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify('approved')
+        });
         alert(`Code ${code} Approved!`);
         loadAdminData();
+      } catch (e) {
+        alert("Approval failed!");
       }
     }
 
