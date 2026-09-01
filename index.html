@@ -60,8 +60,7 @@
 
     .link-action { display: block; margin-top: 14px; color: #38bdf8; font-size: 12px; text-decoration: underline; cursor: pointer; }
 
-    .qr-box { background: #ffffff; padding: 10px; border-radius: 14px; display: inline-block; margin-bottom: 16px; }
-    .qr-box img { width: 180px; height: 180px; display: block; }
+    .qr-box { background: #ffffff; padding: 12px; border-radius: 14px; display: inline-block; margin-bottom: 16px; }
 
     .info-box { background: #1f2937; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; text-align: left; font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
     .info-box b { color: #38bdf8; }
@@ -104,16 +103,14 @@
 </head>
 <body>
 
-  <!-- Access Code Screen -->
   <div id="access-screen" class="feature-card">
     <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
-    <h2>📖 Enter Access Code</h2>
+    <h2> Enter Access Code</h2>
     <p>Apna access code daal kar website unlock karein</p>
-    
-    <!-- Suggested Passwords Info Box -->
+
     <div class="info-box" style="text-align: center; margin-bottom: 15px;">
-      <b>💡 Suggesed Codes:</b><br>
-      User Access Code: <span style="color:#fff;">Admin@123</span> or <span style="color:#fff;">Rajnish2026</span><br>
+      <b> Suggested Passwords:</b><br>
+      User Access Code: <span style="color:#fff;">Admin@123</span><br>
       Admin Password: <span style="color:#fff;">Rajnish@59</span>
     </div>
 
@@ -122,17 +119,57 @@
       <input type="text" id="accessCodeInput" placeholder="Enter code (e.g. Admin@123)">
     </div>
     <button class="btn btn-primary" onclick="checkAccessCode()">Get Access ></button>
-    <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
+    <span class="link-action" onclick="showAdminLogin()"> Admin Panel</span>
   </div>
 
-  <!-- Payment Screen with Working Scanner -->
   <div id="payment-screen" class="feature-card" style="display:none;">
-    <h2>Membership Fee: ₹199</h2>
-    <p>Scan & Pay ₹199 using any UPI App</p>
+    <h2>Membership Fee: 199</h2>
+    <p>Scan & Pay 199 using any UPI App</p>
 
     <div class="qr-box">
-      <!-- 100% Working QR Scanner API -->
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9661734021@ibl%26pn=RINA%20DEVI%26am=199%26cu=INR" alt="UPI QR Code">
+      <svg width="180" height="180" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+        <path d="M0 0H15V15H0V0ZM3 3V12H12V3H3Z" fill="black"/>
+        <path d="M4 4H11V11H4V4Z" fill="black"/>
+        <path d="M22 0H37V15H22V0ZM25 3V12H34V3H25Z" fill="black"/>
+        <path d="M26 4H33V11H26V4Z" fill="black"/>
+        <path d="M0 22H15V37H0V22ZM3 25V34H12V25H3Z" fill="black"/>
+        <path d="M4 26H11V33H4V26Z" fill="black"/>
+        <rect x="16" y="0" width="3" height="3" fill="black"/>
+        <rect x="20" y="2" width="2" height="2" fill="black"/>
+        <rect x="16" y="5" width="2" height="4" fill="black"/>
+        <rect x="18" y="7" width="2" height="2" fill="black"/>
+        <rect x="16" y="11" width="3" height="4" fill="black"/>
+        <rect x="20" y="10" width="2" height="5" fill="black"/>
+        <rect x="0" y="16" width="3" height="3" fill="black"/>
+        <rect x="5" y="16" width="2" height="3" fill="black"/>
+        <rect x="9" y="16" width="3" height="2" fill="black"/>
+        <rect x="2" y="20" width="3" height="2" fill="black"/>
+        <rect x="7" y="19" width="3" height="3" fill="black"/>
+        <rect x="13" y="16" width="3" height="4" fill="black"/>
+        <rect x="18" y="16" width="3" height="3" fill="black"/>
+        <rect x="22" y="16" width="2" height="5" fill="black"/>
+        <rect x="26" y="16" width="3" height="4" fill="black"/>
+        <rect x="31" y="16" width="4" height="2" fill="black"/>
+        <rect x="34" y="19" width="3" height="3" fill="black"/>
+        <rect x="13" y="22" width="2" height="3" fill="black"/>
+        <rect x="16" y="21" width="3" height="2" fill="black"/>
+        <rect x="20" y="22" width="3" height="3" fill="black"/>
+        <rect x="25" y="22" width="2" height="4" fill="black"/>
+        <rect x="29" y="21" width="3" height="3" fill="black"/>
+        <rect x="34" y="23" width="3" height="4" fill="black"/>
+        <rect x="13" y="27" width="3" height="3" fill="black"/>
+        <rect x="18" y="26" width="2" height="4" fill="black"/>
+        <rect x="22" y="28" width="3" height="2" fill="black"/>
+        <rect x="27" y="27" width="2" height="3" fill="black"/>
+        <rect x="31" y="28" width="2" height="3" fill="black"/>
+        <rect x="0" y="34" width="3" height="3" fill="black"/>
+        <rect x="5" y="33" width="3" height="4" fill="black"/>
+        <rect x="10" y="32" width="3" height="5" fill="black"/>
+        <rect x="16" y="32" width="2" height="5" fill="black"/>
+        <rect x="20" y="32" width="4" height="5" fill="black"/>
+        <rect x="26" y="33" width="3" height="4" fill="black"/>
+        <rect x="31" y="33" width="6" height="4" fill="black"/>
+      </svg>
     </div>
 
     <div class="info-box">
@@ -153,28 +190,26 @@
     </form>
   </div>
 
-  <!-- Pending Verification Screen -->
   <div id="pending-screen" class="feature-card" style="display:none;">
-    <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
+    <div style="font-size: 40px; margin-bottom: 10px;"></div>
     <h2>Verification Pending</h2>
     <p>Namaste, <b id="userPendingName" style="color:#38bdf8;">Student</b>!</p>
 
     <div class="info-box" style="text-align: center; background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; color: #fbbf24;">
-      🟡 Waiting for Admin Approval
+       Waiting for Admin Approval
     </div>
 
     <button class="btn btn-primary" style="margin-bottom:10px;" onclick="window.location.href='https://t.me/RajnishPrimeBot'">Send Screenshot on Telegram</button>
     <button class="btn btn-telegram" onclick="verifyStatus()">Check Approval Status</button>
   </div>
 
-  <!-- Admin Panel Screen -->
   <div id="admin-screen" class="feature-card" style="display:none;">
     <h2>Admin Panel</h2>
     <p>Quick Access Control</p>
 
     <div id="adminLoginBox">
       <div class="info-box" style="margin-bottom: 12px;">
-        🔑 Default Admin Password: <b style="color:#fff;">Rajnish@59</b>
+         Admin Password: <b style="color:#fff;">Rajnish@59</b>
       </div>
       <div class="input-group">
         <label>Admin Password</label>
@@ -193,18 +228,16 @@
     </div>
   </div>
 
-  <!-- Splash Screen -->
   <div id="splash-screen">
     <div class="splash-logo-box">
       <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo">
     </div>
     <div class="splash-content" id="splash-content">
       <div class="splash-title">RAJNISH<br>PRIME</div>
-      <button class="open-now-btn" onclick="openMainContent()">🔥 Open Now 🔥</button>
+      <button class="open-now-btn" onclick="openMainContent()"> Open Now </button>
     </div>
   </div>
 
-  <!-- Main Content Dashboard -->
   <div id="main-content">
     <nav class="navbar">
       <a href="#" class="nav-brand">
@@ -215,13 +248,13 @@
     </nav>
 
     <header class="hero">
-      <div class="pill-badge"><span class="dot"></span> 100% Free • Premium Courses Unlocked</div>
+      <div class="pill-badge"><span class="dot"></span> 100% Free � Premium Courses Unlocked</div>
       <h1>Study Smarter. Pay <span>Nothing.</span></h1>
-      <p>Access premium paid courses from top platforms — completely free.</p>
+      <p>Access premium paid courses from top platforms � completely free.</p>
     </header>
 
     <div class="apps-list">
-      <a href="https://on-test-tan.vercel.app/tg/keys/open?code=SK-eyJ1Ijo8NTA4NDYwMjk3LCJlIjoxNzg4Mjg1NTU2NzU2LCjjIjoxNzg4MTk5MTU2NzU2LCJzIjoiMjRoIiwibSI6MCwiayI6ImJkNmEyNzA0In0.Yo6Tor73duoA27Yn2R_7OiozNPaVISOgY4oxipjbYbs" target="_blank" class="app-card">
+      <a href="https://on-test-tan.vercel.app/tg/keys/open?code=SK-eyJ1Ijo8NTA4NDYwMjk3LCJlIjoxNzg4Mjg1NTU2NzU2LCJjIjoxNzg4MTk5MTU2NzU2LCJzIjoiMjRoIiwibSI6MCwiayI6ImJkNmEyNzA0In0.Yo6Tor73duoA27Yn2R_7OiozNPaVISOgY4oxipjbYbs" target="_blank" class="app-card">
         <div class="app-card-top">
           <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon">
           <div>
@@ -232,11 +265,11 @@
       </a>
     </div>
   </div>
-  
-    <script>
+
+  <script>
     let activeCode = "";
 
-    // Auto Session Restore (Baar-baar login maangna band)
+    // 1. AUTO LOGIN CHECK ON PAGE LOAD (Baar baar login nahi maangega)
     window.onload = function() {
       const isSessionApproved = localStorage.getItem('rp_login_session');
       if (isSessionApproved === 'true') {
@@ -281,7 +314,6 @@
       localStorage.setItem('rp_code_' + activeCode, 'pending');
       document.getElementById('userPendingName').innerText = name;
       
-      // Auto Redirect to Telegram with pre-filled details
       const msg = encodeURIComponent(`Hello Admin, Main Payment kar diya hu.\nName: ${name}\nMobile: ${mobile}\nAccess Code: ${activeCode}`);
       window.location.href = `https://t.me/RajnishPrimeBot?text=${msg}`;
     }
@@ -290,10 +322,10 @@
       const codeStatus = localStorage.getItem('rp_code_' + activeCode);
       if (codeStatus === 'approved') {
         localStorage.setItem('rp_login_session', 'true');
-        alert("🎉 Status: Approved! Opening Website...");
+        alert(" Status: Approved! Opening Website...");
         showSplashScreen();
       } else {
-        alert("⏳ Status: Still Pending! Admin approval ka wait karein.");
+        alert(" Status: Still Pending! Admin approval ka wait karein.");
       }
     }
 
@@ -339,3 +371,4 @@
   </script>
 </body>
 </html>
+
