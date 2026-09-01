@@ -88,12 +88,6 @@
     .hero h1 span { background: linear-gradient(135deg, #38bdf8 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .hero p { color: #94a3b8; font-size: 13px; margin-bottom: 18px; }
 
-    .btn-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; width: 100%; }
-    .btn { width: 100%; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; cursor: pointer; }
-    .btn-primary { background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); color: #ffffff; }
-    .btn-telegram { background: #0f172a; color: #38bdf8; border: 1.5px solid #38bdf8; }
-    .btn-youtube { background: #0f172a; color: #ef4444; border: 1.5px solid #ef4444; }
-
     .apps-list { display: flex; flex-direction: column; gap: 16px; width: 100%; }
     .app-card { background: #111827; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 20px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 14px; }
     .app-card-top { display: flex; align-items: flex-start; gap: 16px; }
@@ -102,13 +96,14 @@
 </head>
 <body>
 
+  <!-- Access Code Screen -->
   <div id="access-screen" class="feature-card">
     <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
     <h2>📖 Enter Access Code</h2>
     <p>Apna access code daal kar website unlock karein</p>
 
     <div class="info-box" style="text-align: center; margin-bottom: 15px;">
-      <b>💡 Sample User Access Codes:</b><br>
+      <b>💡 Sample Access Code:</b><br>
       <span style="color:#fff;">Admin@123</span> or <span style="color:#fff;">Rajnish2026</span>
     </div>
 
@@ -116,10 +111,11 @@
       <label>Access Code</label>
       <input type="text" id="accessCodeInput" placeholder="Enter code (e.g. Admin@123)">
     </div>
-    <button class="btn btn-primary" onclick="checkAccessCode()">Get Access ></button>
+    <button class="btn btn-primary" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="checkAccessCode()">Get Access ></button>
     <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
   </div>
 
+  <!-- Payment Screen -->
   <div id="payment-screen" class="feature-card" style="display:none;">
     <h2>Membership Fee: ₹199</h2>
     <p>Scan & Pay ₹199 using any UPI App</p>
@@ -184,23 +180,27 @@
         <label>MOBILE NUMBER *</label>
         <input type="tel" id="regMobile" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
       </div>
-      <button type="submit" class="btn btn-primary">Submit & Open Telegram</button>
+      <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;">Submit & Open Telegram</button>
     </form>
   </div>
 
+  <!-- Pending Verification Screen with Check Status Option -->
   <div id="pending-screen" class="feature-card" style="display:none;">
     <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
     <h2>Verification Pending</h2>
     <p>Namaste, <b id="userPendingName" style="color:#38bdf8;">Student</b>!</p>
 
-    <div class="info-box" style="text-align: center; background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; color: #fbbf24;">
+    <div class="info-box" style="text-align: center; background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; color: #fbbf24; margin-bottom: 16px;">
       🟡 Waiting for Admin Approval
     </div>
 
-    <button class="btn btn-primary" style="margin-bottom:10px;" onclick="window.location.href='https://t.me/RajnishPrimeBot'">Send Screenshot on Telegram</button>
-    <button class="btn btn-telegram" onclick="verifyStatus()">Check Approval Status</button>
+    <button class="btn btn-primary" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; margin-bottom:12px; cursor:pointer;" onclick="window.open('https://t.me/RajnishPrimeBot', '_blank')">Send Screenshot on Telegram</button>
+    
+    <!-- Check Approval Status Button -->
+    <button class="btn" style="width:100%; padding:14px; border-radius:14px; background:#0f172a; color:#22c55e; border:1.5px solid #22c55e; font-weight:700; cursor:pointer;" onclick="verifyApprovalStatus()">🔄 Check Approval Status</button>
   </div>
 
+  <!-- Admin Panel Screen -->
   <div id="admin-screen" class="feature-card" style="display:none;">
     <h2>Admin Panel</h2>
     <p>Quick Access Control</p>
@@ -210,7 +210,7 @@
         <label>Admin Password</label>
         <input type="password" id="adminPassInput" placeholder="Enter admin password">
       </div>
-      <button class="btn btn-primary" onclick="loginAdmin()">Login as Admin</button>
+      <button class="btn btn-primary" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="loginAdmin()">Login as Admin</button>
       <span class="link-action" onclick="showScreen('access-screen')">Back to Home</span>
     </div>
 
@@ -219,11 +219,12 @@
       <div class="input-group">
         <input type="text" id="approveCodeInput" placeholder="Enter student code">
       </div>
-      <button class="btn btn-primary" onclick="manualApprove()">Approve Code</button>
-      <button class="btn btn-youtube" style="margin-top:14px;" onclick="showScreen('access-screen')">Exit Admin</button>
+      <button class="btn btn-primary" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="manualApprove()">Approve Code</button>
+      <span class="link-action" style="color:#ef4444; margin-top:14px; text-align:center;" onclick="showScreen('access-screen')">Exit Admin</span>
     </div>
   </div>
 
+  <!-- Splash Screen -->
   <div id="splash-screen">
     <div class="splash-logo-box">
       <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo">
@@ -234,6 +235,7 @@
     </div>
   </div>
 
+  <!-- Main Content Dashboard -->
   <div id="main-content">
     <nav class="navbar">
       <a href="#" class="nav-brand">
@@ -266,9 +268,17 @@
     let activeCode = "";
 
     window.onload = function() {
+      const savedCode = localStorage.getItem('rp_last_code');
       const isSessionApproved = localStorage.getItem('rp_login_session');
+      
       if (isSessionApproved === 'true') {
         showScreen('main-content');
+      } else if (savedCode) {
+        activeCode = savedCode;
+        const status = localStorage.getItem('rp_code_' + savedCode);
+        if (status === 'pending') {
+          showScreen('pending-screen');
+        }
       }
     };
 
@@ -287,6 +297,7 @@
       const code = document.getElementById('accessCodeInput').value.trim();
       if (!code) return alert("Kripya Access Code daalein!");
       activeCode = code;
+      localStorage.setItem('rp_last_code', code);
 
       const codeStatus = localStorage.getItem('rp_code_' + code);
 
@@ -307,20 +318,32 @@
       const mobile = document.getElementById('regMobile').value;
 
       localStorage.setItem('rp_code_' + activeCode, 'pending');
+      localStorage.setItem('rp_last_code', activeCode);
       document.getElementById('userPendingName').innerText = name;
       
+      showScreen('pending-screen');
       const msg = encodeURIComponent(`Hello Admin, Main Payment kar diya hu.\nName: ${name}\nMobile: ${mobile}\nAccess Code: ${activeCode}`);
-      window.location.href = `https://t.me/RajnishPrimeBot?text=${msg}`;
+      window.open(`https://t.me/RajnishPrimeBot?text=${msg}`, '_blank');
     }
 
-    function verifyStatus() {
+    // Check Approval Status button function
+    function verifyApprovalStatus() {
+      if (!activeCode) {
+        activeCode = localStorage.getItem('rp_last_code');
+      }
+      if (!activeCode) {
+        alert("Pehle access code enter karein!");
+        showScreen('access-screen');
+        return;
+      }
+
       const codeStatus = localStorage.getItem('rp_code_' + activeCode);
       if (codeStatus === 'approved') {
         localStorage.setItem('rp_login_session', 'true');
-        alert("🎉 Status: Approved! Opening Website...");
+        alert("🎉 Badhai ho! Aapka payment approve ho gaya hai.");
         showSplashScreen();
       } else {
-        alert("⏳ Status: Still Pending! Admin approval ka wait karein.");
+        alert("⏳ Abhi approval pending hai! Kripya thoda wait karein ya admin ke approve hone ke baad dobara check karein.");
       }
     }
 
@@ -332,11 +355,10 @@
 
     function loginAdmin() {
       const pass = document.getElementById('adminPassInput').value;
-      // Secret Admin Password: Rajnish@59 (Screen par show nahi hoga)
       if (pass === "Rajnish@59") {
         document.getElementById('adminLoginBox').style.display = 'none';
         document.getElementById('adminDashBox').style.display = 'block';
-        document.getElementById('adminPassInput').value = ""; // Clear input for security
+        document.getElementById('adminPassInput').value = "";
       } else {
         alert("Wrong Admin Password!");
       }
@@ -347,7 +369,7 @@
       if (!codeToApprove) return alert("Code daalein!");
 
       localStorage.setItem('rp_code_' + codeToApprove, 'approved');
-      alert(`Access Code "${codeToApprove}" Successfully Approved!`);
+      alert(`Access Code "${codeToApprove}" Successfully Approved! Ab user check status karke website khol sakta hai.`);
     }
 
     function showSplashScreen() {
@@ -363,8 +385,5 @@
 
     function logoutUser() {
       localStorage.removeItem('rp_login_session');
-      showScreen('access-screen');
-    }
-  </script>
-</body>
-</html>
+      localStorage.removeItem('rp_last_code');
+    
