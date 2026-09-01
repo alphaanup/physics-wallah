@@ -109,22 +109,30 @@
     <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
     <h2>📖 Enter Access Code</h2>
     <p>Apna access code daal kar website unlock karein</p>
+    
+    <!-- Suggested Passwords Info Box -->
+    <div class="info-box" style="text-align: center; margin-bottom: 15px;">
+      <b>💡 Suggesed Codes:</b><br>
+      User Access Code: <span style="color:#fff;">Admin@123</span> or <span style="color:#fff;">Rajnish2026</span><br>
+      Admin Password: <span style="color:#fff;">Rajnish@59</span>
+    </div>
 
     <div class="input-group">
       <label>Access Code</label>
-      <input type="text" id="accessCodeInput" placeholder="Enter code (e.g. POOJA8528)">
+      <input type="text" id="accessCodeInput" placeholder="Enter code (e.g. Admin@123)">
     </div>
     <button class="btn btn-primary" onclick="checkAccessCode()">Get Access ></button>
     <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
   </div>
 
-  <!-- Payment Screen (Scanner Fixed) -->
+  <!-- Payment Screen with Working Scanner -->
   <div id="payment-screen" class="feature-card" style="display:none;">
     <h2>Membership Fee: ₹199</h2>
     <p>Scan & Pay ₹199 using any UPI App</p>
 
     <div class="qr-box">
-      <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=upi://pay?pa=9661734021@ibl%26pn=RINA%20DEVI%26am=199%26cu=INR" alt="UPI QR Code">
+      <!-- 100% Working QR Scanner API -->
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9661734021@ibl%26pn=RINA%20DEVI%26am=199%26cu=INR" alt="UPI QR Code">
     </div>
 
     <div class="info-box">
@@ -165,6 +173,9 @@
     <p>Quick Access Control</p>
 
     <div id="adminLoginBox">
+      <div class="info-box" style="margin-bottom: 12px;">
+        🔑 Default Admin Password: <b style="color:#fff;">Rajnish@59</b>
+      </div>
       <div class="input-group">
         <label>Admin Password</label>
         <input type="password" id="adminPassInput" placeholder="Enter admin password">
@@ -210,7 +221,7 @@
     </header>
 
     <div class="apps-list">
-      <a href="https://on-test-tan.vercel.app/tg/keys/open?code=SK-eyJ1Ijo8NTA4NDYwMjk3LCJlIjoxNzg4Mjg1NTU2NzU2LCJjIjoxNzg4MTk5MTU2NzU2LCJzIjoiMjRoIiwibSI6MCwiayI6ImJkNmEyNzA0In0.Yo6Tor73duoA27Yn2R_7OiozNPaVISOgY4oxipjbYbs" target="_blank" class="app-card">
+      <a href="https://on-test-tan.vercel.app/tg/keys/open?code=SK-eyJ1Ijo8NTA4NDYwMjk3LCJlIjoxNzg4Mjg1NTU2NzU2LCjjIjoxNzg4MTk5MTU2NzU2LCJzIjoiMjRoIiwibSI6MCwiayI6ImJkNmEyNzA0In0.Yo6Tor73duoA27Yn2R_7OiozNPaVISOgY4oxipjbYbs" target="_blank" class="app-card">
         <div class="app-card-top">
           <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon">
           <div>
