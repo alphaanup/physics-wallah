@@ -25,7 +25,6 @@
       padding: 16px;
     }
 
-    /* COMMON CARD STYLE */
     .feature-card {
       width: 100%;
       max-width: 400px;
@@ -47,207 +46,55 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .feature-card p {
-      color: #94a3b8;
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
+    .feature-card p { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
 
     .live-badge { 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 6px; 
-      background: rgba(16, 185, 129, 0.1); 
-      border: 1px solid rgba(16, 185, 129, 0.3); 
-      color: #34d399; 
-      font-size: 11px; 
-      font-weight: 600; 
-      padding: 6px 14px; 
-      border-radius: 20px; 
-      margin-bottom: 16px;
+      display: inline-flex; align-items: center; gap: 6px; 
+      background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); 
+      color: #34d399; font-size: 11px; font-weight: 600; padding: 6px 14px; 
+      border-radius: 20px; margin-bottom: 16px;
     }
     .live-dot { width: 6px; height: 6px; background-color: #34d399; border-radius: 50%; box-shadow: 0 0 8px #34d399; }
 
-    .input-group {
-      margin-bottom: 14px;
-      text-align: left;
-    }
+    .input-group { margin-bottom: 14px; text-align: left; }
+    .input-group label { display: block; font-size: 12px; color: #38bdf8; margin-bottom: 6px; font-weight: 600; }
+    .input-group input { width: 100%; padding: 12px 14px; background: #080c14; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #fff; font-size: 14px; outline: none; }
+    .input-group input:focus { border-color: #38bdf8; }
 
-    .input-group label {
-      display: block;
-      font-size: 12px;
-      color: #38bdf8;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
+    .link-action { display: block; margin-top: 14px; color: #38bdf8; font-size: 12px; text-decoration: underline; cursor: pointer; }
 
-    .input-group input {
-      width: 100%;
-      padding: 12px 14px;
-      background: #080c14;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 10px;
-      color: #fff;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .input-group input:focus {
-      border-color: #38bdf8;
-    }
-
-    .link-action {
-      display: block;
-      margin-top: 14px;
-      color: #38bdf8;
-      font-size: 12px;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    /* QR CODE & PAYMENT STYLES */
-    .qr-box {
-      background: #ffffff;
-      padding: 10px;
-      border-radius: 14px;
-      display: inline-block;
-      margin-bottom: 16px;
-    }
+    .qr-box { background: #ffffff; padding: 10px; border-radius: 14px; display: inline-block; margin-bottom: 16px; }
     .qr-box img { width: 180px; height: 180px; display: block; }
 
-    .info-box {
-      background: #1f2937;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 12px;
-      text-align: left;
-      font-size: 12px;
-      color: #94a3b8;
-      margin-bottom: 14px;
-    }
+    .info-box { background: #1f2937; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; text-align: left; font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
     .info-box b { color: #38bdf8; }
 
-    /* SPLASH LANDING SCREEN */
-    #splash-screen {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: #080c14;
-      z-index: 999;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .splash-logo-box {
-      width: 170px;
-      height: 170px;
-      border-radius: 38px;
-      border: 3px solid #00f2fe;
-      box-shadow: 0 0 45px rgba(0, 242, 254, 0.6), inset 0 0 20px rgba(0, 242, 254, 0.3);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #000;
-    }
-
+    #splash-screen { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #080c14; z-index: 999; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+    .splash-logo-box { width: 170px; height: 170px; border-radius: 38px; border: 3px solid #00f2fe; box-shadow: 0 0 45px rgba(0, 242, 254, 0.6), inset 0 0 20px rgba(0, 242, 254, 0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000; }
     .splash-logo-box img { width: 100%; height: 100%; object-fit: cover; }
-
-    .splash-content {
-      margin-top: 35px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      visibility: hidden;
-    }
-
+    .splash-content { margin-top: 35px; display: flex; flex-direction: column; align-items: center; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; visibility: hidden; }
     .splash-content.show { opacity: 1; transform: translateY(0); visibility: visible; }
+    .splash-title { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: 2px; color: #ffffff; text-align: center; line-height: 1.2; text-shadow: 0 0 20px rgba(255, 255, 255, 0.4); margin-bottom: 30px; }
+    
+    .open-now-btn { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700; padding: 14px 45px; border-radius: 20px; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4); transition: transform 0.2s ease, box-shadow 0.2s ease; }
 
-    .splash-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      color: #ffffff;
-      text-align: center;
-      line-height: 1.2;
-      text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-      margin-bottom: 30px;
-    }
-
-    .open-now-btn {
-      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-      color: #ffffff;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 18px;
-      font-weight: 700;
-      padding: 14px 45px;
-      border-radius: 20px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    /* MAIN CONTENT */
-    #main-content {
-      display: none;
-      width: 100%;
-      max-width: 480px;
-      flex-direction: column;
-      align-items: center;
-    }
-
+    #main-content { display: none; width: 100%; max-width: 480px; flex-direction: column; align-items: center; }
     .navbar { width: 100%; max-width: 480px; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 20px; }
     .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
     .nav-logo-img { width: 40px; height: 40px; border-radius: 12px; object-fit: cover; border: 2px solid #06b6d4; box-shadow: 0 0 15px rgba(6, 182, 212, 0.5); }
-    
-    .nav-title { 
-      font-family: 'Syne', sans-serif; 
-      font-size: 19px; 
-      font-weight: 800; 
-      letter-spacing: 0.8px; 
-      background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .logout-btn { 
-      background: #ef4444; 
-      color: #fff; 
-      border: none; 
-      border-radius: 10px; 
-      padding: 8px 14px; 
-      font-size: 12px; 
-      font-weight: 700; 
-      cursor: pointer; 
-    }
+    .nav-title { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 800; letter-spacing: 0.8px; background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .logout-btn { background: #ef4444; color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; }
 
     .hero { width: 100%; text-align: center; margin-bottom: 24px; }
     .pill-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); color: #38bdf8; font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 30px; margin-bottom: 14px; }
     .dot { width: 6px; height: 6px; background: #06b6d4; border-radius: 50%; box-shadow: 0 0 8px #06b6d4; }
-    
     .hero h1 { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
     .hero h1 span { background: linear-gradient(135deg, #38bdf8 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .hero p { color: #94a3b8; font-size: 13px; line-height: 1.5; margin-bottom: 18px; }
 
     .btn-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; width: 100%; }
     .btn { width: 100%; padding: 14px; border-radius: 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; cursor: pointer; }
-    
-    .btn-primary { 
-      background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); 
-      color: #ffffff; 
-      box-shadow: 0 6px 25px rgba(6, 182, 212, 0.45); 
-    }
-    
+    .btn-primary { background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); color: #ffffff; box-shadow: 0 6px 25px rgba(6, 182, 212, 0.45); }
     .btn-telegram { background: #0f172a; color: #38bdf8; border: 1.5px solid #38bdf8; }
     .btn-whatsapp { background: #0f172a; color: #22c55e; border: 1.5px solid #22c55e; }
     .btn-youtube { background: #0f172a; color: #ef4444; border: 1.5px solid #ef4444; }
@@ -271,7 +118,6 @@
 </head>
 <body>
 
-  <!-- FEATURE 1: ACCESS CODE ENTRY SCREEN -->
   <div id="access-screen" class="feature-card">
     <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
     <h2>📖 Enter Access Code</h2>
@@ -281,30 +127,28 @@
       <label>Access Code</label>
       <input type="text" id="accessCodeInput" placeholder="Enter code (e.g. POOJA8528)">
     </div>
-
     <button class="btn btn-primary" onclick="checkAccessCode()">Get Access ></button>
-
     <span class="link-action" onclick="showScreen('pending-screen')">Already registered? Check your status</span>
     <span class="link-action" style="color: #94a3b8;" onclick="showAdminLogin()">🛡️ Admin Panel</span>
   </div>
 
-  <!-- FEATURE 2: PAYMENT & REGISTRATION SCREEN -->
   <div id="payment-screen" class="feature-card" style="display:none;">
     <h2>Membership Fee: ₹199</h2>
     <p>Scan & Pay ₹199 using any UPI App</p>
 
     <div class="qr-box">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=BHARATPE2V0P0A1Q1G80424@unitype&pn=RajnishPrime&am=199&cu=INR" alt="UPI QR">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=9661734021@ibl&pn=RINA%20DEVI&am=199&cu=INR" alt="UPI QR">
     </div>
 
     <div class="info-box">
       Access Code: <b id="codeDisplay"></b><br>
-      UPI ID: <b>BHARATPE2V0P0A1Q1G80424@unitype</b>
+      UPI ID: <b>9661734021@ibl</b>
     </div>
 
     <div class="info-box" style="border-color: #38bdf8;">
       <b>💬 After Payment:</b> Payment screenshot leke Telegram pe forward karein:<br>
-      <a href="https://t.me/KHATUSHYAMHELP_BOT" target="_blank" style="color:#38bdf8; font-weight:700;">@KHATUSHYAMHELP_BOT</a>
+      <!-- UPDATED TO RAJNISH PRIME BOT -->
+      <a href="https://t.me/RajnishPrimeBot" target="_blank" style="color:#38bdf8; font-weight:700;">@RajnishPrimeBot</a>
     </div>
 
     <form onsubmit="handleRegistration(event)">
@@ -320,7 +164,6 @@
     </form>
   </div>
 
-  <!-- FEATURE 3: VERIFICATION PENDING SCREEN -->
   <div id="pending-screen" class="feature-card" style="display:none;">
     <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
     <h2>Verification Pending</h2>
@@ -333,16 +176,17 @@
     <div class="info-box" style="line-height: 1.6;">
       <b>STEPS TO FOLLOW:</b><br>
       1. Payment screenshot lein<br>
-      2. Telegram pe forward karein <b>@KHATUSHYAMHELP_BOT</b><br>
+      <!-- UPDATED TO RAJNISH PRIME BOT -->
+      2. Telegram pe forward karein <b>@RajnishPrimeBot</b><br>
       3. Admin verify karke approve karega<br>
       4. Approval ke baad "Check Status" dabayein
     </div>
 
-    <button class="btn btn-primary" style="margin-bottom:10px;" onclick="window.location.href='https://t.me/KHATUSHYAMHELP_BOT'">Open Telegram</button>
+    <!-- UPDATED TO RAJNISH PRIME BOT -->
+    <button class="btn btn-primary" style="margin-bottom:10px;" onclick="window.location.href='https://t.me/RajnishPrimeBot'">Open Telegram</button>
     <button class="btn btn-telegram" onclick="verifyStatus()">Check Status</button>
   </div>
 
-  <!-- FEATURE 4: ADMIN PANEL SCREEN -->
   <div id="admin-screen" class="feature-card" style="display:none;">
     <h2>Admin Panel</h2>
     <p>Approve or Reject Student Access</p>
@@ -362,7 +206,6 @@
     </div>
   </div>
 
-  <!-- SPLASH LANDING SCREEN -->
   <div id="splash-screen">
     <div class="splash-logo-box">
       <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Rajnish Prime Logo">
@@ -373,7 +216,6 @@
     </div>
   </div>
 
-  <!-- MAIN WEBSITE CONTENT -->
   <div id="main-content">
     <nav class="navbar">
       <a href="#" class="nav-brand">
@@ -384,9 +226,7 @@
     </nav>
 
     <header class="hero">
-      <div class="pill-badge">
-        <span class="dot"></span> 100% Free • Premium Courses Unlocked
-      </div>
+      <div class="pill-badge"><span class="dot"></span> 100% Free • Premium Courses Unlocked</div>
       <h1>Study Smarter. Pay <span>Nothing.</span></h1>
       <p>Access premium paid courses from top platforms — completely free. All your favourite educators, one place.</p>
       
@@ -411,7 +251,6 @@
       <p class="section-desc">Get instant free access to all premium batches.</p>
 
       <div class="apps-list">
-        <!-- 1. ALL IN ONE Platform -->
         <a href="https://on-test-tan.vercel.app/tg/keys/open?code=SK-eyJ1Ijo4NTA4NDYwMjk3LCJlIjoxNzg4Mjg1NTU2NzU2LCJjIjoxNzg4MTk5MTU2NzU2LCJzIjoiMjRoIiwibSI6MCwiayI6ImJkNmEyNzA0In0.Yo6Tor73duoA27Yn2R_7OiozNPaVISOgY4oxipjbYbs" target="_blank" class="app-card" onclick="vibratePhone(35)">
           <div class="app-card-top">
             <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="ALL IN ONE Platform Logo" class="app-icon">
@@ -423,7 +262,6 @@
           <div class="live-badge"><span class="live-dot"></span> TOP RECOMMENDED</div>
         </a>
 
-        <!-- 2. Physics Wallah -->
         <a href="https://pwthor.live/study/batches" target="_blank" class="app-card" onclick="vibratePhone(35)">
           <div class="app-card-top">
             <img src="https://i.ibb.co/8LJLjzD4/Physics-Wallah-Logo.jpg" alt="Physics Wallah Logo" class="app-icon">
@@ -435,7 +273,6 @@
           <div class="live-badge"><span class="live-dot"></span> LIVE BATCHES AVAILABLE</div>
         </a>
 
-        <!-- 3. NIRMAN BATCH 2026 -->
         <a href="https://nirmanbatch.edgeone.dev/" target="_blank" class="app-card" onclick="vibratePhone(35)">
           <div class="app-card-top">
             <img src="https://i.ibb.co/fzRX8jNW/logo.jpg" alt="NIRMAN BATCH 2026 Logo" class="app-icon">
@@ -450,7 +287,7 @@
     </div>
   </div>
   
-  <script>
+    <script>
     let activeCode = "";
 
     function showScreen(screenId) {
@@ -590,4 +427,3 @@
   </script>
 </body>
 </html>
-  
