@@ -60,7 +60,7 @@
 
     .link-action { display: block; margin-top: 14px; color: #38bdf8; font-size: 12px; text-decoration: underline; cursor: pointer; }
 
-    .qr-box { background: #ffffff; padding: 10px; border-radius: 14px; display: inline-block; margin-bottom: 14px; }
+    .qr-box { background: #ffffff; padding: 12px; border-radius: 16px; display: inline-block; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
 
     .info-box { background: #1f2937; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; text-align: left; font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
     .info-box b { color: #38bdf8; }
@@ -96,6 +96,7 @@
 </head>
 <body>
 
+  <!-- Access Code Screen -->
   <div id="access-screen" class="feature-card">
     <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
     <h2>📖 Enter Access Code</h2>
@@ -114,53 +115,15 @@
     <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
   </div>
 
+  <!-- Payment Screen -->
   <div id="payment-screen" class="feature-card" style="display:none;">
     <h2>Membership Fee: ₹199</h2>
     <p>Scan & Pay ₹199 using any UPI App</p>
 
     <div class="qr-box">
-      <svg width="150" height="150" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
-        <path d="M0 0H15V15H0V0ZM3 3V12H12V3H3Z" fill="black"/>
-        <path d="M4 4H11V11H4V4Z" fill="black"/>
-        <path d="M22 0H37V15H22V0ZM25 3V12H34V3H25Z" fill="black"/>
-        <path d="M26 4H33V11H26V4Z" fill="black"/>
-        <path d="M0 22H15V37H0V22ZM3 25V34H12V25H3Z" fill="black"/>
-        <path d="M4 26H11V33H4V26Z" fill="black"/>
-        <rect x="16" y="0" width="3" height="3" fill="black"/>
-        <rect x="20" y="2" width="2" height="2" fill="black"/>
-        <rect x="16" y="5" width="2" height="4" fill="black"/>
-        <rect x="18" y="7" width="2" height="2" fill="black"/>
-        <rect x="16" y="11" width="3" height="4" fill="black"/>
-        <rect x="20" y="10" width="2" height="5" fill="black"/>
-        <rect x="0" y="16" width="3" height="3" fill="black"/>
-        <rect x="5" y="16" width="2" height="3" fill="black"/>
-        <rect x="9" y="16" width="3" height="2" fill="black"/>
-        <rect x="2" y="20" width="3" height="2" fill="black"/>
-        <rect x="7" y="19" width="3" height="3" fill="black"/>
-        <rect x="13" y="16" width="3" height="4" fill="black"/>
-        <rect x="18" y="16" width="3" height="3" fill="black"/>
-        <rect x="22" y="16" width="2" height="5" fill="black"/>
-        <rect x="26" y="16" width="3" height="4" fill="black"/>
-        <rect x="31" y="16" width="4" height="2" fill="black"/>
-        <rect x="34" y="19" width="3" height="3" fill="black"/>
-        <rect x="13" y="22" width="2" height="3" fill="black"/>
-        <rect x="16" y="21" width="3" height="2" fill="black"/>
-        <rect x="20" y="22" width="3" height="3" fill="black"/>
-        <rect x="25" y="22" width="2" height="4" fill="black"/>
-        <rect x="29" y="21" width="3" height="3" fill="black"/>
-        <rect x="34" y="23" width="3" height="4" fill="black"/>
-        <rect x="13" y="27" width="3" height="3" fill="black"/>
-        <rect x="18" y="26" width="2" height="4" fill="black"/>
-        <rect x="22" y="28" width="3" height="2" fill="black"/>
-        <rect x="27" y="27" width="2" height="3" fill="black"/>
-        <rect x="31" y="28" width="2" height="3" fill="black"/>
-        <rect x="0" y="34" width="3" height="3" fill="black"/>
-        <rect x="5" y="33" width="3" height="4" fill="black"/>
-        <rect x="10" y="32" width="3" height="5" fill="black"/>
-        <rect x="16" y="32" width="2" height="5" fill="black"/>
-        <rect x="20" y="32" width="4" height="5" fill="black"/>
-        <rect x="26" y="33" width="3" height="4" fill="black"/>
-        <rect x="31" y="33" width="6" height="4" fill="black"/>
+      <svg width="160" height="160" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg" style="display:block; shape-rendering:crispEdges;">
+        <path fill="#ffffff" d="M0 0h21v21H0z"/>
+        <path fill="#000000" d="M0 0h7v7H0zM1 1h5v5H1zM2 2h3v3H2zM14 0h7v7h-7zM15 1h5v5h-5zM16 2h3v3h-3zM0 14h7v7H0zM1 15h5v5H1zM2 16h3v3H2zM8 0h2v1H8zM11 0h2v2h-2zM8 3h1v2H8zM10 2h1v2h-1zM12 3h1v1h-1zM8 6h3v1H8zM3 8h1v2H3zM6 8h1v1H6zM0 9h2v1H0zM4 9h2v1H4zM1 11h1v1H1zM3 11h2v2H3zM6 11h1v2h-1zM8 8h2v2H8zM11 8h1v2h-1zM13 8h2v1h-2zM15 8h1v3h-1zM17 8h2v1h-2zM20 8h1v2h-1zM12 11h1v2h-1zM14 10h2v1h-2zM17 10h1v2h-1zM19 10h2v2h-2zM8 12h2v1H8zM10 13h1v1H1zM11 14h2v1h-2zM14 12h1v3h-1zM16 13h2v1h-2zM19 13h1v2h-1zM0 12h1v1H0zM1 13h1v1H1zM6 14h1v2H6zM3 15h1v2H3zM5 16h1v1H5zM8 16h3v1H8zM12 16h1v2h-1zM13 17h2v1h-2zM15 17h1v1h-1zM17 16h2v2h-2zM20 16h1v2h-1zM0 18h1v1H0zM2 19h1v2H2zM5 19h1v2H5zM8 18h2v3H8zM11 19h1v2h-1zM13 19h1v2h-1zM15 19h2v2h-2zM19 19h2v2h-2z"/>
       </svg>
     </div>
 
@@ -182,6 +145,7 @@
     </form>
   </div>
 
+  <!-- Pending Verification Screen -->
   <div id="pending-screen" class="feature-card" style="display:none;">
     <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
     <h2>Verification Pending</h2>
@@ -193,9 +157,12 @@
 
     <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; margin-bottom:12px; cursor:pointer;" onclick="openTelegram()">Send Screenshot on Telegram</button>
     
-    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:#0f172a; color:#22c55e; border:1.5px solid #22c55e; font-weight:700; cursor:pointer;" onclick="verifyApprovalStatus()">🔄 Check Approval Status</button>
+    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:#0f172a; color:#22c55e; border:1.5px solid #22c55e; font-weight:700; margin-bottom:12px; cursor:pointer;" onclick="verifyApprovalStatus()">🔄 Check Approval Status</button>
+
+    <span class="link-action" style="color:#ef4444;" onclick="resetStorageAndHome()">🔄 Reset / Use Different Code</span>
   </div>
 
+  <!-- Admin Panel Screen -->
   <div id="admin-screen" class="feature-card" style="display:none;">
     <h2>Admin Panel</h2>
     <p>Quick Access Control</p>
@@ -219,6 +186,7 @@
     </div>
   </div>
 
+  <!-- Splash Screen -->
   <div id="splash-screen">
     <div class="splash-logo-box">
       <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo">
@@ -229,6 +197,7 @@
     </div>
   </div>
 
+  <!-- Main Content Dashboard -->
   <div id="main-content">
     <nav class="navbar">
       <a href="#" class="nav-brand">
@@ -256,8 +225,8 @@
       </a>
     </div>
   </div>
-
-  <script>
+  
+    <script>
     let activeCode = "";
 
     window.onload = function() {
@@ -391,6 +360,13 @@
       localStorage.removeItem('rp_login_session');
       localStorage.removeItem('rp_last_code');
       showScreen('access-screen');
+    }
+
+    function resetStorageAndHome() {
+      localStorage.clear();
+      activeCode = "";
+      showScreen('access-screen');
+      alert("Storage reset ho gaya hai. Ab aap naya code enter kar sakte hain.");
     }
   </script>
 </body>
