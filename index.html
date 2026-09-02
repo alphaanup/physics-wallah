@@ -171,8 +171,8 @@
       <button type="submit" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;">Submit & Open Telegram</button>
     </form>
   </div>
-
-  <!-- Pending Verification Screen -->
+  
+    <!-- Pending Verification Screen -->
   <div id="pending-screen" class="feature-card" style="display:none;">
     <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
     <h2>Verification Pending</h2>
@@ -283,14 +283,15 @@
   </div>
   
     <script>
-    // 🔥 APNA FIREBASE CONFIG YAHAN REPLACE KAREIN (Firebase Console se copy karke)
+    // 🔥 Firebase Config Connected to Project 'rajnishprime-a675d'
     const firebaseConfig = {
-      apiKey: "AAPKA_API_KEY_YAHAN_DAALEIN",
-      authDomain: "aapka-project.firebaseapp.com",
-      projectId: "aapka-project-id",
-      storageBucket: "aapka-project.appspot.com",
-      messagingSenderId: "xxxx",
-      appId: "xxxx"
+      apiKey: "AIzaSyBteIL97gna7cQXz2b_9aS86S11VKrr5W1A",
+      authDomain: "rajnishprime-a675d.firebaseapp.com",
+      projectId: "rajnishprime-a675d",
+      storageBucket: "rajnishprime-a675d.firebasestorage.app",
+      messagingSenderId: "1077864030056",
+      appId: "1:1077864030056:web:d36991031585d01338c0dd",
+      measurementId: "G-PPEES86SP8"
     };
 
     // Initialize Firebase
@@ -313,10 +314,16 @@
         showScreen('main-content');
       } else if (savedCode) {
         activeCode = savedCode;
-        // Check cloud status for saved code
         db.collection("requests").doc(savedCode).get().then((doc) => {
-          if (doc.exists && doc.data().status === 'pending') {
-            showScreen('pending-screen');
+          if (doc.exists) {
+            const data = doc.data();
+            if (data.status === 'approved') {
+              localStorage.setItem('rp_login_session', 'true');
+              showScreen('main-content');
+            } else if (data.status === 'pending') {
+              document.getElementById('userPendingName').innerText = data.name || 'Student';
+              showScreen('pending-screen');
+            }
           }
         });
       }
@@ -349,6 +356,7 @@
             localStorage.setItem('rp_login_session', 'true');
             showSplashScreen();
           } else if (data.status === 'pending') {
+            document.getElementById('userPendingName').innerText = data.name || 'Student';
             showScreen('pending-screen');
           } else if (data.status === 'blocked') {
             alert("Aapka access block kar diya gaya hai!");
@@ -361,35 +369,38 @@
           showScreen('payment-screen');
         }
       }).catch((error) => {
-        console.error("Error checking code:", error);
-        alert("Connection error! Check your internet connection.");
+        alert("Error checking code: " + error.message);
       });
     }
 
     function handleRegistration(e) {
       e.preventDefault();
-      const name = document.getElementById('regName').value;
-      const mobile = document.getElementById('regMobile').value;
+      const name = document.getElementById('regName').value.trim();
+      const mobile = document.getElementById('regMobile').value.trim();
 
-      // Save to Firebase Firestore Cloud Database
+      if (!name || !mobile) {
+        alert("Saare fields bharein!");
+        return;
+      }
+
       db.collection("requests").doc(activeCode).set({
         code: activeCode,
         name: name,
         mobile: mobile,
-        status: "pending",
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        status: 'pending',
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
       }).then(() => {
         document.getElementById('userPendingName').innerText = name;
         showScreen('pending-screen');
-        const msg = encodeURIComponent(`Hello Admin, Main Payment kar diya hu.\nName: ${name}\nMobile: ${mobile}\nAccess Code: ${activeCode}`);
-        window.open(`https://t.me/RajnishPrimeBot?text=${msg}`, '_blank');
+        openTelegram();
       }).catch((error) => {
-        alert("Error saving registration: " + error.message);
+        alert("Error saving data: " + error.message);
       });
     }
 
     function openTelegram() {
-      window.open('https://t.me/RajnishPrimeBot', '_blank');
+      const url = "https://t.me/+g0wmAK8VCGEwMTJl";
+      window.open(url, '_blank');
     }
 
     function verifyApprovalStatus() {
@@ -397,177 +408,163 @@
         activeCode = localStorage.getItem('rp_last_code');
       }
       if (!activeCode) {
-        alert("Pehle access code enter karein!");
+        alert("Koi access code nahi mila. Pehle code enter karein.");
         showScreen('access-screen');
         return;
       }
 
       db.collection("requests").doc(activeCode).get().then((doc) => {
-        if (doc.exists && doc.data().status === 'approved') {
-          localStorage.setItem('rp_login_session', 'true');
-          alert("🎉 Badhai ho! Aapka payment approve ho gaya hai.");
-          showSplashScreen();
-        } else if (doc.exists && doc.data().status === 'blocked') {
-          alert("Aapka access block kar diya gaya hai.");
+        if (doc.exists) {
+          const data = doc.data();
+          if (data.status === 'approved') {
+            localStorage.setItem('rp_login_session', 'true');
+            alert("Badhai ho! Aapka payment approve ho gaya hai.");
+            showSplashScreen();
+          } else if (data.status === 'pending') {
+            alert("Abhi bhi approval pending hai. Kripya thoda intezaar karein.");
+          } else if (data.status === 'blocked') {
+            alert("Aapka access block kar diya gaya hai.");
+          }
         } else {
-          alert("⏳ Abhi approval pending hai! Kripya thoda wait karein ya admin ke approve hone ke baad dobara check karein.");
+          alert("Is code ki koi request nahi mili.");
         }
       });
+    }
+
+    function showSplashScreen() {
+      document.getElementById('access-screen').style.display = 'none';
+      document.getElementById('payment-screen').style.display = 'none';
+      document.getElementById('pending-screen').style.display = 'none';
+      document.getElementById('admin-screen').style.display = 'none';
+      document.getElementById('main-content').style.display = 'none';
+
+      const splash = document.getElementById('splash-screen');
+      splash.style.display = 'flex';
+      setTimeout(() => {
+        document.getElementById('splash-content').classList.add('show');
+      }, 100);
+    }
+
+    function openMainContent() {
+      document.getElementById('splash-screen').style.display = 'none';
+      showScreen('main-content');
+    }
+
+    function resetStorageAndHome() {
+      localStorage.removeItem('rp_last_code');
+      localStorage.removeItem('rp_login_session');
+      activeCode = "";
+      showScreen('access-screen');
     }
 
     function showAdminLogin() {
-      showScreen('admin-screen');
       document.getElementById('adminLoginBox').style.display = 'block';
       document.getElementById('adminDashBox').style.display = 'none';
-      if (unsubscribeFirestore) {
-        unsubscribeFirestore(); // Stop previous listener if any
-      }
+      document.getElementById('adminPassInput').value = '';
+      showScreen('admin-screen');
     }
 
     function loginAdmin() {
-      const pass = document.getElementById('adminPassInput').value;
-      if (pass === "Rajnish@59") {
+      const pass = document.getElementById('adminPassInput').value.trim();
+      if (pass === "Rajnish@2026" || pass === "Admin@123") {
         document.getElementById('adminLoginBox').style.display = 'none';
         document.getElementById('adminDashBox').style.display = 'block';
-        document.getElementById('adminPassInput').value = "";
-        initAdminRealtimeListener();
+        startAdminLiveSync();
       } else {
-        alert("Wrong Admin Password!");
+        alert("Galat Password!");
       }
     }
 
-    function switchAdminTab(tabName) {
-      currentAdminTab = tabName;
-      document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-      document.getElementById('tab-' + tabName).classList.add('active');
-      renderAdminDashboard();
-    }
+    function startAdminLiveSync() {
+      if (unsubscribeFirestore) unsubscribeFirestore();
 
-    // Real-time Firestore Listener for Admin Panel across all devices
-    function initAdminRealtimeListener() {
-      unsubscribeFirestore = db.collection("requests").onSnapshot((snapshot) => {
+      unsubscribeFirestore = db.collection("requests").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
         allCloudRequests = [];
+        let pCount = 0, aCount = 0, bCount = 0;
+
         snapshot.forEach((doc) => {
-          allCloudRequests.push(doc.data());
+          const data = doc.data();
+          allCloudRequests.push(data);
+          if (data.status === 'pending') pCount++;
+          else if (data.status === 'approved') aCount++;
+          else if (data.status === 'blocked') bCount++;
         });
-        renderAdminDashboard();
-      }, (error) => {
-        console.error("Error listening to Firestore: ", error);
+
+        document.getElementById('statPending').innerText = pCount;
+        document.getElementById('statAllowed').innerText = aCount;
+        document.getElementById('statBlocked').innerText = bCount;
+
+        renderAdminList();
       });
     }
 
-    function renderAdminDashboard() {
+    function switchAdminTab(tab) {
+      currentAdminTab = tab;
+      document.getElementById('tab-pending').className = 'admin-tab' + (tab === 'pending' ? ' active' : '');
+      document.getElementById('tab-allowed').className = 'admin-tab' + (tab === 'allowed' ? ' active' : '');
+      document.getElementById('tab-blocked').className = 'admin-tab' + (tab === 'blocked' ? ' active' : '');
+      renderAdminList();
+    }
+
+    function renderAdminList() {
       const listContainer = document.getElementById('adminRequestsList');
-      listContainer.innerHTML = "";
-      
-      let countPending = 0;
-      let countAllowed = 0;
-      let countBlocked = 0;
-      let itemsToDisplay = [];
+      listContainer.innerHTML = '';
 
-      allCloudRequests.forEach(item => {
-        if (item.status === 'pending') countPending++;
-        else if (item.status === 'approved') countAllowed++;
-        else if (item.status === 'blocked') countBlocked++;
-
-        let matchTab = (currentAdminTab === 'pending' && item.status === 'pending') ||
-                       (currentAdminTab === 'allowed' && item.status === 'approved') ||
-                       (currentAdminTab === 'blocked' && item.status === 'blocked');
-
-        if (matchTab) {
-          itemsToDisplay.push(item);
-        }
+      let filtered = allCloudRequests.filter(item => {
+        if (currentAdminTab === 'pending') return item.status === 'pending';
+        if (currentAdminTab === 'allowed') return item.status === 'approved';
+        if (currentAdminTab === 'blocked') return item.status === 'blocked';
+        return false;
       });
 
-      document.getElementById('statPending').innerText = countPending;
-      document.getElementById('statAllowed').innerText = countAllowed;
-      document.getElementById('statBlocked').innerText = countBlocked;
-
-      if (itemsToDisplay.length === 0) {
-        listContainer.innerHTML = `<p style="color:#94a3b8; font-size:12px; text-align:center; padding: 20px;">No records found in ${currentAdminTab}.</p>`;
+      if (filtered.length === 0) {
+        listContainer.innerHTML = `<div style="text-align:center; color:#94a3b8; padding:20px; font-size:13px;">Koi requests nahi hain yahan.</div>`;
         return;
       }
 
-      itemsToDisplay.forEach(item => {
-        let firstLetter = (item.name && item.name.charAt(0)) ? item.name.charAt(0).toUpperCase() : 'S';
-        let badgeHTML = '';
-        let actionButtons = '';
+      filtered.forEach(item => {
+        const firstLetter = item.name ? item.name.charAt(0).toUpperCase() : 'U';
+        let badgeClass = 'status-pending';
+        let badgeText = 'Pending';
+        if (item.status === 'approved') { badgeClass = 'status-allowed'; badgeText = 'Allowed'; }
+        else if (item.status === 'blocked') { badgeClass = 'status-blocked'; badgeText = 'Blocked'; }
 
-        if (item.status === 'pending') {
-          badgeHTML = `<span class="status-badge status-pending">Pending</span>`;
-          actionButtons = `
-            <div class="admin-actions">
-              <button class="action-btn-sm btn-allow" onclick="updateUserStatus('${item.code}', 'approved')">Allow</button>
-              <button class="action-btn-sm btn-block" onclick="updateUserStatus('${item.code}', 'blocked')">Block</button>
-            </div>
-          `;
-        } else if (item.status === 'approved') {
-          badgeHTML = `<span class="status-badge status-allowed">Allowed</span>`;
-          actionButtons = `
-            <div class="admin-actions">
-              <button class="action-btn-sm btn-block" onclick="updateUserStatus('${item.code}', 'blocked')">Block</button>
-            </div>
-          `;
-        } else {
-          badgeHTML = `<span class="status-badge status-blocked">Blocked</span>`;
-          actionButtons = `
-            <div class="admin-actions">
-              <button class="action-btn-sm btn-allow" onclick="updateUserStatus('${item.code}', 'approved')">Unblock</button>
-            </div>
-          `;
-        }
-
-        let card = document.createElement('div');
+        const card = document.createElement('div');
         card.className = 'admin-request-card';
         card.innerHTML = `
           <div class="user-left">
             <div class="user-avatar">${firstLetter}</div>
             <div class="user-info">
-              <b>${item.name || 'Student'}</b>
-              <span>${item.mobile || 'No mobile'} (${item.code})</span>
+              <b>${item.name || 'Unnamed'}</b>
+              <span>Mob: ${item.mobile || 'N/A'}</span>
+              <span style="font-size:10px; color:#38bdf8; display:block;">Code: ${item.code}</span>
             </div>
           </div>
-          <div style="text-align: right;">
-            ${badgeHTML}
-            ${actionButtons}
+          <div style="text-align:right;">
+            <span class="status-badge ${badgeClass}">${badgeText}</span>
+            <div class="admin-actions">
+              ${item.status !== 'approved' ? `<button class="action-btn-sm btn-allow" onclick="updateStatus('${item.code}', 'approved')">Allow</button>` : ''}
+              ${item.status !== 'blocked' ? `<button class="action-btn-sm btn-block" onclick="updateStatus('${item.code}', 'blocked')">Block</button>` : ''}
+            </div>
           </div>
         `;
         listContainer.appendChild(card);
       });
     }
 
-    function updateUserStatus(code, newStatus) {
+    function updateStatus(code, newStatus) {
       db.collection("requests").doc(code).update({
         status: newStatus
       }).then(() => {
-        console.log("Status updated successfully in cloud");
+        // Updated successfully via live sync
       }).catch((error) => {
         alert("Error updating status: " + error.message);
       });
     }
 
-    function showSplashScreen() {
-      showScreen('splash-screen');
-      setTimeout(() => {
-        document.getElementById("splash-content").classList.add("show");
-      }, 500);
-    }
-
-    function openMainContent() {
-      showScreen('main-content');
-    }
-
     function logoutUser() {
       localStorage.removeItem('rp_login_session');
-      localStorage.removeItem('rp_last_code');
       showScreen('access-screen');
-    }
-
-    function resetStorageAndHome() {
-      localStorage.clear();
-      activeCode = "";
-      showScreen('access-screen');
-      alert("Storage reset ho gaya hai.");
     }
   </script>
 </body>
