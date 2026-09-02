@@ -60,6 +60,8 @@
 
     .link-action { display: block; margin-top: 14px; color: #38bdf8; font-size: 12px; text-decoration: underline; cursor: pointer; }
     .qr-box { background: #ffffff; padding: 12px; border-radius: 16px; display: inline-block; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .qr-box img { width: 160px; height: 160px; display: block; border-radius: 8px; }
+    
     .info-box { background: #1f2937; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; text-align: left; font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
     .info-box b { color: #38bdf8; }
 
@@ -145,10 +147,8 @@
     <p>Scan & Pay ₹199 using any UPI App</p>
 
     <div class="qr-box">
-      <svg width="160" height="160" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg" style="display:block; shape-rendering:crispEdges;">
-        <path fill="#ffffff" d="M0 0h21v21H0z"/>
-        <path fill="#000000" d="M0 0h7v7H0zM1 1h5v5H1zM2 2h3v3H2zM14 0h7v7h-7zM15 1h5v5h-5zM16 2h3v3h-3zM0 14h7v7H0zM1 15h5v5H1zM2 16h3v3H2zM8 0h2v1H8zM11 0h2v2h-2zM8 3h1v2H8zM10 2h1v2h-1zM12 3h1v1h-1zM8 6h3v1H8zM3 8h1v2H3zM6 8h1v1H6zM0 9h2v1H0zM4 9h2v1H4zM1 11h1v1H1zM3 11h2v2H3zM6 11h1v2h-1zM8 8h2v2H8zM11 8h1v2h-1zM13 8h2v1h-2zM15 8h1v3h-1zM17 8h2v1h-2zM20 8h1v2h-1zM12 11h1v2h-1zM14 10h2v1h-2zM17 10h1v2h-1zM19 10h2v2h-2zM8 12h2v1H8zM10 13h1v1H1zM11 14h2v1h-2zM14 12h1v3h-1zM16 13h2v1h-2zM19 13h1v2h-1zM0 12h1v1H0zM1 13h1v1H1zM6 14h1v2H6zM3 15h1v2H3zM5 16h1v1H5zM8 16h3v1H8zM12 16h1v2H-1zM13 17h2v1h-2zM15 17h1v1h-1zM17 16h2v2h-2zM20 16h1v2h-1zM0 18h1v1H0zM2 19h1v2H2zM5 19h1v2H5zM8 18h2v3H8zM11 19h1v2h-1zM13 19h1v2h-1zM15 19h2v2h-2zM19 19h2v2h-2z"/>
-      </svg>
+      <!-- Real Scannable UPI QR Image Generated Automatically -->
+      <img id="upiQrImg" src="" alt="UPI QR Code">
     </div>
 
     <div class="info-box">
@@ -283,6 +283,10 @@
     let currentAdminTab = 'pending';
 
     window.onload = function() {
+      // Setup dynamic scannable UPI QR code
+      const upiUrl = "upi://pay?pa=9661734021@ibl&pn=Rajnish%20Prime&am=199.00&cu=INR";
+      document.getElementById('upiQrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(upiUrl)}`;
+
       const savedCode = localStorage.getItem('rp_last_code');
       const isSessionApproved = localStorage.getItem('rp_login_session');
       
@@ -407,7 +411,7 @@
 
       for (let i = 0; i < localStorage.length; i++) {
         let key = localStorage.key(i);
-        if (key.startsWith('rp_code_')) {
+        if (key && key.startsWith('rp_code_')) {
           let status = localStorage.getItem(key);
           let code = key.replace('rp_code_', '');
           let name = localStorage.getItem('rp_user_name_' + code) || 'Student';
@@ -432,12 +436,12 @@
       document.getElementById('statBlocked').innerText = countBlocked;
 
       if (itemsToDisplay.length === 0) {
-        listContainer.innerHTML = `<p style="color:#94a3b8; font-size:12px; text-align:center; padding: 20px;">No records found in ${currentAdminTab}.</p>`;
+        listContainer.innerHTML = `<p style="color:#94a3b8; font-size:12px; text-align:center; padding: 20px;">No records found in ${currentAdminTag || currentAdminTab}.</p>`;
         return;
       }
 
       itemsToDisplay.forEach(item => {
-        let firstLetter = item.name.charAt(0).toUpperCase();
+        let firstLetter = (item.name && item.name.charAt(0)) ? item.name.charAt(0).toUpperCase() : 'S';
         let badgeHTML = '';
         let actionButtons = '';
 
