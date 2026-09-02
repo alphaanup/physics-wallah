@@ -140,7 +140,7 @@
     <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
   </div>
   
-    <!-- Payment Screen -->
+  <!-- Payment Screen -->
   <div id="payment-screen" class="feature-card" style="display:none;">
     <h2>Membership Fee: ₹199</h2>
     <p>Scan & Pay ₹199 using any UPI App</p>
@@ -184,7 +184,7 @@
     <span class="link-action" style="color:#ef4444;" onclick="resetStorageAndHome()">🔄 Reset / Use Different Code</span>
   </div>
   
-    <!-- Admin Panel Screen -->
+  <!-- Admin Panel Screen -->
   <div id="admin-screen" class="feature-card" style="max-width: 460px; display:none;">
     <div id="adminLoginBox">
       <h2>Admin Panel Login</h2>
@@ -247,7 +247,7 @@
     </div>
   </div>
   
-    <!-- Main Content Dashboard -->
+  <!-- Main Content Dashboard -->
   <div id="main-content">
     <nav class="navbar">
       <a href="#" class="nav-brand">
@@ -264,7 +264,7 @@
     </header>
 
     <div class="apps-list">
-      <a href="https://on-test-tan.vercel.app/tg/keys/open?code=SK-eyJ1Ijo8NTA4NDYwMjk3LCJlIjoxNzg4Mjg1NTU2NzU2LCJjIjoxNzg4MTk5MTU2NzU2LCJzIjoiMjRoIiwibSI6MCwiayI6ImJkNmEyNzA0In0.Yo6Tor73duoA27Yn2R_7OiozNPaVISOgY4oxipjbYbs" target="_blank" class="app-card">
+      <a href="https://code-x-studys.vercel.app/#providers" target="_blank" class="app-card">
         <div class="app-card-top">
           <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon">
           <div>
@@ -275,8 +275,8 @@
       </a>
     </div>
   </div>
-  
-    <script>
+
+  <script>
     // 🔥 Firebase Config Connected to Project 'rajnishprime-a675d'
     const firebaseConfig = {
       apiKey: "AIzaSyBteIL97gna7cQXz2b_9aS86S11VKrr5W1A",
@@ -317,6 +317,9 @@
             } else if (data.status === 'pending') {
               document.getElementById('userPendingName').innerText = data.name || 'Student';
               showScreen('pending-screen');
+            } else if (data.status === 'blocked') {
+              document.getElementById('accessCodeInput').value = savedCode;
+              showScreen('access-screen');
             }
           }
         });
@@ -354,26 +357,25 @@
             showScreen('pending-screen');
           } else if (data.status === 'blocked') {
             alert("Aapka access block kar diya gaya hai!");
-          } else {
-            document.getElementById('codeDisplay').innerText = code;
-            showScreen('payment-screen');
           }
         } else {
           document.getElementById('codeDisplay').innerText = code;
           showScreen('payment-screen');
         }
       }).catch((error) => {
-        alert("Error checking code: " + error.message);
+        console.error("Error checking code: ", error);
+        document.getElementById('codeDisplay').innerText = code;
+        showScreen('payment-screen');
       });
     }
 
-    function handleRegistration(e) {
-      e.preventDefault();
+    function handleRegistration(event) {
+      event.preventDefault();
       const name = document.getElementById('regName').value.trim();
       const mobile = document.getElementById('regMobile').value.trim();
 
       if (!name || !mobile) {
-        alert("Saare fields bharein!");
+        alert("Sabhi fields bharna anivarya hai!");
         return;
       }
 
@@ -388,31 +390,22 @@
         showScreen('pending-screen');
         openTelegram();
       }).catch((error) => {
-        alert("Error saving data: " + error.message);
+        console.error("Error saving request: ", error);
+        alert("Kuch error ho gaya. Dobara koshish karein.");
       });
-    }
-
-    function openTelegram() {
-      const url = "https://t.me/+g0wmAK8VCGEwMTJl";
-      window.open(url, '_blank');
     }
 
     function verifyApprovalStatus() {
       if (!activeCode) {
-        activeCode = localStorage.getItem('rp_last_code');
-      }
-      if (!activeCode) {
-        alert("Koi access code nahi mila. Pehle code enter karein.");
-        showScreen('access-screen');
+        alert("Access code nahi mila!");
         return;
       }
-
       db.collection("requests").doc(activeCode).get().then((doc) => {
         if (doc.exists) {
           const data = doc.data();
           if (data.status === 'approved') {
             localStorage.setItem('rp_login_session', 'true');
-            alert("Badhai ho! Aapka payment approve ho gaya hai.");
+            alert("Badhai ho! Aapka account approve ho gaya hai.");
             showSplashScreen();
           } else if (data.status === 'pending') {
             alert("Abhi bhi approval pending hai. Kripya thoda intezaar karein.");
@@ -420,8 +413,151 @@
             alert("Aapka access block kar diya gaya hai.");
           }
         } else {
-          alert("Is code ki koi request nahi mili.");
+          alert("Aapka record nahi mila. Dobara register karein.");
         }
+      });
+    }
+
+    function openTelegram() {
+      window.open("https://t.me/+g0wmAK8VCGEwMTJl", "_blank");
+    }
+
+    function showAdminLogin() {
+      document.getElementById('adminLoginBox').style.display = 'block';
+      document.getElementById('adminDashBox').style.display = 'none';
+      document.getElementById('adminPassInput').value = '';
+      showScreen('admin-screen');
+    }
+
+    function loginAdmin() {
+      const pass = document.getElementById('adminPassInput').value.trim();
+      if (pass === "Admin@123") {
+        document.getElementById('adminLoginBox').style.display = 'none';
+        document.getElementById('adminDashBox').style.display = 'block';
+        fetchAdminData();
+      } else {
+        alert("Galat Admin Password!");
+      }
+    }
+
+    function fetchAdminData() {
+      if (unsubscribeFirestore) unsubscribeFirestore();
+
+      unsubscribeFirestore = db.collection("requests").onSnapshot((snapshot) => {
+        allCloudRequests = [];
+        snapshot.forEach((doc) => {
+          allCloudRequests.push({ id: doc.id, ...doc.data() });
+        });
+        updateAdminDashboardUI();
+      });
+    }
+
+    function updateAdminDashboardUI() {
+      let pendingCount = 0;
+      let allowedCount = 0;
+      let blockedCount = 0;
+
+      allCloudRequests.forEach(req => {
+        if (req.status === 'pending') pendingCount++;
+        else if (req.status === 'approved') allowedCount++;
+        else if (req.status === 'blocked') blockedCount++;
+      });
+
+      document.getElementById('statPending').innerText = pendingCount;
+      document.getElementById('statAllowed').innerText = allowedCount;
+      document.getElementById('statBlocked').innerText = blockedCount;
+
+      renderAdminList();
+    }
+
+    function switchAdminTab(tabName) {
+      currentAdminTab = tabName;
+      document.getElementById('tab-pending').classList.remove('active');
+      document.getElementById('tab-allowed').classList.remove('active');
+      document.getElementById('tab-blocked').classList.remove('active');
+
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+      renderAdminList();
+    }
+
+    function renderAdminList() {
+      const listContainer = document.getElementById('adminRequestsList');
+      listContainer.innerHTML = '';
+
+      let filtered = allCloudRequests.filter(req => {
+        if (currentAdminTab === 'pending') return req.status === 'pending';
+        if (currentAdminTab === 'allowed') return req.status === 'approved';
+        if (currentAdminTab === 'blocked') return req.status === 'blocked';
+        return false;
+      });
+
+      if (filtered.length === 0) {
+        listContainer.innerHTML = `<div style="text-align:center; color:#94a3b8; padding:20px; font-size:13px;">Koi record nahi mila.</div>`;
+        return;
+      }
+
+      filtered.forEach(req => {
+        const initial = req.name ? req.name.charAt(0).toUpperCase() : 'S';
+        let statusBadgeClass = 'status-pending';
+        let statusText = 'Pending';
+        if (req.status === 'approved') {
+          statusBadgeClass = 'status-allowed';
+          statusText = 'Allowed';
+        } else if (req.status === 'blocked') {
+          statusBadgeClass = 'status-blocked';
+          statusText = 'Blocked';
+        }
+
+        let actionButtons = '';
+        if (req.status === 'pending') {
+          actionButtons = `
+            <div class="admin-actions">
+              <button class="action-btn-sm btn-allow" onclick="updateStatus('${req.id}', 'approved')">Allow</button>
+              <button class="action-btn-sm btn-block" onclick="updateStatus('${req.id}', 'blocked')">Block</button>
+            </div>
+          `;
+        } else if (req.status === 'approved') {
+          actionButtons = `
+            <div class="admin-actions">
+              <button class="action-btn-sm btn-block" onclick="updateStatus('${req.id}', 'blocked')">Block</button>
+            </div>
+          `;
+        } else if (req.status === 'blocked') {
+          actionButtons = `
+            <div class="admin-actions">
+              <button class="action-btn-sm btn-allow" onclick="updateStatus('${req.id}', 'approved')">Unblock</button>
+            </div>
+          `;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'admin-request-card';
+        card.innerHTML = `
+          <div class="user-left">
+            <div class="user-avatar">${initial}</div>
+            <div class="user-info">
+              <b>${req.name || 'Unknown'}</b>
+              <span>📱 ${req.mobile || 'No Mobile'}</span>
+              <span style="font-size:10px; color:#38bdf8;">Code: ${req.code}</span>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span class="status-badge ${statusBadgeClass}">${statusText}</span>
+            ${actionButtons}
+          </div>
+        `;
+        listContainer.appendChild(card);
+      });
+    }
+
+    function updateStatus(docId, newStatus) {
+      db.collection("requests").doc(docId).update({
+        status: newStatus
+      }).then(() => {
+        // UI updates automatically via snapshot listener
+      }).catch((error) => {
+        console.error("Error updating status: ", error);
+        alert("Status update karne mein samasya aayi.");
       });
     }
 
@@ -444,122 +580,21 @@
       showScreen('main-content');
     }
 
-    function resetStorageAndHome() {
-      localStorage.removeItem('rp_last_code');
+    function logoutUser() {
       localStorage.removeItem('rp_login_session');
+      localStorage.removeItem('rp_last_code');
       activeCode = "";
+      document.getElementById('accessCodeInput').value = '';
       showScreen('access-screen');
     }
 
-    function showAdminLogin() {
-      document.getElementById('adminLoginBox').style.display = 'block';
-      document.getElementById('adminDashBox').style.display = 'none';
-      document.getElementById('adminPassInput').value = '';
-      showScreen('admin-screen');
-    }
-
-    function loginAdmin() {
-      const pass = document.getElementById('adminPassInput').value.trim();
-      if (pass === "1234" || pass === "Rajnish@2026" || pass === "Admin@123") {
-        document.getElementById('adminLoginBox').style.display = 'none';
-        document.getElementById('adminDashBox').style.display = 'block';
-        startAdminLiveSync();
-      } else {
-        alert("Galat Password!");
-      }
-    }
-
-    function startAdminLiveSync() {
-      if (unsubscribeFirestore) unsubscribeFirestore();
-
-      unsubscribeFirestore = db.collection("requests").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
-        allCloudRequests = [];
-        let pCount = 0, aCount = 0, bCount = 0;
-
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          allCloudRequests.push(data);
-          if (data.status === 'pending') pCount++;
-          else if (data.status === 'approved') aCount++;
-          else if (data.status === 'blocked') bCount++;
-        });
-
-        document.getElementById('statPending').innerText = pCount;
-        document.getElementById('statAllowed').innerText = aCount;
-        document.getElementById('statBlocked').innerText = bCount;
-
-        renderAdminList();
-      });
-    }
-
-    function switchAdminTab(tab) {
-      currentAdminTab = tab;
-      document.getElementById('tab-pending').className = 'admin-tab' + (tab === 'pending' ? ' active' : '');
-      document.getElementById('tab-allowed').className = 'admin-tab' + (tab === 'allowed' ? ' active' : '');
-      document.getElementById('tab-blocked').className = 'admin-tab' + (tab === 'blocked' ? ' active' : '');
-      renderAdminList();
-    }
-
-    function renderAdminList() {
-      const listContainer = document.getElementById('adminRequestsList');
-      listContainer.innerHTML = '';
-
-      let filtered = allCloudRequests.filter(item => {
-        if (currentAdminTab === 'pending') return item.status === 'pending';
-        if (currentAdminTab === 'allowed') return item.status === 'approved';
-        if (currentAdminTab === 'blocked') return item.status === 'blocked';
-        return false;
-      });
-
-      if (filtered.length === 0) {
-        listContainer.innerHTML = `<div style="text-align:center; color:#94a3b8; padding:20px; font-size:13px;">Koi requests nahi hain yahan.</div>`;
-        return;
-      }
-
-      filtered.forEach(item => {
-        const firstLetter = item.name ? item.name.charAt(0).toUpperCase() : 'U';
-        let badgeClass = 'status-pending';
-        let badgeText = 'Pending';
-        if (item.status === 'approved') { badgeClass = 'status-allowed'; badgeText = 'Allowed'; }
-        else if (item.status === 'blocked') { badgeClass = 'status-blocked'; badgeText = 'Blocked'; }
-
-        const card = document.createElement('div');
-        card.className = 'admin-request-card';
-        card.innerHTML = `
-          <div class="user-left">
-            <div class="user-avatar">${firstLetter}</div>
-            <div class="user-info">
-              <b>${item.name || 'Unnamed'}</b>
-              <span>Mob: ${item.mobile || 'N/A'}</span>
-              <span style="font-size:10px; color:#38bdf8; display:block;">Code: ${item.code}</span>
-            </div>
-          </div>
-          <div style="text-align:right;">
-            <span class="status-badge ${badgeClass}">${badgeText}</span>
-            <div class="admin-actions">
-              ${item.status !== 'approved' ? `<button class="action-btn-sm btn-allow" onclick="updateStatus('${item.code}', 'approved')">Allow</button>` : ''}
-              ${item.status !== 'blocked' ? `<button class="action-btn-sm btn-block" onclick="updateStatus('${item.code}', 'blocked')">Block</button>` : ''}
-            </div>
-          </div>
-        `;
-        listContainer.appendChild(card);
-      });
-    }
-
-    function updateStatus(code, newStatus) {
-      db.collection("requests").doc(code).update({
-        status: newStatus
-      }).then(() => {
-        // Updated via live sync listener
-      }).catch((error) => {
-        alert("Error updating status: " + error.message);
-      });
-    }
-
-    function logoutUser() {
-      localStorage.removeItem('rp_login_session');
+    function resetStorageAndHome() {
+      localStorage.clear();
+      activeCode = "";
+      document.getElementById('accessCodeInput').value = '';
       showScreen('access-screen');
     }
   </script>
 </body>
 </html>
+  
