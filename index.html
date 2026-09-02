@@ -132,11 +132,6 @@
     <h2>📖 Enter Access Code</h2>
     <p>Apna access code daal kar website unlock karein</p>
 
-    <div class="info-box" style="text-align: center; margin-bottom: 15px;">
-      <b>💡 Sample Access Code:</b><br>
-      <span style="color:#fff;">Admin@123</span> or <span style="color:#fff;">Rajnish2026</span>
-    </div>
-
     <div class="input-group">
       <label>Access Code</label>
       <input type="text" id="accessCodeInput" placeholder="Enter code (e.g. Admin@123)">
@@ -144,8 +139,8 @@
     <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="checkAccessCode()">Get Access ></button>
     <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
   </div>
-
-  <!-- Payment Screen -->
+  
+    <!-- Payment Screen -->
   <div id="payment-screen" class="feature-card" style="display:none;">
     <h2>Membership Fee: ₹199</h2>
     <p>Scan & Pay ₹199 using any UPI App</p>
@@ -171,8 +166,8 @@
       <button type="submit" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;">Submit & Open Telegram</button>
     </form>
   </div>
-  
-   <!-- Pending Verification Screen -->
+
+  <!-- Pending Verification Screen -->
   <div id="pending-screen" class="feature-card" style="display:none;">
     <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
     <h2>Verification Pending</h2>
@@ -184,13 +179,12 @@
 
     <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; margin-bottom:12px; cursor:pointer;" onclick="openTelegram()">✈️ Send Screenshot on Telegram</button>
     
-    <!-- CHECK APPROVAL STATUS BUTTON -->
     <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; font-weight:700; font-size:15px; margin-bottom:12px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); cursor:pointer;" onclick="verifyApprovalStatus()">🔄 CHECK APPROVAL STATUS</button>
 
     <span class="link-action" style="color:#ef4444;" onclick="resetStorageAndHome()">🔄 Reset / Use Different Code</span>
   </div>
-
-  <!-- Admin Panel Screen -->
+  
+    <!-- Admin Panel Screen -->
   <div id="admin-screen" class="feature-card" style="max-width: 460px; display:none;">
     <div id="adminLoginBox">
       <h2>Admin Panel Login</h2>
@@ -235,7 +229,7 @@
       </div>
 
       <div id="adminRequestsList" style="max-height: 320px; overflow-y: auto; padding-right: 2px;">
-        <!-- Dynamic cloud-synced items go here -->
+        <!-- Dynamic items -->
       </div>
       
       <button type="button" style="width:100%; padding:10px; margin-top:12px; border-radius:10px; background:#1f2937; border:1px solid rgba(255,255,255,0.1); color:#94a3b8; font-weight:600; font-size:12px; cursor:pointer;" onclick="showScreen('access-screen')">Back to Home</button>
@@ -252,8 +246,8 @@
       <button type="button" class="open-now-btn" onclick="openMainContent()">🔥 Open Now 🔥</button>
     </div>
   </div>
-
-  <!-- Main Content Dashboard -->
+  
+    <!-- Main Content Dashboard -->
   <div id="main-content">
     <nav class="navbar">
       <a href="#" class="nav-brand">
@@ -281,8 +275,8 @@
       </a>
     </div>
   </div>
-
-   <script>
+  
+    <script>
     // 🔥 Firebase Config Connected to Project 'rajnishprime-a675d'
     const firebaseConfig = {
       apiKey: "AIzaSyBteIL97gna7cQXz2b_9aS86S11VKrr5W1A",
@@ -337,7 +331,7 @@
       document.getElementById('splash-screen').style.display = 'none';
       document.getElementById('main-content').style.display = 'none';
 
-      document.getElementById(screenId).style.display = screenId === 'main-content' ? 'flex' : 'block';
+      document.getElementById(screenId).style.display = (screenId === 'main-content' || screenId === 'admin-screen') ? 'flex' : 'block';
     }
 
     function checkAccessCode() {
@@ -466,7 +460,6 @@
 
     function loginAdmin() {
       const pass = document.getElementById('adminPassInput').value.trim();
-      // Yahan ab '1234', 'Rajnish@2026', aur 'Admin@123' teeno kaam karenge
       if (pass === "1234" || pass === "Rajnish@2026" || pass === "Admin@123") {
         document.getElementById('adminLoginBox').style.display = 'none';
         document.getElementById('adminDashBox').style.display = 'block';
@@ -557,7 +550,7 @@
       db.collection("requests").doc(code).update({
         status: newStatus
       }).then(() => {
-        // Updated successfully via live sync
+        // Updated via live sync listener
       }).catch((error) => {
         alert("Error updating status: " + error.message);
       });
