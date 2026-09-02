@@ -172,7 +172,7 @@
     </form>
   </div>
   
-    <!-- Pending Verification Screen -->
+   <!-- Pending Verification Screen -->
   <div id="pending-screen" class="feature-card" style="display:none;">
     <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
     <h2>Verification Pending</h2>
@@ -281,8 +281,8 @@
       </a>
     </div>
   </div>
-  
-    <script>
+
+   <script>
     // 🔥 Firebase Config Connected to Project 'rajnishprime-a675d'
     const firebaseConfig = {
       apiKey: "AIzaSyBteIL97gna7cQXz2b_9aS86S11VKrr5W1A",
@@ -466,7 +466,8 @@
 
     function loginAdmin() {
       const pass = document.getElementById('adminPassInput').value.trim();
-      if (pass === "Rajnish@2026" || pass === "Admin@123") {
+      // Yahan ab '1234', 'Rajnish@2026', aur 'Admin@123' teeno kaam karenge
+      if (pass === "1234" || pass === "Rajnish@2026" || pass === "Admin@123") {
         document.getElementById('adminLoginBox').style.display = 'none';
         document.getElementById('adminDashBox').style.display = 'block';
         startAdminLiveSync();
