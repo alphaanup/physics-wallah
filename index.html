@@ -24,8 +24,8 @@
 
     .feature-card {
       width: 100%;
-      max-width: 400px;
-      margin-top: 40px;
+      max-width: 420px;
+      margin-top: 20px;
       background: #111827;
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
@@ -59,17 +59,36 @@
     .input-group input:focus { border-color: #38bdf8; }
 
     .link-action { display: block; margin-top: 14px; color: #38bdf8; font-size: 12px; text-decoration: underline; cursor: pointer; }
-
     .qr-box { background: #ffffff; padding: 12px; border-radius: 16px; display: inline-block; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-
     .info-box { background: #1f2937; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; text-align: left; font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
     .info-box b { color: #38bdf8; }
 
-    /* Admin Pending List styles */
-    .admin-request-item { background: #1f2937; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; text-align: left; }
-    .admin-request-info { font-size: 12px; color: #94a3b8; }
-    .admin-request-info b { color: #fff; display: block; font-size: 13px; margin-bottom: 2px; }
-    .approve-btn { background: #22c55e; color: #fff; border: none; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
+    /* Admin Panel Styling */
+    .admin-header-box { background: linear-gradient(135deg, #b45309 0%, #78350f 100%); border-radius: 16px; padding: 16px; margin-bottom: 16px; text-align: left; border: 1px solid rgba(251, 191, 36, 0.3); }
+    .admin-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+    .admin-stat-box { background: rgba(0,0,0,0.25); border-radius: 10px; padding: 10px; text-align: center; }
+    .admin-stat-box span { font-size: 11px; color: #fde68a; display: block; margin-bottom: 2px; }
+    .admin-stat-box b { font-size: 18px; color: #fff; font-family: 'Syne', sans-serif; }
+
+    .admin-tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
+    .admin-tab { background: #1f2937; border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .admin-tab.active { background: #f59e0b; color: #000; border-color: #f59e0b; font-weight: 700; }
+
+    .admin-request-card { background: #111827; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; text-align: left; }
+    .user-left { display: flex; align-items: center; gap: 12px; }
+    .user-avatar { width: 42px; height: 42px; background: #fbbf24; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; }
+    .user-info b { font-size: 14px; color: #fff; display: block; }
+    .user-info span { font-size: 12px; color: #94a3b8; }
+    
+    .status-badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-block; }
+    .status-pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .status-allowed { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .status-blocked { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    .admin-actions { display: flex; gap: 6px; margin-top: 6px; }
+    .action-btn-sm { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; border: none; }
+    .btn-allow { background: #22c55e; color: #fff; }
+    .btn-block { background: #ef4444; color: #fff; }
 
     #splash-screen { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #080c14; z-index: 999; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
     .splash-logo-box { width: 170px; height: 170px; border-radius: 38px; border: 3px solid #00f2fe; box-shadow: 0 0 45px rgba(0, 242, 254, 0.6), inset 0 0 20px rgba(0, 242, 254, 0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000; }
@@ -77,7 +96,6 @@
     .splash-content { margin-top: 35px; display: flex; flex-direction: column; align-items: center; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; visibility: hidden; }
     .splash-content.show { opacity: 1; transform: translateY(0); visibility: visible; }
     .splash-title { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: 2px; color: #ffffff; text-align: center; line-height: 1.2; text-shadow: 0 0 20px rgba(255, 255, 255, 0.4); margin-bottom: 30px; }
-    
     .open-now-btn { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700; padding: 14px 45px; border-radius: 20px; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4); }
 
     #main-content { display: none; width: 100%; max-width: 480px; flex-direction: column; align-items: center; }
@@ -102,6 +120,7 @@
 </head>
 <body>
 
+  <!-- Access Code Screen -->
   <div id="access-screen" class="feature-card">
     <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
     <h2>📖 Enter Access Code</h2>
@@ -120,6 +139,7 @@
     <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
   </div>
 
+  <!-- Payment Screen -->
   <div id="payment-screen" class="feature-card" style="display:none;">
     <h2>Membership Fee: ₹199</h2>
     <p>Scan & Pay ₹199 using any UPI App</p>
@@ -127,7 +147,7 @@
     <div class="qr-box">
       <svg width="160" height="160" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg" style="display:block; shape-rendering:crispEdges;">
         <path fill="#ffffff" d="M0 0h21v21H0z"/>
-        <path fill="#000000" d="M0 0h7v7H0zM1 1h5v5H1zM2 2h3v3H2zM14 0h7v7h-7zM15 1h5v5h-5zM16 2h3v3h-3zM0 14h7v7H0zM1 15h5v5H1zM2 16h3v3H2zM8 0h2v1H8zM11 0h2v2h-2zM8 3h1v2H8zM10 2h1v2h-1zM12 3h1v1h-1zM8 6h3v1H8zM3 8h1v2H3zM6 8h1v1H6zM0 9h2v1H0zM4 9h2v1H4zM1 11h1v1H1zM3 11h2v2H3zM6 11h1v2h-1zM8 8h2v2H8zM11 8h1v2h-1zM13 8h2v1h-2zM15 8h1v3h-1zM17 8h2v1h-2zM20 8h1v2h-1zM12 11h1v2h-1zM14 10h2v1h-2zM17 10h1v2h-1zM19 10h2v2h-2zM8 12h2v1H8zM10 13h1v1H1zM11 14h2v1h-2zM14 12h1v3h-1zM16 13h2v1h-2zM19 13h1v2h-1zM0 12h1v1H0zM1 13h1v1H1zM6 14h1v2H6zM3 15h1v2H3zM5 16h1v1H5zM8 16h3v1H8zM12 16h1v2h-1zM13 17h2v1h-2zM15 17h1v1h-1zM17 16h2v2h-2zM20 16h1v2h-1zM0 18h1v1H0zM2 19h1v2H2zM5 19h1v2H5zM8 18h2v3H8zM11 19h1v2h-1zM13 19h1v2h-1zM15 19h2v2h-2zM19 19h2v2h-2z"/>
+        <path fill="#000000" d="M0 0h7v7H0zM1 1h5v5H1zM2 2h3v3H2zM14 0h7v7h-7zM15 1h5v5h-5zM16 2h3v3h-3zM0 14h7v7H0zM1 15h5v5H1zM2 16h3v3H2zM8 0h2v1H8zM11 0h2v2h-2zM8 3h1v2H8zM10 2h1v2h-1zM12 3h1v1h-1zM8 6h3v1H8zM3 8h1v2H3zM6 8h1v1H6zM0 9h2v1H0zM4 9h2v1H4zM1 11h1v1H1zM3 11h2v2H3zM6 11h1v2h-1zM8 8h2v2H8zM11 8h1v2h-1zM13 8h2v1h-2zM15 8h1v3h-1zM17 8h2v1h-2zM20 8h1v2h-1zM12 11h1v2h-1zM14 10h2v1h-2zM17 10h1v2h-1zM19 10h2v2h-2zM8 12h2v1H8zM10 13h1v1H1zM11 14h2v1h-2zM14 12h1v3h-1zM16 13h2v1h-2zM19 13h1v2h-1zM0 12h1v1H0zM1 13h1v1H1zM6 14h1v2H6zM3 15h1v2H3zM5 16h1v1H5zM8 16h3v1H8zM12 16h1v2H-1zM13 17h2v1h-2zM15 17h1v1h-1zM17 16h2v2h-2zM20 16h1v2h-1zM0 18h1v1H0zM2 19h1v2H2zM5 19h1v2H5zM8 18h2v3H8zM11 19h1v2h-1zM13 19h1v2h-1zM15 19h2v2h-2zM19 19h2v2h-2z"/>
       </svg>
     </div>
 
@@ -149,6 +169,7 @@
     </form>
   </div>
 
+  <!-- Pending Verification Screen -->
   <div id="pending-screen" class="feature-card" style="display:none;">
     <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
     <h2>Verification Pending</h2>
@@ -165,11 +186,11 @@
     <span class="link-action" style="color:#ef4444;" onclick="resetStorageAndHome()">🔄 Reset / Use Different Code</span>
   </div>
 
-  <div id="admin-screen" class="feature-card" style="display:none;">
-    <h2>Admin Panel</h2>
-    <p>Approve or Reject Student Access</p>
-
+  <!-- Admin Panel Screen -->
+  <div id="admin-screen" class="feature-card" style="max-width: 460px; display:none;">
     <div id="adminLoginBox">
+      <h2>Admin Panel Login</h2>
+      <p>Rajnish Prime Secure Access</p>
       <div class="input-group">
         <label>Admin Password</label>
         <input type="password" id="adminPassInput" placeholder="Enter admin password">
@@ -179,13 +200,45 @@
     </div>
 
     <div id="adminDashBox" style="display:none; text-align: left;">
-      <p style="font-size:13px; color:#38bdf8; margin-bottom:10px;">Pending Requests:</p>
-      <div id="adminRequestsList">
+      <div class="admin-header-box">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-family:'Syne',sans-serif; font-size:16px; font-weight:800; color:#fff;">🛡️ Admin Panel</span>
+          <span style="font-size:11px; color:#fde68a; cursor:pointer;" onclick="showScreen('access-screen')">Logout ➔</span>
         </div>
-      <button type="button" style="width:100%; padding:12px; margin-top:10px; border-radius:12px; background:#ef4444; border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="showScreen('access-screen')">Exit Admin</button>
+        <p style="font-size:11px; color:#fef3c7; margin:2px 0 8px 0;">Rajnish Prime Management</p>
+        
+        <div class="admin-stats-grid">
+          <div class="admin-stat-box">
+            <span>Pending</span>
+            <b id="statPending">0</b>
+          </div>
+          <div class="admin-stat-box">
+            <span>Allowed</span>
+            <b id="statAllowed">0</b>
+          </div>
+          <div class="admin-stat-box">
+            <span>Blocked</span>
+            <b id="statBlocked">0</b>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="admin-tabs">
+        <div class="admin-tab active" id="tab-pending" onclick="switchAdminTab('pending')">Pending Requests</div>
+        <div class="admin-tab" id="tab-allowed" onclick="switchAdminTab('allowed')">Allowed Students</div>
+        <div class="admin-tab" id="tab-blocked" onclick="switchAdminTab('blocked')">Blocked Users</div>
+      </div>
+
+      <div id="adminRequestsList" style="max-height: 320px; overflow-y: auto; padding-right: 2px;">
+        <!-- Dynamic list items go here -->
+      </div>
+      
+      <button type="button" style="width:100%; padding:10px; margin-top:12px; border-radius:10px; background:#1f2937; border:1px solid rgba(255,255,255,0.1); color:#94a3b8; font-weight:600; font-size:12px; cursor:pointer;" onclick="showScreen('access-screen')">Back to Home</button>
     </div>
   </div>
 
+  <!-- Splash Screen -->
   <div id="splash-screen">
     <div class="splash-logo-box">
       <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo">
@@ -196,6 +249,7 @@
     </div>
   </div>
 
+  <!-- Main Content Dashboard -->
   <div id="main-content">
     <nav class="navbar">
       <a href="#" class="nav-brand">
@@ -226,6 +280,7 @@
   
     <script>
     let activeCode = "";
+    let currentAdminTab = 'pending';
 
     window.onload = function() {
       const savedCode = localStorage.getItem('rp_last_code');
@@ -280,7 +335,6 @@
       const name = document.getElementById('regName').value;
       const mobile = document.getElementById('regMobile').value;
 
-      // Save user details for admin list
       localStorage.setItem('rp_code_' + activeCode, 'pending');
       localStorage.setItem('rp_last_code', activeCode);
       localStorage.setItem('rp_user_name_' + activeCode, name);
@@ -329,53 +383,114 @@
         document.getElementById('adminLoginBox').style.display = 'none';
         document.getElementById('adminDashBox').style.display = 'block';
         document.getElementById('adminPassInput').value = "";
-        loadAdminRequests();
+        loadAdminDashboard();
       } else {
         alert("Wrong Admin Password!");
       }
     }
 
-    function loadAdminRequests() {
+    function switchAdminTab(tabName) {
+      currentAdminTab = tabName;
+      document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + tabName).classList.add('active');
+      loadAdminDashboard();
+    }
+
+    function loadAdminDashboard() {
       const listContainer = document.getElementById('adminRequestsList');
       listContainer.innerHTML = "";
       
-      let foundPending = false;
+      let countPending = 0;
+      let countAllowed = 0;
+      let countBlocked = 0;
+      let itemsToDisplay = [];
 
-      // Loop through localStorage to find pending codes
       for (let i = 0; i < localStorage.length; i++) {
         let key = localStorage.key(i);
         if (key.startsWith('rp_code_')) {
           let status = localStorage.getItem(key);
-          if (status === 'pending') {
-            foundPending = true;
-            let code = key.replace('rp_code_', '');
-            let name = localStorage.getItem('rp_user_name_' + code) || 'Unknown';
-            let mobile = localStorage.getItem('rp_user_mobile_' + code) || 'N/A';
+          let code = key.replace('rp_code_', '');
+          let name = localStorage.getItem('rp_user_name_' + code) || 'Student';
+          let mobile = localStorage.getItem('rp_user_mobile_' + code) || '9876543210';
 
-            let item = document.createElement('div');
-            item.className = 'admin-request-item';
-            item.innerHTML = `
-              <div class="admin-request-info">
-                <b>${name}</b>
-                Mobile: ${mobile}<br>
-                Code: <span style="color:#38bdf8;">${code}</span>
-              </div>
-              <button class="approve-btn" onclick="approveUserCode('${code}')">Approve</button>
-            `;
-            listContainer.appendChild(item);
+          if (status === 'pending') countPending++;
+          else if (status === 'approved') countAllowed++;
+          else if (status === 'blocked') countBlocked++;
+
+          let matchTab = (currentAdminTab === 'pending' && status === 'pending') ||
+                         (currentAdminTab === 'allowed' && status === 'approved') ||
+                         (currentAdminTab === 'blocked' && status === 'blocked');
+
+          if (matchTab) {
+            itemsToDisplay.push({ code, name, mobile, status });
           }
         }
       }
 
-      if (!foundPending) {
-        listContainer.innerHTML = '<p style="color:#94a3b8; font-size:12px; text-align:center;">No pending approvals.</p>';
+      document.getElementById('statPending').innerText = countPending;
+      document.getElementById('statAllowed').innerText = countAllowed;
+      document.getElementById('statBlocked').innerText = countBlocked;
+
+      if (itemsToDisplay.length === 0) {
+        listContainer.innerHTML = `<p style="color:#94a3b8; font-size:12px; text-align:center; padding: 20px;">No records found in ${currentAdminTab}.</p>`;
+        return;
       }
+
+      itemsToDisplay.forEach(item => {
+        let firstLetter = item.name.charAt(0).toUpperCase();
+        let badgeHTML = '';
+        let actionButtons = '';
+
+        if (item.status === 'pending') {
+          badgeHTML = `<span class="status-badge status-pending">Pending</span>`;
+          actionButtons = `
+            <div class="admin-actions">
+              <button class="action-btn-sm btn-allow" onclick="updateUserStatus('${item.code}', 'approved')">Allow</button>
+              <button class="action-btn-sm btn-block" onclick="updateUserStatus('${item.code}', 'blocked')">Block</button>
+            </div>
+          `;
+        } else if (item.status === 'approved') {
+          badgeHTML = `<span class="status-badge status-allowed">Allowed</span>`;
+          actionButtons = `
+            <div class="admin-actions">
+              <button class="action-btn-sm btn-block" onclick="updateUserStatus('${item.code}', 'blocked')">Block</button>
+            </div>
+          `;
+        } else {
+          badgeHTML = `<span class="status-badge status-blocked">Blocked</span>`;
+          actionButtons = `
+            <div class="admin-actions">
+              <button class="action-btn-sm btn-allow" onclick="updateUserStatus('${item.code}', 'approved')">Unblock</button>
+            </div>
+          `;
+        }
+
+        let card = document.createElement('div');
+        card.className = 'admin-request-card';
+        card.innerHTML = `
+          <div class="user-left">
+            <div class="user-avatar">${firstLetter}</div>
+            <div class="user-info">
+              <b>${item.name}</b>
+              <span>${item.mobile}</span>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            ${badgeHTML}
+            ${actionButtons}
+          </div>
+        `;
+        listContainer.appendChild(card);
+      });
     }
 
-    function approveUserCode(code) {
-      localStorage.setItem('rp_code_' + code, 'approved');
-      alert(`Access Code "${code}" successfully approved!`);
-      loadAdminRequests();
+    function updateUserStatus(code, newStatus) {
+      if (newStatus === 'approved') {
+        localStorage.setItem('rp_code_' + code, 'approved');
+      } else if (newStatus === 'blocked') {
+        localStorage.setItem('rp_code_' + code, 'blocked');
+      }
+      loadAdminDashboard();
     }
 
     function showSplashScreen() {
@@ -399,7 +514,7 @@
       localStorage.clear();
       activeCode = "";
       showScreen('access-screen');
-      alert("Storage reset ho gaya hai. Ab aap naya code enter kar sakte hain.");
+      alert("Storage reset ho gaya hai.");
     }
   </script>
 </body>
