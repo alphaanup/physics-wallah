@@ -8,6 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Firebase v8 SDK scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
@@ -65,7 +70,6 @@
     .info-box { background: #1f2937; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; text-align: left; font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
     .info-box b { color: #38bdf8; }
 
-    /* Admin Panel Styling */
     .admin-header-box { background: linear-gradient(135deg, #b45309 0%, #78350f 100%); border-radius: 16px; padding: 16px; margin-bottom: 16px; text-align: left; border: 1px solid rgba(251, 191, 36, 0.3); }
     .admin-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
     .admin-stat-box { background: rgba(0,0,0,0.25); border-radius: 10px; padding: 10px; text-align: center; }
@@ -205,7 +209,7 @@
           <span style="font-family:'Syne',sans-serif; font-size:16px; font-weight:800; color:#fff;">🛡️ Admin Panel</span>
           <span style="font-size:11px; color:#fde68a; cursor:pointer;" onclick="showScreen('access-screen')">Logout ➔</span>
         </div>
-        <p style="font-size:11px; color:#fef3c7; margin:2px 0 8px 0;">Rajnish Prime Management</p>
+        <p style="font-size:11px; color:#fef3c7; margin:2px 0 8px 0;">Cloud Synchronized (Firebase)</p>
         
         <div class="admin-stats-grid">
           <div class="admin-stat-box">
@@ -231,7 +235,7 @@
       </div>
 
       <div id="adminRequestsList" style="max-height: 320px; overflow-y: auto; padding-right: 2px;">
-        <!-- Dynamic list items go here -->
+        <!-- Dynamic cloud-synced items go here -->
       </div>
       
       <button type="button" style="width:100%; padding:10px; margin-top:12px; border-radius:10px; background:#1f2937; border:1px solid rgba(255,255,255,0.1); color:#94a3b8; font-weight:600; font-size:12px; cursor:pointer;" onclick="showScreen('access-screen')">Back to Home</button>
@@ -279,11 +283,26 @@
   </div>
   
     <script>
+    // 🔥 APNA FIREBASE CONFIG YAHAN REPLACE KAREIN (Firebase Console se copy karke)
+    const firebaseConfig = {
+      apiKey: "AAPKA_API_KEY_YAHAN_DAALEIN",
+      authDomain: "aapka-project.firebaseapp.com",
+      projectId: "aapka-project-id",
+      storageBucket: "aapka-project.appspot.com",
+      messagingSenderId: "xxxx",
+      appId: "xxxx"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
     let activeCode = "";
     let currentAdminTab = 'pending';
+    let allCloudRequests = [];
+    let unsubscribeFirestore = null;
 
     window.onload = function() {
-      // Setup dynamic scannable UPI QR code
       const upiUrl = "upi://pay?pa=9661734021@ibl&pn=Rajnish%20Prime&am=199.00&cu=INR";
       document.getElementById('upiQrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(upiUrl)}`;
 
@@ -294,10 +313,12 @@
         showScreen('main-content');
       } else if (savedCode) {
         activeCode = savedCode;
-        const status = localStorage.getItem('rp_code_' + savedCode);
-        if (status === 'pending') {
-          showScreen('pending-screen');
-        }
+        // Check cloud status for saved code
+        db.collection("requests").doc(savedCode).get().then((doc) => {
+          if (doc.exists && doc.data().status === 'pending') {
+            showScreen('pending-screen');
+          }
+        });
       }
     };
 
@@ -321,17 +342,28 @@
       activeCode = code;
       localStorage.setItem('rp_last_code', code);
 
-      const codeStatus = localStorage.getItem('rp_code_' + code);
-
-      if (codeStatus === 'approved') {
-        localStorage.setItem('rp_login_session', 'true');
-        showSplashScreen();
-      } else if (codeStatus === 'pending') {
-        showScreen('pending-screen');
-      } else {
-        document.getElementById('codeDisplay').innerText = code;
-        showScreen('payment-screen');
-      }
+      db.collection("requests").doc(code).get().then((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+          if (data.status === 'approved') {
+            localStorage.setItem('rp_login_session', 'true');
+            showSplashScreen();
+          } else if (data.status === 'pending') {
+            showScreen('pending-screen');
+          } else if (data.status === 'blocked') {
+            alert("Aapka access block kar diya gaya hai!");
+          } else {
+            document.getElementById('codeDisplay').innerText = code;
+            showScreen('payment-screen');
+          }
+        } else {
+          document.getElementById('codeDisplay').innerText = code;
+          showScreen('payment-screen');
+        }
+      }).catch((error) => {
+        console.error("Error checking code:", error);
+        alert("Connection error! Check your internet connection.");
+      });
     }
 
     function handleRegistration(e) {
@@ -339,16 +371,21 @@
       const name = document.getElementById('regName').value;
       const mobile = document.getElementById('regMobile').value;
 
-      localStorage.setItem('rp_code_' + activeCode, 'pending');
-      localStorage.setItem('rp_last_code', activeCode);
-      localStorage.setItem('rp_user_name_' + activeCode, name);
-      localStorage.setItem('rp_user_mobile_' + activeCode, mobile);
-      
-      document.getElementById('userPendingName').innerText = name;
-      showScreen('pending-screen');
-      
-      const msg = encodeURIComponent(`Hello Admin, Main Payment kar diya hu.\nName: ${name}\nMobile: ${mobile}\nAccess Code: ${activeCode}`);
-      window.open(`https://t.me/RajnishPrimeBot?text=${msg}`, '_blank');
+      // Save to Firebase Firestore Cloud Database
+      db.collection("requests").doc(activeCode).set({
+        code: activeCode,
+        name: name,
+        mobile: mobile,
+        status: "pending",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        document.getElementById('userPendingName').innerText = name;
+        showScreen('pending-screen');
+        const msg = encodeURIComponent(`Hello Admin, Main Payment kar diya hu.\nName: ${name}\nMobile: ${mobile}\nAccess Code: ${activeCode}`);
+        window.open(`https://t.me/RajnishPrimeBot?text=${msg}`, '_blank');
+      }).catch((error) => {
+        alert("Error saving registration: " + error.message);
+      });
     }
 
     function openTelegram() {
@@ -365,20 +402,26 @@
         return;
       }
 
-      const codeStatus = localStorage.getItem('rp_code_' + activeCode);
-      if (codeStatus === 'approved') {
-        localStorage.setItem('rp_login_session', 'true');
-        alert("🎉 Badhai ho! Aapka payment approve ho gaya hai.");
-        showSplashScreen();
-      } else {
-        alert("⏳ Abhi approval pending hai! Kripya thoda wait karein ya admin ke approve hone ke baad dobara check karein.");
-      }
+      db.collection("requests").doc(activeCode).get().then((doc) => {
+        if (doc.exists && doc.data().status === 'approved') {
+          localStorage.setItem('rp_login_session', 'true');
+          alert("🎉 Badhai ho! Aapka payment approve ho gaya hai.");
+          showSplashScreen();
+        } else if (doc.exists && doc.data().status === 'blocked') {
+          alert("Aapka access block kar diya gaya hai.");
+        } else {
+          alert("⏳ Abhi approval pending hai! Kripya thoda wait karein ya admin ke approve hone ke baad dobara check karein.");
+        }
+      });
     }
 
     function showAdminLogin() {
       showScreen('admin-screen');
       document.getElementById('adminLoginBox').style.display = 'block';
       document.getElementById('adminDashBox').style.display = 'none';
+      if (unsubscribeFirestore) {
+        unsubscribeFirestore(); // Stop previous listener if any
+      }
     }
 
     function loginAdmin() {
@@ -387,7 +430,7 @@
         document.getElementById('adminLoginBox').style.display = 'none';
         document.getElementById('adminDashBox').style.display = 'block';
         document.getElementById('adminPassInput').value = "";
-        loadAdminDashboard();
+        initAdminRealtimeListener();
       } else {
         alert("Wrong Admin Password!");
       }
@@ -397,10 +440,23 @@
       currentAdminTab = tabName;
       document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
       document.getElementById('tab-' + tabName).classList.add('active');
-      loadAdminDashboard();
+      renderAdminDashboard();
     }
 
-    function loadAdminDashboard() {
+    // Real-time Firestore Listener for Admin Panel across all devices
+    function initAdminRealtimeListener() {
+      unsubscribeFirestore = db.collection("requests").onSnapshot((snapshot) => {
+        allCloudRequests = [];
+        snapshot.forEach((doc) => {
+          allCloudRequests.push(doc.data());
+        });
+        renderAdminDashboard();
+      }, (error) => {
+        console.error("Error listening to Firestore: ", error);
+      });
+    }
+
+    function renderAdminDashboard() {
       const listContainer = document.getElementById('adminRequestsList');
       listContainer.innerHTML = "";
       
@@ -409,27 +465,19 @@
       let countBlocked = 0;
       let itemsToDisplay = [];
 
-      for (let i = 0; i < localStorage.length; i++) {
-        let key = localStorage.key(i);
-        if (key && key.startsWith('rp_code_')) {
-          let status = localStorage.getItem(key);
-          let code = key.replace('rp_code_', '');
-          let name = localStorage.getItem('rp_user_name_' + code) || 'Student';
-          let mobile = localStorage.getItem('rp_user_mobile_' + code) || '9876543210';
+      allCloudRequests.forEach(item => {
+        if (item.status === 'pending') countPending++;
+        else if (item.status === 'approved') countAllowed++;
+        else if (item.status === 'blocked') countBlocked++;
 
-          if (status === 'pending') countPending++;
-          else if (status === 'approved') countAllowed++;
-          else if (status === 'blocked') countBlocked++;
+        let matchTab = (currentAdminTab === 'pending' && item.status === 'pending') ||
+                       (currentAdminTab === 'allowed' && item.status === 'approved') ||
+                       (currentAdminTab === 'blocked' && item.status === 'blocked');
 
-          let matchTab = (currentAdminTab === 'pending' && status === 'pending') ||
-                         (currentAdminTab === 'allowed' && status === 'approved') ||
-                         (currentAdminTab === 'blocked' && status === 'blocked');
-
-          if (matchTab) {
-            itemsToDisplay.push({ code, name, mobile, status });
-          }
+        if (matchTab) {
+          itemsToDisplay.push(item);
         }
-      }
+      });
 
       document.getElementById('statPending').innerText = countPending;
       document.getElementById('statAllowed').innerText = countAllowed;
@@ -475,8 +523,8 @@
           <div class="user-left">
             <div class="user-avatar">${firstLetter}</div>
             <div class="user-info">
-              <b>${item.name}</b>
-              <span>${item.mobile}</span>
+              <b>${item.name || 'Student'}</b>
+              <span>${item.mobile || 'No mobile'} (${item.code})</span>
             </div>
           </div>
           <div style="text-align: right;">
@@ -489,12 +537,13 @@
     }
 
     function updateUserStatus(code, newStatus) {
-      if (newStatus === 'approved') {
-        localStorage.setItem('rp_code_' + code, 'approved');
-      } else if (newStatus === 'blocked') {
-        localStorage.setItem('rp_code_' + code, 'blocked');
-      }
-      loadAdminDashboard();
+      db.collection("requests").doc(code).update({
+        status: newStatus
+      }).then(() => {
+        console.log("Status updated successfully in cloud");
+      }).catch((error) => {
+        alert("Error updating status: " + error.message);
+      });
     }
 
     function showSplashScreen() {
