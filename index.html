@@ -147,7 +147,6 @@
     <p>Scan & Pay ₹199 using any UPI App</p>
 
     <div class="qr-box">
-      <!-- Real Scannable UPI QR Image Generated Automatically -->
       <img id="upiQrImg" src="" alt="UPI QR Code">
     </div>
 
@@ -179,9 +178,10 @@
       🟡 Waiting for Admin Approval
     </div>
 
-    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; margin-bottom:12px; cursor:pointer;" onclick="openTelegram()">Send Screenshot on Telegram</button>
+    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; margin-bottom:12px; cursor:pointer;" onclick="openTelegram()">✈️ Send Screenshot on Telegram</button>
     
-    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:#0f172a; color:#22c55e; border:1.5px solid #22c55e; font-weight:700; margin-bottom:12px; cursor:pointer;" onclick="verifyApprovalStatus()">🔄 Check Approval Status</button>
+    <!-- CHECK STATUS BUTTON PROMINENTLY PLACED HERE -->
+    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; font-weight:700; font-size:15px; margin-bottom:12px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); cursor:pointer;" onclick="verifyApprovalStatus()">🔄 CHECK APPROVAL STATUS</button>
 
     <span class="link-action" style="color:#ef4444;" onclick="resetStorageAndHome()">🔄 Reset / Use Different Code</span>
   </div>
@@ -436,7 +436,7 @@
       document.getElementById('statBlocked').innerText = countBlocked;
 
       if (itemsToDisplay.length === 0) {
-        listContainer.innerHTML = `<p style="color:#94a3b8; font-size:12px; text-align:center; padding: 20px;">No records found in ${currentAdminTag || currentAdminTab}.</p>`;
+        listContainer.innerHTML = `<p style="color:#94a3b8; font-size:12px; text-align:center; padding: 20px;">No records found in ${currentAdminTab}.</p>`;
         return;
       }
 
