@@ -65,6 +65,12 @@
     .info-box { background: #1f2937; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; text-align: left; font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
     .info-box b { color: #38bdf8; }
 
+    /* Admin Pending List styles */
+    .admin-request-item { background: #1f2937; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; text-align: left; }
+    .admin-request-info { font-size: 12px; color: #94a3b8; }
+    .admin-request-info b { color: #fff; display: block; font-size: 13px; margin-bottom: 2px; }
+    .approve-btn { background: #22c55e; color: #fff; border: none; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
+
     #splash-screen { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #080c14; z-index: 999; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
     .splash-logo-box { width: 170px; height: 170px; border-radius: 38px; border: 3px solid #00f2fe; box-shadow: 0 0 45px rgba(0, 242, 254, 0.6), inset 0 0 20px rgba(0, 242, 254, 0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000; }
     .splash-logo-box img { width: 100%; height: 100%; object-fit: cover; }
@@ -96,7 +102,6 @@
 </head>
 <body>
 
-  <!-- Access Code Screen -->
   <div id="access-screen" class="feature-card">
     <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
     <h2>📖 Enter Access Code</h2>
@@ -115,7 +120,6 @@
     <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
   </div>
 
-  <!-- Payment Screen -->
   <div id="payment-screen" class="feature-card" style="display:none;">
     <h2>Membership Fee: ₹199</h2>
     <p>Scan & Pay ₹199 using any UPI App</p>
@@ -145,7 +149,6 @@
     </form>
   </div>
 
-  <!-- Pending Verification Screen -->
   <div id="pending-screen" class="feature-card" style="display:none;">
     <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
     <h2>Verification Pending</h2>
@@ -162,10 +165,9 @@
     <span class="link-action" style="color:#ef4444;" onclick="resetStorageAndHome()">🔄 Reset / Use Different Code</span>
   </div>
 
-  <!-- Admin Panel Screen -->
   <div id="admin-screen" class="feature-card" style="display:none;">
     <h2>Admin Panel</h2>
-    <p>Quick Access Control</p>
+    <p>Approve or Reject Student Access</p>
 
     <div id="adminLoginBox">
       <div class="input-group">
@@ -173,20 +175,17 @@
         <input type="password" id="adminPassInput" placeholder="Enter admin password">
       </div>
       <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="loginAdmin()">Login as Admin</button>
-      <span class="link-action" onclick="showScreen('access-screen')">Back to Home</span>
+      <span class="link-action" onclick="showScreen('access-screen')">Exit Admin</span>
     </div>
 
     <div id="adminDashBox" style="display:none; text-align: left;">
-      <p style="font-size:13px; color:#38bdf8; margin-bottom:10px;">Instant Approve Access Code:</p>
-      <div class="input-group">
-        <input type="text" id="approveCodeInput" placeholder="Enter student code">
-      </div>
-      <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="manualApprove()">Approve Code</button>
-      <span class="link-action" style="color:#ef4444; margin-top:14px; text-align:center;" onclick="showScreen('access-screen')">Exit Admin</span>
+      <p style="font-size:13px; color:#38bdf8; margin-bottom:10px;">Pending Requests:</p>
+      <div id="adminRequestsList">
+        </div>
+      <button type="button" style="width:100%; padding:12px; margin-top:10px; border-radius:12px; background:#ef4444; border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="showScreen('access-screen')">Exit Admin</button>
     </div>
   </div>
 
-  <!-- Splash Screen -->
   <div id="splash-screen">
     <div class="splash-logo-box">
       <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo">
@@ -197,7 +196,6 @@
     </div>
   </div>
 
-  <!-- Main Content Dashboard -->
   <div id="main-content">
     <nav class="navbar">
       <a href="#" class="nav-brand">
@@ -282,10 +280,13 @@
       const name = document.getElementById('regName').value;
       const mobile = document.getElementById('regMobile').value;
 
+      // Save user details for admin list
       localStorage.setItem('rp_code_' + activeCode, 'pending');
       localStorage.setItem('rp_last_code', activeCode);
-      document.getElementById('userPendingName').innerText = name;
+      localStorage.setItem('rp_user_name_' + activeCode, name);
+      localStorage.setItem('rp_user_mobile_' + activeCode, mobile);
       
+      document.getElementById('userPendingName').innerText = name;
       showScreen('pending-screen');
       
       const msg = encodeURIComponent(`Hello Admin, Main Payment kar diya hu.\nName: ${name}\nMobile: ${mobile}\nAccess Code: ${activeCode}`);
@@ -328,21 +329,53 @@
         document.getElementById('adminLoginBox').style.display = 'none';
         document.getElementById('adminDashBox').style.display = 'block';
         document.getElementById('adminPassInput').value = "";
+        loadAdminRequests();
       } else {
         alert("Wrong Admin Password!");
       }
     }
 
-    function manualApprove() {
-      const codeToApprove = document.getElementById('approveCodeInput').value.trim();
-      if (!codeToApprove) {
-        alert("Code daalein!");
-        return;
+    function loadAdminRequests() {
+      const listContainer = document.getElementById('adminRequestsList');
+      listContainer.innerHTML = "";
+      
+      let foundPending = false;
+
+      // Loop through localStorage to find pending codes
+      for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+        if (key.startsWith('rp_code_')) {
+          let status = localStorage.getItem(key);
+          if (status === 'pending') {
+            foundPending = true;
+            let code = key.replace('rp_code_', '');
+            let name = localStorage.getItem('rp_user_name_' + code) || 'Unknown';
+            let mobile = localStorage.getItem('rp_user_mobile_' + code) || 'N/A';
+
+            let item = document.createElement('div');
+            item.className = 'admin-request-item';
+            item.innerHTML = `
+              <div class="admin-request-info">
+                <b>${name}</b>
+                Mobile: ${mobile}<br>
+                Code: <span style="color:#38bdf8;">${code}</span>
+              </div>
+              <button class="approve-btn" onclick="approveUserCode('${code}')">Approve</button>
+            `;
+            listContainer.appendChild(item);
+          }
+        }
       }
 
-      localStorage.setItem('rp_code_' + codeToApprove, 'approved');
-      alert(`Access Code "${codeToApprove}" Successfully Approved! Ab user check status karke website khol sakta hai.`);
-      document.getElementById('approveCodeInput').value = "";
+      if (!foundPending) {
+        listContainer.innerHTML = '<p style="color:#94a3b8; font-size:12px; text-align:center;">No pending approvals.</p>';
+      }
+    }
+
+    function approveUserCode(code) {
+      localStorage.setItem('rp_code_' + code, 'approved');
+      alert(`Access Code "${code}" successfully approved!`);
+      loadAdminRequests();
     }
 
     function showSplashScreen() {
