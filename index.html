@@ -166,6 +166,23 @@
       <button type="submit" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;">Submit & Open Telegram</button>
     </form>
   </div>
+
+  <!-- Pending Verification Screen -->
+  <div id="pending-screen" class="feature-card" style="display:none;">
+    <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
+    <h2>Verification Pending</h2>
+    <p>Namaste, <b id="userPendingName" style="color:#38bdf8;">Student</b>!</p>
+
+    <div class="info-box" style="text-align: center; background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; color: #fbbf24; margin-bottom: 16px;">
+      🟡 Waiting for Admin Approval
+    </div>
+
+    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; margin-bottom:12px; cursor:pointer;" onclick="openTelegram()">✈️ Send Screenshot on Telegram</button>
+    
+    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; font-weight:700; font-size:15px; margin-bottom:12px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); cursor:pointer;" onclick="verifyApprovalStatus()">🔄 CHECK APPROVAL STATUS</button>
+
+    <span class="link-action" style="color:#ef4444;" onclick="resetStorageAndHome()">🔄 Reset / Use Different Code</span>
+  </div>
   
     <!-- Pending Verification Screen -->
   <div id="pending-screen" class="feature-card" style="display:none;">
@@ -244,91 +261,6 @@
     <div class="splash-content" id="splash-content">
       <div class="splash-title">RAJNISH<br>PRIME</div>
       <button type="button" class="open-now-btn" onclick="openMainContent()">🔥 Open Now 🔥</button>
-    </div>
-  </div>
-  
-    <!-- Main Content Dashboard -->
-  <div id="main-content">
-    <nav class="navbar">
-      <a href="#" class="nav-brand">
-        <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo" class="nav-logo-img">
-        <span class="nav-title">RAJNISH PRIME</span>
-      </a>
-      <button type="button" class="logout-btn" onclick="logoutUser()">Logout</button>
-    </nav>
-
-    <header class="hero">
-      <div class="pill-badge"><span class="dot"></span> 100% Free • Premium Courses Unlocked</div>
-      <h1>Study Smarter. Pay <span>Nothing.</span></h1>
-      <p>Access premium paid courses from top platforms — completely free.</p>
-    </header>
-
-    <div class="apps-list">
-      <!-- Next Topper -->
-      <a href="https://study-fox.mscilearn.in/" target="_blank" class="app-card">
-        <div class="app-card-top">
-          <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon">
-          <div>
-            <h3>Next Topper</h3>
-            <p>Premium batches & full syllabus</p>
-          </div>
-        </div>
-      </a>
-
-      <!-- Mission Jeet -->
-      <a href="https://study-fox.mscilearn.in/" target="_blank" class="app-card">
-        <div class="app-card-top">
-          <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon">
-          <div>
-            <h3>Mission Jeet</h3>
-            <p>Exclusive high-speed ecosystem</p>
-          </div>
-        </div>
-      </a>
-
-      <!-- UNC Offline -->
-      <a href="https://study-fox.mscilearn.in/" target="_blank" class="app-card">
-        <div class="app-card-top">
-          <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon">
-          <div>
-            <h3>UNC Offline</h3>
-            <p>Offline center materials & notes</p>
-          </div>
-        </div>
-      </a>
-
-      <!-- KGS -->
-      <a href="https://study-fox.mscilearn.in/" target="_blank" class="app-card">
-        <div class="app-card-top">
-          <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon">
-          <div>
-            <h3>KGS</h3>
-            <p>Online premium batches & resources</p>
-          </div>
-        </div>
-      </a>
-
-      <!-- Selection way -->
-      <a href="https://study-fox.mscilearn.in/" target="_blank" class="app-card">
-        <div class="app-card-top">
-          <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon">
-          <div>
-            <h3>Selection way</h3>
-            <p>Cinematic interface for focus</p>
-          </div>
-        </div>
-      </a>
-
-      <!-- Physics Wallah -->
-      <a href="https://study-fox.mscilearn.in/" target="_blank" class="app-card">
-        <div class="app-card-top">
-          <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon">
-          <div>
-            <h3>Physics Wallah</h3>
-            <p>Official ecosystem & materials</p>
-          </div>
-        </div>
-      </a>
     </div>
   </div>
   
