@@ -9,93 +9,47 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Firebase v8 SDK scripts -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-    body {
-      background-color: #080c14;
-      color: #ffffff;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 16px;
-    }
-
-    .feature-card {
-      width: 100%;
-      max-width: 420px;
-      margin-top: 20px;
-      background: #111827;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      text-align: center;
-    }
-
-    .feature-card h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 24px;
-      margin-bottom: 8px;
-      background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
+    body { background-color: #080c14; color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 16px; }
+    .feature-card { width: 100%; max-width: 420px; margin-top: 20px; background: #111827; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; }
+    .feature-card h2 { font-family: 'Syne', sans-serif; font-size: 24px; margin-bottom: 8px; background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .feature-card p { color: #94a3b8; font-size: 13px; margin-bottom: 16px; }
-
-    .live-badge { 
-      display: inline-flex; align-items: center; gap: 6px; 
-      background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); 
-      color: #34d399; font-size: 11px; font-weight: 600; padding: 6px 14px; 
-      border-radius: 20px; margin-bottom: 16px;
-    }
+    .live-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; font-size: 11px; font-weight: 600; padding: 6px 14px; border-radius: 20px; margin-bottom: 16px; }
     .live-dot { width: 6px; height: 6px; background-color: #34d399; border-radius: 50%; box-shadow: 0 0 8px #34d399; }
-
     .input-group { margin-bottom: 14px; text-align: left; }
     .input-group label { display: block; font-size: 12px; color: #38bdf8; margin-bottom: 6px; font-weight: 600; }
     .input-group input { width: 100%; padding: 12px 14px; background: #080c14; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #fff; font-size: 14px; outline: none; }
     .input-group input:focus { border-color: #38bdf8; }
-
     .link-action { display: block; margin-top: 14px; color: #38bdf8; font-size: 12px; text-decoration: underline; cursor: pointer; }
     .qr-box { background: #ffffff; padding: 12px; border-radius: 16px; display: inline-block; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
     .qr-box img { width: 160px; height: 160px; display: block; border-radius: 8px; }
-    
     .info-box { background: #1f2937; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; text-align: left; font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
     .info-box b { color: #38bdf8; }
-
     .admin-header-box { background: linear-gradient(135deg, #b45309 0%, #78350f 100%); border-radius: 16px; padding: 16px; margin-bottom: 16px; text-align: left; border: 1px solid rgba(251, 191, 36, 0.3); }
     .admin-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
     .admin-stat-box { background: rgba(0,0,0,0.25); border-radius: 10px; padding: 10px; text-align: center; }
     .admin-stat-box span { font-size: 11px; color: #fde68a; display: block; margin-bottom: 2px; }
     .admin-stat-box b { font-size: 18px; color: #fff; font-family: 'Syne', sans-serif; }
-
     .admin-tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
     .admin-tab { background: #1f2937; border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
     .admin-tab.active { background: #f59e0b; color: #000; border-color: #f59e0b; font-weight: 700; }
-
     .admin-request-card { background: #111827; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; text-align: left; }
     .user-left { display: flex; align-items: center; gap: 12px; }
     .user-avatar { width: 42px; height: 42px; background: #fbbf24; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; }
     .user-info b { font-size: 14px; color: #fff; display: block; }
     .user-info span { font-size: 12px; color: #94a3b8; }
-    
     .status-badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-block; }
     .status-pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
     .status-allowed { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
     .status-blocked { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-
     .admin-actions { display: flex; gap: 6px; margin-top: 6px; }
     .action-btn-sm { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; border: none; }
     .btn-allow { background: #22c55e; color: #fff; }
     .btn-block { background: #ef4444; color: #fff; }
-
     #splash-screen { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #080c14; z-index: 999; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
     .splash-logo-box { width: 170px; height: 170px; border-radius: 38px; border: 3px solid #00f2fe; box-shadow: 0 0 45px rgba(0, 242, 254, 0.6), inset 0 0 20px rgba(0, 242, 254, 0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000; }
     .splash-logo-box img { width: 100%; height: 100%; object-fit: cover; }
@@ -103,29 +57,26 @@
     .splash-content.show { opacity: 1; transform: translateY(0); visibility: visible; }
     .splash-title { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: 2px; color: #ffffff; text-align: center; line-height: 1.2; text-shadow: 0 0 20px rgba(255, 255, 255, 0.4); margin-bottom: 30px; }
     .open-now-btn { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700; padding: 14px 45px; border-radius: 20px; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4); }
-
     #main-content { display: none; width: 100%; max-width: 480px; flex-direction: column; align-items: center; }
     .navbar { width: 100%; max-width: 480px; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 20px; }
     .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
     .nav-logo-img { width: 40px; height: 40px; border-radius: 12px; object-fit: cover; border: 2px solid #06b6d4; }
     .nav-title { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 800; background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .logout-btn { background: #ef4444; color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; }
-
     .hero { width: 100%; text-align: center; margin-bottom: 24px; }
     .pill-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); color: #38bdf8; font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 30px; margin-bottom: 14px; }
     .dot { width: 6px; height: 6px; background: #06b6d4; border-radius: 50%; box-shadow: 0 0 8px #06b6d4; }
     .hero h1 { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
     .hero h1 span { background: linear-gradient(135deg, #38bdf8 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .hero p { color: #94a3b8; font-size: 13px; margin-bottom: 18px; }
-
     .apps-list { display: flex; flex-direction: column; gap: 16px; width: 100%; }
     .app-card { background: #111827; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 20px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 14px; }
     .app-card-top { display: flex; align-items: flex-start; gap: 16px; }
     .app-icon { width: 60px; height: 60px; border-radius: 14px; object-fit: cover; }
   </style>
 </head>
-<body>
 
+<body>
   <!-- Access Code Screen -->
   <div id="access-screen" class="feature-card">
     <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
@@ -166,8 +117,8 @@
       <button type="submit" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;">Submit Details</button>
     </form>
   </div>
-  
-    <!-- Pending Verification Screen -->
+
+  <!-- Pending Verification Screen -->
   <div id="pending-screen" class="feature-card" style="display:none;">
     <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
     <h2>Verification Pending</h2>
@@ -181,8 +132,8 @@
 
     <span class="link-action" style="color:#ef4444;" onclick="resetStorageAndHome()">🔄 Reset / Use Different Code</span>
   </div>
-
-  <!-- Admin Panel Screen -->
+  
+    <!-- Admin Panel Screen -->
   <div id="admin-screen" class="feature-card" style="max-width: 460px; display:none;">
     <div id="adminLoginBox">
       <h2>Admin Panel Login</h2>
@@ -226,9 +177,7 @@
         <div class="admin-tab" id="tab-blocked" onclick="switchAdminTab('blocked')">Blocked Users</div>
       </div>
 
-      <div id="adminRequestsList" style="max-height: 320px; overflow-y: auto; padding-right: 2px;">
-        <!-- Dynamic items -->
-      </div>
+      <div id="adminRequestsList" style="max-height: 320px; overflow-y: auto; padding-right: 2px;"></div>
       
       <button type="button" style="width:100%; padding:10px; margin-top:12px; border-radius:10px; background:#1f2937; border:1px solid rgba(255,255,255,0.1); color:#94a3b8; font-weight:600; font-size:12px; cursor:pointer;" onclick="showScreen('access-screen')">Back to Home</button>
     </div>
@@ -244,8 +193,8 @@
       <button type="button" class="open-now-btn" onclick="openMainContent()">🔥 Open Now 🔥</button>
     </div>
   </div>
-  
-    <!-- Main Content Dashboard -->
+
+  <!-- Main Content Dashboard -->
   <div id="main-content">
     <nav class="navbar">
       <a href="#" class="nav-brand">
@@ -262,7 +211,6 @@
     </header>
 
     <div class="apps-list">
-      <!-- ALL IN ONE Platform -->
       <a href="https://code-x-studys.vercel.app/#providers" target="_blank" class="app-card">
         <div class="app-card-top">
           <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon">
@@ -273,7 +221,6 @@
         </div>
       </a>
 
-      <!-- KHAN GLOBAL Platform -->
       <a href="https://sahukgs.vercel.app/batches" target="_blank" class="app-card">
         <div class="app-card-top">
           <img src="https://i.ibb.co/W49MG5n7/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon" onerror="this.src='https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png'">
@@ -285,9 +232,7 @@
       </a>
     </div>
   </div>
-  
-    <!-- Fully Updated Social Link Blocking Interceptor -->
-  <script>
+    <script>
     document.addEventListener("click", function (event) {
       let target = event.target.closest("a");
       if (target && target.href) {
@@ -299,19 +244,36 @@
           url.includes("whatsapp://") ||
           url.includes("t.me") ||
           url.includes("telegram.me") ||
-          url.includes("tg:")
+          url.includes("tg:") ||
+          url.includes("intent://")
         ) {
           event.preventDefault();
           event.stopPropagation();
-          alert("❌ Access Denied: Social media redirection is disabled!");
+          showUnsupportedError();
           return false;
         }
       }
     }, true);
+
+    function showUnsupportedError() {
+      let existingModal = document.getElementById("unsupported-modal");
+      if (existingModal) existingModal.remove();
+
+      let modal = document.createElement("div");
+      modal.id = "unsupported-modal";
+      modal.style.cssText = "position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(8,12,20,0.95); z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center;";
+      modal.innerHTML = `
+        <div style="background:#111827; border:1px solid rgba(239,68,68,0.4); border-radius:20px; padding:30px; max-width:360px; width:100%; box-shadow:0 10px 30px rgba(0,0,0,0.8);">
+          <h2 style="color:#ef4444; font-family:'Syne',sans-serif; font-size:22px; margin-bottom:10px;">❌ Unsupported Action</h2>
+          <p style="color:#94a3b8; font-size:13px; margin-bottom:20px;">WhatsApp and social redirection are completely blocked in this application.</p>
+          <button onclick="document.getElementById('unsupported-modal').remove()" style="width:100%; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); color:#fff; border:none; padding:12px; border-radius:12px; font-weight:700; cursor:pointer;">Go Back</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
   </script>
   
     <script>
-    // 🔥 Firebase Config Connected to Project 'rajnishprime-a675d'
     const firebaseConfig = {
       apiKey: "AIzaSyBteIL97gna7cQXz2b_9aS86S11VKrr5W1A",
       authDomain: "rajnishprime-a675d.firebaseapp.com",
@@ -322,7 +284,6 @@
       measurementId: "G-PPEES86SP8"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
@@ -582,9 +543,7 @@
     function updateStatus(docId, newStatus) {
       db.collection("requests").doc(docId).update({
         status: newStatus
-      }).then(() => {
-        // UI updates automatically via snapshot listener
-      }).catch((error) => {
+      }).then(() => {}).catch((error) => {
         console.error("Error updating status: ", error);
         alert("Status update karne mein samasya aayi.");
       });
@@ -626,3 +585,5 @@
   </script>
 </body>
 </html>
+
+  
