@@ -83,7 +83,7 @@
                         <td>${data.fullName || "N/A"}</td>
                         <td>${data.mobileNumber || "N/A"}</td>
                         <td>${dateStr}</td>
-                        <td><button class="approve-btn" onclick="approveUser('${docId}', '${data.fullName}', '${data.mobileNumber}')">Approve</button></td>
+                        <td><button class="approve-btn" onclick="approveUser('${docId}', '${data.fullName || ""}', '${data.mobileNumber || ""}')">Approve</button></td>
                     </tr>`;
                     tbody.innerHTML += row;
                 });
@@ -111,7 +111,7 @@
                 loadUsers();
             } catch (error) {
                 console.error("Error approving user: ", error);
-                alert("Failed to approve user.");
+                alert("Failed to approve user. Check console.");
             }
         }
 
