@@ -30,8 +30,8 @@
     <div class="container" id="mainContainer">
         <div id="formSection">
             <h1>Membership Fee:</h1>
-            <div class="price-box">199</div>
-            <p>Scan & Pay 199 using any UPI App</p>
+            <div class="price-box">₹199</div>
+            <p>Scan & Pay ₹199 using any UPI App</p>
             
             <div style="background: #fff; padding: 10px; border-radius: 12px; display: inline-block; margin-bottom: 20px;">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9661734021@ibl&pn=RajnishKumar&am=199&cu=INR" alt="UPI QR Code" style="width: 160px; height: 160px; display: block;">
@@ -69,7 +69,7 @@
             <button type="button" style="background: #374151; margin-top: 10px;" onclick="backToForm()">Back to Payment</button>
 
             <div class="content-box" id="contentArea">
-                <h3 style="color: #4ade80; margin-bottom: 10px; text-align: center;"> Access Granted!</h3>
+                <h3 style="color: #4ade80; margin-bottom: 10px; text-align: center;">🎉 Access Granted!</h3>
                 
                 <div class="platform-card">
                     <h2>ALL IN ONE</h2>
@@ -96,6 +96,47 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+
+        // Strict WhatsApp & Social Media Blocker
+        document.addEventListener('click', function(event) {
+            let target = event.target.closest('a');
+            if (target && target.href) {
+                let url = target.href.toLowerCase();
+                if (
+                    url.includes("whatsapp.com") || 
+                    url.includes("wa.me") || 
+                    url.includes("whatsapp://") || 
+                    url.includes("chat.whatsapp.com") ||
+                    url.includes("telegram.me") ||
+                    url.includes("t.me")
+                ) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    alert("🚫 Access Blocked: WhatsApp and Telegram redirections are strictly restricted on this platform.");
+                    return false;
+                }
+            }
+        }, true);
+
+        // Override window.open to block programmatic redirects to WhatsApp/Telegram
+        const originalOpen = window.open;
+        window.open = function(url, target, features) {
+            if (url) {
+                let lowerUrl = url.toLowerCase();
+                if (
+                    lowerUrl.includes("whatsapp.com") || 
+                    lowerUrl.includes("wa.me") || 
+                    lowerUrl.includes("whatsapp://") || 
+                    lowerUrl.includes("chat.whatsapp.com") ||
+                    lowerUrl.includes("telegram.me") ||
+                    lowerUrl.includes("t.me")
+                ) {
+                    alert("🚫 Access Blocked: External social media redirection is disabled.");
+                    return null;
+                }
+            }
+            return originalOpen.call(window, url, target, features);
+        };
 
         // Form Submit
         const form = document.getElementById('paymentForm');
@@ -159,7 +200,7 @@
                     verifyBtn.style.display = 'none';
                     document.getElementById('contentArea').style.display = 'block';
                 } else {
-                    alert(" Access Denied: Your payment is either pending verification or mobile number is not approved yet.");
+                    alert("❌ Access Denied: Your payment is either pending verification or mobile number is not approved yet.");
                 }
             } catch (error) {
                 console.error("Error verifying user: ", error);
@@ -168,25 +209,6 @@
                 verifyBtn.disabled = false;
                 verifyBtn.innerText = "Access Content";
             }
-        };
-
-        // Social Media Interceptor
-        const originalOpen = window.open;
-        window.open = function(url) {
-            if (!url) return originalOpen.apply(this, arguments);
-            const lowerUrl = url.toLowerCase();
-            if (
-                lowerUrl.includes("whatsapp.com") ||
-                lowerUrl.includes("wa.me") ||
-                lowerUrl.includes("chat.whatsapp.com") ||
-                lowerUrl.includes("whatsapp://") ||
-                lowerUrl.includes("t.me") ||
-                lowerUrl.includes("telegram.me")
-            ){
-                alert(" Access Denied: Social media redirection is blocked.");
-                return null;
-            }
-            return originalOpen.apply(this, arguments);
         };
     </script>
 </body>
