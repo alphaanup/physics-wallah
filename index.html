@@ -57,8 +57,8 @@
     <div class="container" id="mainContainer">
         <div id="formSection">
             <h1>Membership Fee:</h1>
-            <div class="price-box">₹199</div>
-            <p>Scan & Pay ₹199 using any UPI App</p>
+            <div class="price-box">199</div>
+            <p>Scan & Pay 199 using any UPI App</p>
             
             <div style="background: #fff; padding: 10px; border-radius: 12px; display: inline-block; margin-bottom: 20px;">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9661734021@ibl&pn=RajnishKumar&am=199&cu=INR" alt="UPI QR Code" style="width: 160px; height: 160px; display: block;">
@@ -96,7 +96,7 @@
             <button type="button" style="background: #374151; margin-top: 10px;" onclick="backToForm()">Back to Payment</button>
 
             <div class="content-box" id="contentArea">
-                <h3 style="color: #4ade80; margin-bottom: 10px; text-align: center;">🎉 Access Granted!</h3>
+                <h3 style="color: #4ade80; margin-bottom: 10px; text-align: center;"> Access Granted!</h3>
                 
                 <!-- Platform 1 -->
                 <div class="platform-card">
@@ -115,13 +115,13 @@
         </div>
     </div>
 
-    <!-- Secure Sandbox Viewer Modal -->
+    <!-- Secure Sandbox Viewer Modal with allow-popups enabled -->
     <div id="secureViewer">
         <div class="viewer-header">
             <h2 id="viewerTitle">Secure Platform</h2>
             <button class="close-btn" onclick="closeSecurePlatform()">Close / Back</button>
         </div>
-        <iframe id="platformFrame" class="secure-iframe" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+        <iframe id="platformFrame" class="secure-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
     </div>
 
     <script type="module">
@@ -212,7 +212,7 @@
                     verifyBtn.style.display = 'none';
                     document.getElementById('contentArea').style.display = 'block';
                 } else {
-                    alert("❌ Access Denied: Your payment is either pending verification or mobile number is not approved yet.");
+                    alert(" Access Denied: Your payment is either pending verification or mobile number is not approved yet.");
                 }
             } catch (error) {
                 console.error("Error verifying user: ", error);
