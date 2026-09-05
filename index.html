@@ -17,39 +17,76 @@
         input:focus { border-color: #38bdf8; }
         button { width: 100%; padding: 12px; background: linear-gradient(135deg, #0ea5e9, #2563eb); border: none; border-radius: 8px; color: white; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
         button:hover { opacity: 0.9; }
+        .secondary-btn { background: linear-gradient(135deg, #22c55e, #16a34a); margin-top: 15px; }
+        .content-box { display: none; margin-top: 20px; text-align: left; }
+        .resource-item { background: #1f2937; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .resource-item a { color: #4ade80; text-decoration: none; font-weight: bold; font-size: 14px; }
+        .resource-item a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <div class="container" id="mainContainer">
-        <h1>Membership Fee:</h1>
-        <div class="price-box">₹199</div>
-        <p>Scan & Pay ₹199 using any UPI App</p>
-        
-        <div style="background: #fff; padding: 10px; border-radius: 12px; display: inline-block; margin-bottom: 20px;">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9661734021@ibl&pn=RajnishKumar&am=199&cu=INR" alt="UPI QR Code" style="width: 160px; height: 160px; display: block;">
+        <div id="formSection">
+            <h1>Membership Fee:</h1>
+            <div class="price-box">₹199</div>
+            <p>Scan & Pay ₹199 using any UPI App</p>
+            
+            <div style="background: #fff; padding: 10px; border-radius: 12px; display: inline-block; margin-bottom: 20px;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9661734021@ibl&pn=RajnishKumar&am=199&cu=INR" alt="UPI QR Code" style="width: 160px; height: 160px; display: block;">
+            </div>
+
+            <div style="background: #1f2937; padding: 10px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; color: #9ca3af;">
+                Access Code: <span style="color: #38bdf8; font-weight: bold;">Prime@2026</span><br>
+                UPI ID: <span style="color: #4ade80; font-weight: bold;">9661734021@ibl</span>
+            </div>
+
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number *</label>
+                    <input type="tel" id="mobileNumber" placeholder="Enter your mobile number" required>
+                </div>
+                <button type="submit" id="submitBtn">Submit Details</button>
+            </form>
+
+            <button type="button" class="secondary-btn" onclick="showStatusCheck()">Already Paid? Check Status / View Content</button>
         </div>
 
-        <div style="background: #1f2937; padding: 10px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; color: #9ca3af;">
-            Access Code: <span style="color: #38bdf8; font-weight: bold;">Prime@2026</span><br>
-            UPI ID: <span style="color: #4ade80; font-weight: bold;">9661734021@ibl</span>
-        </div>
+        <!-- Status Check & Content View Section -->
+        <div id="statusSection" style="display: none;">
+            <h1 style="color: #4ade80;">Check Approval</h1>
+            <p>Enter your mobile number to view content</p>
+            <div class="form-group">
+                <label>Registered Mobile *</label>
+                <input type="tel" id="verifyMobile" placeholder="Enter your mobile number">
+            </div>
+            <button type="button" id="verifyBtn" onclick="checkApproval()">Access Content</button>
+            <button type="button" style="background: #374151; margin-top: 10px;" onclick="backToForm()">Back to Payment</button>
 
-        <form id="paymentForm">
-            <div class="form-group">
-                <label>Full Name *</label>
-                <input type="text" id="fullName" placeholder="Enter your full name" required>
+            <div class="content-box" id="contentArea">
+                <h3 style="color: #4ade80; margin-bottom: 15px; text-align: center;">🎉 Access Granted!</h3>
+                <div class="resource-item">
+                    <span>Physics Wallah Batch Notes</span>
+                    <a href="https://t.me/+g0wmAK8VCGEwMTJl" target="_blank">Open</a>
+                </div>
+                <div class="resource-item">
+                    <span>Target Board Study Material</span>
+                    <a href="https://t.me/+g0wmAK8VCGEwMTJl" target="_blank">Open</a>
+                </div>
+                <div class="resource-item">
+                    <span>Exclusive Video Lectures</span>
+                    <a href="https://t.me/+g0wmAK8VCGEwMTJl" target="_blank">Open</a>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Mobile Number *</label>
-                <input type="tel" id="mobileNumber" placeholder="Enter your mobile number" required>
-            </div>
-            <button type="submit" id="submitBtn">Submit Details</button>
-        </form>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBYvsjbOgtXqdQx4bjiILDMa8d52MzaF1",
@@ -64,6 +101,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // Form Submit
         const form = document.getElementById('paymentForm');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -91,6 +129,52 @@
             }
         });
 
+        // Toggle UI Functions
+        window.showStatusCheck = function() {
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('statusSection').style.display = 'block';
+        }
+
+        window.backToForm = function() {
+            document.getElementById('statusSection').style.display = 'none';
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('contentArea').style.display = 'none';
+        }
+
+        // Check Approval Status
+        window.checkApproval = async function() {
+            const mobile = document.getElementById('verifyMobile').value.trim();
+            const verifyBtn = document.getElementById('verifyBtn');
+
+            if(!mobile) {
+                alert("Please enter your mobile number.");
+                return;
+            }
+
+            verifyBtn.disabled = true;
+            verifyBtn.innerText = "Checking...";
+
+            try {
+                const q = query(collection(db, "approvedUsers"), where("mobileNumber", "==", mobile));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    document.getElementById('verifyMobile').style.display = 'none';
+                    verifyBtn.style.display = 'none';
+                    document.getElementById('contentArea').style.display = 'block';
+                } else {
+                    alert("❌ Access Denied: Your payment is either pending verification or mobile number is not approved yet.");
+                }
+            } catch (error) {
+                console.error("Error verifying user: ", error);
+                alert("Error checking status. Try again.");
+            } finally {
+                verifyBtn.disabled = false;
+                verifyBtn.innerText = "Access Content";
+            }
+        }
+
+        // Social Media Interceptor
         const originalOpen = window.open;
         window.open = function(url) {
             if (!url) return originalOpen.apply(this, arguments);
