@@ -287,6 +287,20 @@
       </a>
     </div>
   </div>
+
+  <!-- WhatsApp Block Interceptor Script -->
+  <script>
+    document.addEventListener("click", function (event) {
+      let target = event.target.closest("a");
+      if (target && target.href) {
+        let url = target.href.toLowerCase();
+        if (url.includes("whatsapp.com") || url.includes("wa.me") || url.includes("chat.whatsapp.com")) {
+          event.preventDefault();
+          alert("❌ WhatsApp links are blocked inside this application!");
+        }
+      }
+    }, true);
+  </script>
   
     <script>
     // 🔥 Firebase Config Connected to Project 'rajnishprime-a675d'
