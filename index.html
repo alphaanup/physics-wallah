@@ -1,718 +1,576 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Rajnish Prime</title>
-<meta name="theme-color" content="#080c14">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Firebase v8 SDK scripts -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body {
-background-color: #080c14;
-color: #ffffff;
-font-family: 'Plus Jakarta Sans', sans-serif;
-min-height: 100vh;
-display: flex;
-flex-direction: column;
-align-items: center;
-padding: 16px;
-}
-.feature-card {
-width: 100%;
-max-width: 420px;
-margin-top: 20px;
-background: #111827;
-border: 1px solid rgba(255, 255, 255, 0.1);
-border-radius: 20px;
-padding: 24px;
-box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-text-align: center;
-}
-.feature-card h2 {
-font-family: 'Syne', sans-serif;
-font-size: 24px;
-margin-bottom: 8px;
-background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-}
-.feature-card p { color: #94a3b8; font-size: 13px; margin-bottom: 16px; }
-.live-badge {
-display: inline-flex; align-items: center; gap: 6px;
-background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
-color: #34d399; font-size: 11px; font-weight: 600; padding: 6px 14px;
-border-radius: 20px; margin-bottom: 16px;
-}
-.live-dot { width: 6px; height: 6px; background-color: #34d399; border-radius: 50%; box-shadow: 0 0 8px #34d399; }
-.input-group { margin-bottom: 14px; text-align: left; }
-.input-group label { display: block; font-size: 12px; color: #38bdf8; margin-bottom: 6px; font-weight: 600; }
-.input-group input { width: 100%; padding: 12px 14px; background: #080c14; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #fff; font-size: 14px; outline: none; }
-.input-group input:focus { border-color: #38bdf8; }
-.link-action { display: block; margin-top: 14px; color: #38bdf8; font-size: 12px; text-decoration: underline; cursor: pointer; }
-.qr-box { background: #ffffff; padding: 12px; border-radius: 16px; display: inline-block; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-.qr-box img { width: 160px; height: 160px; display: block; border-radius: 8px; }
-.info-box { background: #1f2937; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; text-align: left; font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
-.info-box b { color: #38bdf8; }
-.admin-header-box { background: linear-gradient(135deg, #b45309 0%, #78350f 100%); border-radius: 16px; padding: 16px; margin-bottom: 16px; text-align: left; border: 1px solid rgba(251, 191, 36, 0.3); }
-.admin-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
-.admin-stat-box { background: rgba(0,0,0,0.25); border-radius: 10px; padding: 10px; text-align: center; }
-.admin-stat-box span { font-size: 11px; color: #fde68a; display: block; margin-bottom: 2px; }
-.admin-stat-box b { font-size: 18px; color: #fff; font-family: 'Syne', sans-serif; }
-.admin-tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
-.admin-tab { background: #1f2937; border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-.admin-tab.active { background: #f59e0b; color: #000; border-color: #f59e0b; font-weight: 700; }
-.admin-request-card { background: #111827; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; text-align: left; }
-.user-left { display: flex; align-items: center; gap: 12px; }
-.user-avatar { width: 42px; height: 42px; background: #fbbf24; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; }
-.user-info b { font-size: 14px; color: #fff; display: block; }
-.user-info span { font-size: 12px; color: #94a3b8; }
-.status-badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-block; }
-.status-pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-.status-allowed { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
-.status-blocked { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-.admin-actions { display: flex; gap: 6px; margin-top: 6px; }
-.action-btn-sm { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; border: none; }
-.btn-allow { background: #22c55e; color: #fff; }
-.btn-block { background: #ef4444; color: #fff; }
-#splash-screen { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #080c14; z-index: 999; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-.splash-logo-box { width: 170px; height: 170px; border-radius: 38px; border: 3px solid #00f2fe; box-shadow: 0 0 45px rgba(0, 242, 254, 0.6), inset 0 0 20px rgba(0, 242, 254, 0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000; }
-.splash-logo-box img { width: 100%; height: 100%; object-fit: cover; }
-.splash-content { margin-top: 35px; display: flex; flex-direction: column; align-items: center; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; visibility: hidden; }
-.splash-content.show { opacity: 1; transform: translateY(0); visibility: visible; }
-.splash-title { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: 2px; color: #ffffff; text-align: center; line-height: 1.2; text-shadow: 0 0 20px rgba(255, 255, 255, 0.4); margin-bottom: 30px; }
-.open-now-btn { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700; padding: 14px 45px; border-radius: 20px; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4); }
-#main-content { display: none; width: 100%; max-width: 480px; flex-direction: column; align-items: center; }
-.navbar { width: 100%; max-width: 480px; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 20px; }
-.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
-.nav-logo-img { width: 40px; height: 40px; border-radius: 12px; object-fit: cover; border: 2px solid #06b6d4; }
-.nav-title { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 800; background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.logout-btn { background: #ef4444; color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; }
-.hero { width: 100%; text-align: center; margin-bottom: 24px; }
-.pill-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); color: #38bdf8; font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 30px; margin-bottom: 14px; }
-.dot { width: 6px; height: 6px; background: #06b6d4; border-radius: 50%; box-shadow: 0 0 8px #06b6d4; }
-.hero h1 { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
-.hero h1 span { background: linear-gradient(135deg, #38bdf8 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.hero p { color: #94a3b8; font-size: 13px; margin-bottom: 18px; }
-.apps-list { display: flex; flex-direction: column; gap: 16px; width: 100%; }
-.app-card { background: #111827; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 20px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 14px; }
-.app-card-top { display: flex; align-items: flex-start; gap: 16px; }
-.app-icon { width: 60px; height: 60px; border-radius: 14px; object-fit: cover; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Rajnish Prime</title>
+  <meta name="theme-color" content="#080c14">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Firebase v8 SDK scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      background-color: #080c14;
+      color: #ffffff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .feature-card {
+      width: 100%;
+      max-width: 420px;
+      margin-top: 20px;
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    
+      .feature-card h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .feature-card p { color: #94a3b8; font-size: 13px; margin-bottom: 16px; }
+
+    .live-badge { 
+      display: inline-flex; align-items: center; gap: 6px; 
+      background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); 
+      color: #34d399; font-size: 11px; font-weight: 600; padding: 6px 14px; 
+      border-radius: 20px; margin-bottom: 16px;
+    }
+    .live-dot { width: 6px; height: 6px; background-color: #34d399; border-radius: 50%; box-shadow: 0 0 8px #34d399; }
+
+    .input-group { margin-bottom: 14px; text-align: left; }
+    .input-group label { display: block; font-size: 12px; color: #38bdf8; margin-bottom: 6px; font-weight: 600; }
+    .input-group input { width: 100%; padding: 12px 14px; background: #080c14; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #fff; font-size: 14px; outline: none; }
+    .input-group input:focus { border-color: #38bdf8; }
+
+    .link-action { display: block; margin-top: 14px; color: #38bdf8; font-size: 12px; text-decoration: underline; cursor: pointer; }
+    .qr-box { background: #ffffff; padding: 12px; border-radius: 16px; display: inline-block; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .qr-box img { width: 160px; height: 160px; display: block; border-radius: 8px; }
+    
+    .info-box { background: #1f2937; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; text-align: left; font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
+    .info-box b { color: #38bdf8; }
+
+    .admin-header-box { background: linear-gradient(135deg, #b45309 0%, #78350f 100%); border-radius: 16px; padding: 16px; margin-bottom: 16px; text-align: left; border: 1px solid rgba(251, 191, 36, 0.3); }
+    .admin-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+    .admin-stat-box { background: rgba(0,0,0,0.25); border-radius: 10px; padding: 10px; text-align: center; }
+    .admin-stat-box span { font-size: 11px; color: #fde68a; display: block; margin-bottom: 2px; }
+    .admin-stat-box b { font-size: 18px; color: #fff; font-family: 'Syne', sans-serif; }
+
+    .admin-tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
+    .admin-tab { background: #1f2937; border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .admin-tab.active { background: #f59e0b; color: #000; border-color: #f59e0b; font-weight: 700; }
+
+    .admin-request-card { background: #111827; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; text-align: left; }
+    .user-left { display: flex; align-items: center; gap: 12px; }
+    .user-avatar { width: 42px; height: 42px; background: #fbbf24; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; }
+    .user-info b { font-size: 14px; color: #fff; display: block; }
+    .user-info span { font-size: 12px; color: #94a3b8; }
+    
+    .status-badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-block; }
+    .status-pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .status-allowed { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .status-blocked { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    .admin-actions { display: flex; gap: 6px; margin-top: 6px; }
+    .action-btn-sm { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; border: none; }
+    .btn-allow { background: #22c55e; color: #fff; }
+    .btn-block { background: #ef4444; color: #fff; }
+
+    #splash-screen { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #080c14; z-index: 999; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+    .splash-logo-box { width: 170px; height: 170px; border-radius: 38px; border: 3px solid #00f2fe; box-shadow: 0 0 45px rgba(0, 242, 254, 0.6), inset 0 0 20px rgba(0, 242, 254, 0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000; }
+    .splash-logo-box img { width: 100%; height: 100%; object-fit: cover; }
+    .splash-content { margin-top: 35px; display: flex; flex-direction: column; align-items: center; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; visibility: hidden; }
+    .splash-content.show { opacity: 1; transform: translateY(0); visibility: visible; }
+    .splash-title { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: 2px; color: #ffffff; text-align: center; line-height: 1.2; text-shadow: 0 0 20px rgba(255, 255, 255, 0.4); margin-bottom: 30px; }
+    .open-now-btn { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700; padding: 14px 45px; border-radius: 20px; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4); }
+
+    #main-content { display: none; width: 100%; max-width: 480px; flex-direction: column; align-items: center; }
+    .navbar { width: 100%; max-width: 480px; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 20px; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
+    .nav-logo-img { width: 40px; height: 40px; border-radius: 12px; object-fit: cover; border: 2px solid #06b6d4; }
+    .nav-title { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 800; background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .logout-btn { background: #ef4444; color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; }
+
+    .hero { width: 100%; text-align: center; margin-bottom: 24px; }
+    .pill-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); color: #38bdf8; font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 30px; margin-bottom: 14px; }
+    .dot { width: 6px; height: 6px; background: #06b6d4; border-radius: 50%; box-shadow: 0 0 8px #06b6d4; }
+    .hero h1 { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
+    .hero h1 span { background: linear-gradient(135deg, #38bdf8 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { color: #94a3b8; font-size: 13px; margin-bottom: 18px; }
+
+    .apps-list { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+    .app-card { background: #111827; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 20px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 14px; }
+    .app-card-top { display: flex; align-items: flex-start; gap: 16px; }
+    .app-icon { width: 60px; height: 60px; border-radius: 14px; object-fit: cover; }
+  </style>
 </head>
 <body>
-<!-- Access Code Screen -->
-<div id="access-screen" class="feature-card">
-<div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
-<h2>📖 Enter Access Code</h2>
-<p>Apna access code daal kar website unlock karein</p>
-<div class="input-group">
-<label>Access Code</label>
-<input type="text" id="accessCodeInput" placeholder="Enter code (e.g. Admin@123)">
-</div>
-<button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="checkAccessCode()">Get Access ></button>
-<span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
-</div>
-<!-- Payment Screen -->
-<div id="payment-screen" class="feature-card" style="display:none;">
-<h2>Membership Fee: ₹199</h2>
-<p>Scan & Pay ₹199 using any UPI App</p>
-<div class="qr-box">
-<img id="upiQrImg" src="" alt="UPI QR Code">
-</div>
-<div class="info-box">
-Access Code: <b id="codeDisplay"></b>
 
-UPI ID: <b>9661734021@ibl</b>
-</div>
-<form onsubmit="handleRegistration(event)">
-<div class="input-group">
-<label>FULL NAME *</label>
-<input type="text" id="regName" placeholder="Apna naam likhen" required>
-</div>
-<div class="input-group">
-<label>MOBILE NUMBER *</label>
-<input type="tel" id="regMobile" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
-</div>
-<button type="submit" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;">Submit Details</button>
-</form>
-</div>
-<!-- Pending Verification Screen -->
-<div id="pending-screen" class="feature-card" style="display:none;">
-<div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
-<h2>Verification Pending</h2>
-<p>Namaste, <b id="userPendingName" style="color:#38bdf8;">Student</b>!</p>
-<div class="info-box" style="text-align: center; background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; color: #fbbf24; margin-bottom: 16px;">
-🟡 Waiting for Admin Approval
-</div>
-<button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; font-weight:700; font-size:15px; margin-bottom:12px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); cursor:pointer;" onclick="verifyApprovalStatus()">🔄 CHECK APPROVAL STATUS</button>
-<span class="link-action" style="color:#ef4444;" onclick="resetStorageAndHome()">🔄 Reset / Use Different Code</span>
-</div>
-<!-- Admin Panel Screen -->
-<div id="admin-screen" class="feature-card" style="max-width: 460px; display:none;">
-<div id="adminLoginBox">
-<h2>Admin Panel Login</h2>
-<p>Rajnish Prime Secure Access</p>
-<div class="input-group">
-<label>Admin Password</label>
-<input type="password" id="adminPassInput" placeholder="Enter admin password">
-</div>
-<button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="loginAdmin()">Login as Admin</button>
-<span class="link-action" onclick="showScreen('access-screen')">Exit Admin</span>
-</div>
-<div id="adminDashBox" style="display:none; text-align: left;">
-<div class="admin-header-box">
-<div style="display:flex; justify-content:space-between; align-items:center;">
-<span style="font-family:'Syne',sans-serif; font-size:16px; font-weight:800; color:#fff;">🛡️ Admin Panel</span>
-<span style="font-size:11px; color:#fde68a; cursor:pointer;" onclick="showScreen('access-screen')">Logout ➔</span>
-</div>
-<p style="font-size:11px; color:#fef3c7; margin:2px 0 8px 0;">Cloud Synchronized (Firebase)</p>
-<div class="admin-stats-grid">
-<div class="admin-stat-box">
-<span>Pending</span>
-<b id="statPending">0</b>
-</div>
-<div class="admin-stat-box">
-<span>Allowed</span>
-<b id="statAllowed">0</b>
-</div>
-<div class="admin-stat-box">
-<span>Blocked</span>
-<b id="statBlocked">0</b>
-</div>
-</div>
-</div>
-<!-- Filter Tabs -->
-<div class="admin-tabs">
-<div class="admin-tab active" id="tab-pending" onclick="switchAdminTab('pending')">Pending Requests</div>
-<div class="admin-tab" id="tab-allowed" onclick="switchAdminTab('allowed')">Allowed Students</div>
-<div class="admin-tab" id="tab-blocked" onclick="switchAdminTab('blocked')">Blocked Users</div>
-</div>
-<div id="adminRequestsList" style="max-height: 320px; overflow-y: auto; padding-right: 2px;">
-<!-- Dynamic items -->
-</div>
-<button type="button" style="width:100%; padding:10px; margin-top:12px; border-radius:10px; background:#1f2937; border:1px solid rgba(255,255,255,0.1); color:#94a3b8; font-weight:600; font-size:12px; cursor:pointer;" onclick="showScreen('access-screen')">Back to Home</button>
-</div>
-</div>
-<!-- Splash Screen -->
-<div id="splash-screen">
-<div class="splash-logo-box">
-<img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo">
-</div>
-<div class="splash-content" id="splash-content">
-<div class="splash-title">RAJNISH
-PRIME</div>
-<button type="button" class="open-now-btn" onclick="openMainContent()">🔥 Open Now 🔥</button>
-</div>
-</div>
-<script>
-// 🔥 Firebase Config Connected to Project 'rajnishprime-a675d'
-const firebaseConfig = {
-apiKey: "AIzaSyBteIL97gna7cQXz2b_9aS86S11VKrr5W1A",
-authDomain: "rajnishprime-a675d.firebaseapp.com",
-projectId: "rajnishprime-a675d",
-storageBucket: "rajnishprime-a675d.firebasestorage.app",
-messagingSenderId: "1077864030056",
-appId: "1:1077864030056:web:d36991031585d01338c0dd",
-measurementId: "G-PPEES86SP8"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-let activeCode = "";
-let currentAdminTab = 'pending';
-let allCloudRequests = [];
-let unsubscribeFirestore = null;
-window.onload = function() {
-const upiUrl = "upi://pay?pa=9661734021@ibl&pn=Rajnish%20Prime&am=199.00&cu=INR";
-document.getElementById('upiQrImg').src = https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(upiUrl)};
-const savedCode = localStorage.getItem('rp_last_code');
-const isSessionApproved = localStorage.getItem('rp_login_session');
-if (isSessionApproved === 'true') {
-showScreen('main-content');
-} else if (savedCode) {
-activeCode = savedCode;
-db.collection("requests").doc(savedCode).get().then((doc) => {
-if (doc.exists) {
-const data = doc.data();
-if (data.status === 'approved') {
-localStorage.setItem('rp_login_session', 'true');
-showScreen('main-content');
-} else if (data.status === 'pending') {
-document.getElementById('userPendingName').innerText = data.name || 'Student';
-showScreen('pending-screen');
-} else if (data.status === 'blocked') {
-document.getElementById('accessCodeInput').value = savedCode;
-showScreen('access-screen');
-}
-}
-});
-}
-};
-function showScreen(screenId) {
-document.getElementById('access-screen').style.display = 'none';
-document.getElementById('payment-screen').style.display = 'none';
-document.getElementById('pending-screen').style.display = 'none';
-document.getElementById('admin-screen').style.display = 'none';
-document.getElementById('splash-screen').style.display = 'none';
-document.getElementById('main-content').style.display = 'none';
-document.getElementById(screenId).style.display = (screenId === 'main-content' || screenId === 'admin-screen') ? 'flex' : 'block';
-}
-function checkAccessCode() {
-const code = document.getElementById('accessCodeInput').value.trim();
-if (!code) {
-alert("Kripya Access Code daalein!");
-return;
-}
-activeCode = code;
-localStorage.setItem('rp_last_code', code);
-db.collection("requests").doc(code).get().then((doc) => {
-if (doc.exists) {
-const data = doc.data();
-if (data.status === 'approved') {
-localStorage.setItem('rp_login_session', 'true');
-showSplashScreen();
-} else if (data.status === 'pending') {
-document.getElementById('userPendingName').innerText = data.name || 'Student';
-showScreen('pending-screen');
-} else if (data.status === 'blocked') {
-alert("Aapka access block kar diya gaya hai!");
-}
-} else {
-document.getElementById('codeDisplay').innerText = code;
-showScreen('payment-screen');
-}
-}).catch((error) => {
-console.error("Error checking code: ", error);
-document.getElementById('codeDisplay').innerText = code;
-showScreen('payment-screen');
-});
-}
-function handleRegistration(event) {
-event.preventDefault();
-const name = document.getElementById('regName').value.trim();
-const mobile = document.getElementById('regMobile').value.trim();
-if (!name || !mobile) {
-alert("Sabhi fields bharna anivarya hai!");
-return;
-}
-db.collection("requests").doc(activeCode).set({
-code: activeCode,
-name: name,
-mobile: mobile,
-status: 'pending',
-timestamp: firebase.firestore.FieldValue.serverTimestamp()
-}).then(() => {
-document.getElementById('userPendingName').innerText = name;
-showScreen('pending-screen');
-}).catch((error) => {
-console.error("Error saving request: ", error);
-alert("Kuch error ho gaya. Dobara koshish karein.");
-});
-}
-function verifyApprovalStatus() {
-if (!activeCode) {
-alert("Access code nahi mila!");
-return;
-}
-db.collection("requests").doc(activeCode).get().then((doc) => {
-if (doc.exists) {
-const data = doc.data();
-if (data.status === 'approved') {
-localStorage.setItem('rp_login_session', 'true');
-alert("Badhai ho! Aapka account approve ho gaya hai.");
-showSplashScreen();
-} else if (data.status === 'pending') {
-alert("Abhi bhi approval pending hai. Kripya thoda intezaar karein.");
-} else if (data.status === 'blocked') {
-alert("Aapka access block kar diya gaya hai.");
-}
-} else {
-alert("Aapka record nahi mila. Dobara register karein.");
-}
-});
-}
-function showAdminLogin() {
-document.getElementById('adminLoginBox').style.display = 'block';
-document.getElementById('adminDashBox').style.display = 'none';
-document.getElementById('adminPassInput').value = '';
-showScreen('admin-screen');
-}
-function loginAdmin() {
-const pass = document.getElementById('adminPassInput').value.trim();
-if (pass === "Admin@123") {
-document.getElementById('adminLoginBox').style.display = 'none';
-document.getElementById('adminDashBox').style.display = 'block';
-fetchAdminData();
-} else {
-alert("Galat Admin Password!");
-}
-}
-function fetchAdminData() {
-if (unsubscribeFirestore) unsubscribeFirestore();
-unsubscribeFirestore = db.collection("requests").onSnapshot((snapshot) => {
-allCloudRequests = [];
-snapshot.forEach((doc) => {
-allCloudRequests.push({ id: doc.id, ...doc.data() });
-});
-updateAdminDashboardUI();
-});
-}
-function updateAdminDashboardUI() {
-let pendingCount = 0;
-let allowedCount = 0;
-let blockedCount = 0;
-allCloudRequests.forEach(req => {
-if (req.status === 'pending') pendingCount++;
-else if (req.status === 'approved') allowedCount++;
-else if (req.status === 'blocked') blockedCount++;
-});
-document.getElementById('statPending').innerText = pendingCount;
-document.getElementById('statAllowed').innerText = allowedCount;
-document.getElementById('statBlocked').innerText = blockedCount;
-renderAdminList();
-}
-function switchAdminTab(tabName) {
-currentAdminTab = tabName;
-document.getElementById('tab-pending').classList.remove('active');
-document.getElementById('tab-allowed').classList.remove('active');
-document.getElementById('tab-blocked').classList.remove('active');
-document.getElementById(tab-${tabName}).classList.add('active');
-renderAdminList();
-}
-function renderAdminList() {
-const listContainer = document.getElementById('adminRequestsList');
-listContainer.innerHTML = '';
-let filtered = allCloudRequests.filter(req => {
-if (currentAdminTab === 'pending') return req.status === 'pending';
-if (currentAdminTab === 'allowed') return req.status === 'approved';
-if (currentAdminTab === 'blocked') return req.status === 'blocked';
-return false;
-});
-if (filtered.length === 0) {
-listContainer.innerHTML = <div style="text-align:center; color:#94a3b8; padding:20px; font-size:13px;">Koi record nahi mila.</div>;
-return;
-}
-filtered.forEach(req => {
-const initial = req.name ? req.name.charAt(0).toUpperCase() : 'S';
-let statusBadgeClass = 'status-pending';
-let statusText = 'Pending';
-if (req.status === 'approved') {
-statusBadgeClass = 'status-allowed';
-statusText = 'Allowed';
-} else if (req.status === 'blocked') {
-statusBadgeClass = 'status-blocked';
-statusText = 'Blocked';
-}
-let actionButtons = '';
-if (req.status === 'pending') {
-actionButtons = <div class="admin-actions"> <button class="action-btn-sm btn-allow" onclick="updateStatus('${req.id}', 'approved')">Allow</button> <button class="action-btn-sm btn-block" onclick="updateStatus('${req.id}', 'blocked')">Block</button> </div>;
-} else if (req.status === 'approved') {
-actionButtons = <div class="admin-actions"> <button class="action-btn-sm btn-block" onclick="updateStatus('${req.id}', 'blocked')">Block</button> </div>;
-} else if (req.status === 'blocked') {
-actionButtons = <div class="admin-actions"> <button class="action-btn-sm btn-allow" onclick="updateStatus('${req.id}', 'approved')">Unblock</button> </div>;
-}
-const card = document.createElement('div');
-card.className = 'admin-request-card';
-card.innerHTML = <div class="user-left"> <div class="user-avatar">${initial}</div> <div class="user-info"> <b>${req.name || 'Unknown'}</b> <span>📱 ${req.mobile || 'No Mobile'}</span> <span style="font-size:10px; color:#38bdf8;">Code: ${req.code}</span> </div> </div> <div style="text-align: right;"> <span class="status-badge ${statusBadgeClass}">${statusText}</span> ${actionButtons} </div>;
-listContainer.appendChild(card);
-});
-}
-function updateStatus(docId, newStatus) {
-db.collection("requests").doc(docId).update({
-status: newStatus
-}).then(() => {
-// UI updates automatically via snapshot listener
-}).catch((error) => {
-console.error("Error updating status: ", error);
-alert("Status update karne mein samasya aayi.");
-});
-}
-function showSplashScreen() {
-document.getElementById('access-screen').style.display = 'none';
-document.getElementById('payment-screen').style.display = 'none';
-document.getElementById('pending-screen').style.display = 'none';
-document.getElementById('admin-screen').style.display = 'none';
-document.getElementById('main-content').style.display = 'none';
-const splash = document.getElementById('splash-screen');
-splash.style.display = 'flex';
-setTimeout(() => {
-document.getElementById('splash-content').classList.add('show');
-}, 100);
-}
-function openMainContent() {
-document.getElementById('splash-screen').style.display = 'none';
-showScreen('main-content');
-}
-function logoutUser() {
-localStorage.removeItem('rp_login_session');
-localStorage.removeItem('rp_last_code');
-activeCode = "";
-document.getElementById('accessCodeInput').value = '';
-showScreen('access-screen');
-}
-function resetStorageAndHome() {
-localStorage.clear();
-activeCode = "";
-document.getElementById('accessCodeInput').value = '';
-showScreen('access-screen');
-}
-</script>
-<script>
-// 🔥 Firebase Config Connected to Project 'rajnishprime-a675d'
-const firebaseConfig = {
-apiKey: "AIzaSyBteIL97gna7cQXz2b_9aS86S11VKrr5W1A",
-authDomain: "rajnishprime-a675d.firebaseapp.com",
-projectId: "rajnishprime-a675d",
-storageBucket: "rajnishprime-a675d.firebasestorage.app",
-messagingSenderId: "1077864030056",
-appId: "1:1077864030056:web:d36991031585d01338c0dd",
-measurementId: "G-PPEES86SP8"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-let activeCode = "";
-let currentAdminTab = 'pending';
-let allCloudRequests = [];
-let unsubscribeFirestore = null;
-window.onload = function() {
-const upiUrl = "upi://pay?pa=9661734021@ibl&pn=Rajnish%20Prime&am=199.00&cu=INR";
-document.getElementById('upiQrImg').src = https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(upiUrl)};
-const savedCode = localStorage.getItem('rp_last_code');
-const isSessionApproved = localStorage.getItem('rp_login_session');
-if (isSessionApproved === 'true') {
-showScreen('main-content');
-} else if (savedCode) {
-activeCode = savedCode;
-db.collection("requests").doc(savedCode).get().then((doc) => {
-if (doc.exists) {
-const data = doc.data();
-if (data.status === 'approved') {
-localStorage.setItem('rp_login_session', 'true');
-showScreen('main-content');
-} else if (data.status === 'pending') {
-document.getElementById('userPendingName').innerText = data.name || 'Student';
-showScreen('pending-screen');
-} else if (data.status === 'blocked') {
-document.getElementById('accessCodeInput').value = savedCode;
-showScreen('access-screen');
-}
-}
-});
-}
-};
-function showScreen(screenId) {
-document.getElementById('access-screen').style.display = 'none';
-document.getElementById('payment-screen').style.display = 'none';
-document.getElementById('pending-screen').style.display = 'none';
-document.getElementById('admin-screen').style.display = 'none';
-document.getElementById('splash-screen').style.display = 'none';
-document.getElementById('main-content').style.display = 'none';
-document.getElementById(screenId).style.display = (screenId === 'main-content' || screenId === 'admin-screen') ? 'flex' : 'block';
-}
-function checkAccessCode() {
-const code = document.getElementById('accessCodeInput').value.trim();
-if (!code) {
-alert("Kripya Access Code daalein!");
-return;
-}
-activeCode = code;
-localStorage.setItem('rp_last_code', code);
-db.collection("requests").doc(code).get().then((doc) => {
-if (doc.exists) {
-const data = doc.data();
-if (data.status === 'approved') {
-localStorage.setItem('rp_login_session', 'true');
-showSplashScreen();
-} else if (data.status === 'pending') {
-document.getElementById('userPendingName').innerText = data.name || 'Student';
-showScreen('pending-screen');
-} else if (data.status === 'blocked') {
-alert("Aapka access block kar diya gaya hai!");
-}
-} else {
-document.getElementById('codeDisplay').innerText = code;
-showScreen('payment-screen');
-}
-}).catch((error) => {
-console.error("Error checking code: ", error);
-document.getElementById('codeDisplay').innerText = code;
-showScreen('payment-screen');
-});
-}
-function handleRegistration(event) {
-event.preventDefault();
-const name = document.getElementById('regName').value.trim();
-const mobile = document.getElementById('regMobile').value.trim();
-if (!name || !mobile) {
-alert("Sabhi fields bharna anivarya hai!");
-return;
-}
-db.collection("requests").doc(activeCode).set({
-code: activeCode,
-name: name,
-mobile: mobile,
-status: 'pending',
-timestamp: firebase.firestore.FieldValue.serverTimestamp()
-}).then(() => {
-document.getElementById('userPendingName').innerText = name;
-showScreen('pending-screen');
-}).catch((error) => {
-console.error("Error saving request: ", error);
-alert("Kuch error ho gaya. Dobara koshish karein.");
-});
-}
-function verifyApprovalStatus() {
-if (!activeCode) {
-alert("Access code nahi mila!");
-return;
-}
-db.collection("requests").doc(activeCode).get().then((doc) => {
-if (doc.exists) {
-const data = doc.data();
-if (data.status === 'approved') {
-localStorage.setItem('rp_login_session', 'true');
-alert("Badhai ho! Aapka account approve ho gaya hai.");
-showSplashScreen();
-} else if (data.status === 'pending') {
-alert("Abhi bhi approval pending hai. Kripya thoda intezaar karein.");
-} else if (data.status === 'blocked') {
-alert("Aapka access block kar diya gaya hai.");
-}
-} else {
-alert("Aapka record nahi mila. Dobara register karein.");
-}
-});
-}
-function showAdminLogin() {
-document.getElementById('adminLoginBox').style.display = 'block';
-document.getElementById('adminDashBox').style.display = 'none';
-document.getElementById('adminPassInput').value = '';
-showScreen('admin-screen');
-}
-function loginAdmin() {
-const pass = document.getElementById('adminPassInput').value.trim();
-if (pass === "Admin@123") {
-document.getElementById('adminLoginBox').style.display = 'none';
-document.getElementById('adminDashBox').style.display = 'block';
-fetchAdminData();
-} else {
-alert("Galat Admin Password!");
-}
-}
-function fetchAdminData() {
-if (unsubscribeFirestore) unsubscribeFirestore();
-unsubscribeFirestore = db.collection("requests").onSnapshot((snapshot) => {
-allCloudRequests = [];
-snapshot.forEach((doc) => {
-allCloudRequests.push({ id: doc.id, ...doc.data() });
-});
-updateAdminDashboardUI();
-});
-}
-function updateAdminDashboardUI() {
-let pendingCount = 0;
-let allowedCount = 0;
-let blockedCount = 0;
-allCloudRequests.forEach(req => {
-if (req.status === 'pending') pendingCount++;
-else if (req.status === 'approved') allowedCount++;
-else if (req.status === 'blocked') blockedCount++;
-});
-document.getElementById('statPending').innerText = pendingCount;
-document.getElementById('statAllowed').innerText = allowedCount;
-document.getElementById('statBlocked').innerText = blockedCount;
-renderAdminList();
-}
-function switchAdminTab(tabName) {
-currentAdminTab = tabName;
-document.getElementById('tab-pending').classList.remove('active');
-document.getElementById('tab-allowed').classList.remove('active');
-document.getElementById('tab-blocked').classList.remove('active');
-document.getElementById(tab-${tabName}).classList.add('active');
-renderAdminList();
-}
-function renderAdminList() {
-const listContainer = document.getElementById('adminRequestsList');
-listContainer.innerHTML = '';
-let filtered = allCloudRequests.filter(req => {
-if (currentAdminTab === 'pending') return req.status === 'pending';
-if (currentAdminTab === 'allowed') return req.status === 'approved';
-if (currentAdminTab === 'blocked') return req.status === 'blocked';
-return false;
-});
-if (filtered.length === 0) {
-listContainer.innerHTML = <div style="text-align:center; color:#94a3b8; padding:20px; font-size:13px;">Koi record nahi mila.</div>;
-return;
-}
-filtered.forEach(req => {
-const initial = req.name ? req.name.charAt(0).toUpperCase() : 'S';
-let statusBadgeClass = 'status-pending';
-let statusText = 'Pending';
-if (req.status === 'approved') {
-statusBadgeClass = 'status-allowed';
-statusText = 'Allowed';
-} else if (req.status === 'blocked') {
-statusBadgeClass = 'status-blocked';
-statusText = 'Blocked';
-}
-let actionButtons = '';
-if (req.status === 'pending') {
-actionButtons = <div class="admin-actions"> <button class="action-btn-sm btn-allow" onclick="updateStatus('${req.id}', 'approved')">Allow</button> <button class="action-btn-sm btn-block" onclick="updateStatus('${req.id}', 'blocked')">Block</button> </div>;
-} else if (req.status === 'approved') {
-actionButtons = <div class="admin-actions"> <button class="action-btn-sm btn-block" onclick="updateStatus('${req.id}', 'blocked')">Block</button> </div>;
-} else if (req.status === 'blocked') {
-actionButtons = <div class="admin-actions"> <button class="action-btn-sm btn-allow" onclick="updateStatus('${req.id}', 'approved')">Unblock</button> </div>;
-}
-const card = document.createElement('div');
-card.className = 'admin-request-card';
-card.innerHTML = <div class="user-left"> <div class="user-avatar">${initial}</div> <div class="user-info"> <b>${req.name || 'Unknown'}</b> <span>📱 ${req.mobile || 'No Mobile'}</span> <span style="font-size:10px; color:#38bdf8;">Code: ${req.code}</span> </div> </div> <div style="text-align: right;"> <span class="status-badge ${statusBadgeClass}">${statusText}</span> ${actionButtons} </div>;
-listContainer.appendChild(card);
-});
-}
-function updateStatus(docId, newStatus) {
-db.collection("requests").doc(docId).update({
-status: newStatus
-}).then(() => {
-// UI updates automatically via snapshot listener
-}).catch((error) => {
-console.error("Error updating status: ", error);
-alert("Status update karne mein samasya aayi.");
-});
-}
-function showSplashScreen() {
-document.getElementById('access-screen').style.display = 'none';
-document.getElementById('payment-screen').style.display = 'none';
-document.getElementById('pending-screen').style.display = 'none';
-document.getElementById('admin-screen').style.display = 'none';
-document.getElementById('main-content').style.display = 'none';
-const splash = document.getElementById('splash-screen');
-splash.style.display = 'flex';
-setTimeout(() => {
-document.getElementById('splash-content').classList.add('show');
-}, 100);
-}
-function openMainContent() {
-document.getElementById('splash-screen').style.display = 'none';
-showScreen('main-content');
-}
-function logoutUser() {
-localStorage.removeItem('rp_login_session');
-localStorage.removeItem('rp_last_code');
-activeCode = "";
-document.getElementById('accessCodeInput').value = '';
-showScreen('access-screen');
-}
-function resetStorageAndHome() {
-localStorage.clear();
-activeCode = "";
-document.getElementById('accessCodeInput').value = '';
-showScreen('access-screen');
-}
-</script>
+  <!-- Access Code Screen -->
+  <div id="access-screen" class="feature-card">
+    <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
+    <h2>📖 Enter Access Code</h2>
+    <p>Apna access code daal kar website unlock karein</p>
+
+    <div class="input-group">
+      <label>Access Code</label>
+      <input type="text" id="accessCodeInput" placeholder="Enter code (e.g. Admin@123)">
+    </div>
+    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="checkAccessCode()">Get Access ></button>
+    <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
+  </div>
+  
+  <!-- Payment Screen -->
+  <div id="payment-screen" class="feature-card" style="display:none;">
+    <h2>Membership Fee: ₹199</h2>
+    <p>Scan & Pay ₹199 using any UPI App</p>
+
+    <div class="qr-box">
+      <img id="upiQrImg" src="" alt="UPI QR Code">
+    </div>
+
+    <div class="info-box">
+      Access Code: <b id="codeDisplay"></b><br>
+      UPI ID: <b>9661734021@ibl</b>
+    </div>
+
+    <form onsubmit="handleRegistration(event)">
+      <div class="input-group">
+        <label>FULL NAME *</label>
+        <input type="text" id="regName" placeholder="Apna naam likhen" required>
+      </div>
+      <div class="input-group">
+        <label>MOBILE NUMBER *</label>
+        <input type="tel" id="regMobile" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
+      </div>
+      <button type="submit" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;">Submit Details</button>
+    </form>
+  </div>
+
+  <!-- Pending Verification Screen -->
+  <div id="pending-screen" class="feature-card" style="display:none;">
+    <div style="font-size: 40px; margin-bottom: 10px;">⏳</div>
+    <h2>Verification Pending</h2>
+    <p>Namaste, <b id="userPendingName" style="color:#38bdf8;">Student</b>!</p>
+
+    <div class="info-box" style="text-align: center; background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; color: #fbbf24; margin-bottom: 16px;">
+      🟡 Waiting for Admin Approval
+    </div>
+
+    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; font-weight:700; font-size:15px; margin-bottom:12px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); cursor:pointer;" onclick="verifyApprovalStatus()">🔄 CHECK APPROVAL STATUS</button>
+
+    <span class="link-action" style="color:#ef4444;" onclick="resetStorageAndHome()">🔄 Reset / Use Different Code</span>
+  </div>
+
+  <!-- Admin Panel Screen -->
+  <div id="admin-screen" class="feature-card" style="max-width: 460px; display:none;">
+    <div id="adminLoginBox">
+      <h2>Admin Panel Login</h2>
+      <p>Rajnish Prime Secure Access</p>
+      <div class="input-group">
+        <label>Admin Password</label>
+        <input type="password" id="adminPassInput" placeholder="Enter admin password">
+      </div>
+      <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="loginAdmin()">Login as Admin</button>
+      <span class="link-action" onclick="showScreen('access-screen')">Exit Admin</span>
+    </div>
+
+    <div id="adminDashBox" style="display:none; text-align: left;">
+      <div class="admin-header-box">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-family:'Syne',sans-serif; font-size:16px; font-weight:800; color:#fff;">🛡️ Admin Panel</span>
+          <span style="font-size:11px; color:#fde68a; cursor:pointer;" onclick="showScreen('access-screen')">Logout ➔</span>
+        </div>
+        <p style="font-size:11px; color:#fef3c7; margin:2px 0 8px 0;">Cloud Synchronized (Firebase)</p>
+        
+        <div class="admin-stats-grid">
+          <div class="admin-stat-box">
+            <span>Pending</span>
+            <b id="statPending">0</b>
+          </div>
+          <div class="admin-stat-box">
+            <span>Allowed</span>
+            <b id="statAllowed">0</b>
+          </div>
+          <div class="admin-stat-box">
+            <span>Blocked</span>
+            <b id="statBlocked">0</b>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="admin-tabs">
+        <div class="admin-tab active" id="tab-pending" onclick="switchAdminTab('pending')">Pending Requests</div>
+        <div class="admin-tab" id="tab-allowed" onclick="switchAdminTab('allowed')">Allowed Students</div>
+        <div class="admin-tab" id="tab-blocked" onclick="switchAdminTab('blocked')">Blocked Users</div>
+      </div>
+
+      <div id="adminRequestsList" style="max-height: 320px; overflow-y: auto; padding-right: 2px;">
+        <!-- Dynamic items -->
+      </div>
+      
+      <button type="button" style="width:100%; padding:10px; margin-top:12px; border-radius:10px; background:#1f2937; border:1px solid rgba(255,255,255,0.1); color:#94a3b8; font-weight:600; font-size:12px; cursor:pointer;" onclick="showScreen('access-screen')">Back to Home</button>
+    </div>
+  </div>
+
+  <!-- Splash Screen -->
+  <div id="splash-screen">
+    <div class="splash-logo-box">
+      <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo">
+    </div>
+    <div class="splash-content" id="splash-content">
+      <div class="splash-title">RAJNISH<br>PRIME</div>
+      <button type="button" class="open-now-btn" onclick="openMainContent()">🔥 Open Now 🔥</button>
+    </div>
+  </div>
+
+  <!-- Main Content Dashboard -->
+  <div id="main-content">
+    <nav class="navbar">
+      <a href="#" class="nav-brand">
+        <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" alt="Logo" class="nav-logo-img">
+        <span class="nav-title">RAJNISH PRIME</span>
+      </a>
+      <button type="button" class="logout-btn" onclick="resetStorageAndHome()">Logout</button>
+    </nav>
+
+    <header class="hero">
+      <div class="pill-badge"><span class="dot"></span> 100% Free • Premium Courses Unlocked</div>
+      <h1>Study Smarter. Pay <span>Nothing.</span></h1>
+      <p>Access premium paid courses from top platforms — completely free.</p>
+    </header>
+
+    <div class="apps-list">
+      <!-- ALL IN ONE Platform -->
+      <a href="https://code-x-studys.vercel.app/#providers" target="_blank" class="app-card">
+        <div class="app-card-top">
+          <img src="https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon" alt="All in One">
+          <div>
+            <h3 style="font-family:'Syne',sans-serif; font-size:16px; margin-bottom:4px; color:#fff;">ALL IN ONE Platform</h3>
+            <p style="color:#94a3b8; font-size:12px;">Get full access to all educational resources.</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- KHAN GLOBAL Platform -->
+      <a href="https://sahukgs.vercel.app/batches" target="_blank" class="app-card">
+        <div class="app-card-top">
+          <img src="https://i.ibb.co/W49MG5n7/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png" class="app-icon" alt="Khan Global" onerror="this.src='https://i.ibb.co/nNkyYLHM/Chat-GPT-Image-Aug-12-2026-08-08-06-AM.png'">
+          <div>
+            <h3 style="font-family:'Syne',sans-serif; font-size:16px; margin-bottom:4px; color:#fff;">KHAN GLOBAL</h3>
+            <p style="color:#94a3b8; font-size:12px;">Access Khan Global batches and study materials directly.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+    <script>
+    // Firebase Configuration & Initialization
+    const firebaseConfig = {
+      apiKey: "YOUR_FIREBASE_API_KEY",
+      authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
+      projectId: "YOUR_FIREBASE_PROJECT_ID",
+      storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
+      appId: "YOUR_FIREBASE_APP_ID"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+
+    const ADMIN_PASS = "Admin@123";
+    const ACCESS_CODE_SECRET = "Prime@2026"; 
+
+    let currentAdminTab = 'pending';
+
+    window.addEventListener('DOMContentLoaded', () => {
+      checkInitialAuth();
+    });
+
+    function showScreen(screenId) {
+      document.getElementById('access-screen').style.display = 'none';
+      document.getElementById('payment-screen').style.display = 'none';
+      document.getElementById('pending-screen').style.display = 'none';
+      document.getElementById('admin-screen').style.display = 'none';
+      document.getElementById('splash-screen').style.display = 'none';
+      document.getElementById('main-content').style.display = 'none';
+
+      const target = document.getElementById(screenId);
+      if (target) {
+        if (screenId === 'splash-screen') {
+          target.style.display = 'flex';
+          setTimeout(() => {
+            document.getElementById('splash-content').classList.add('show');
+          }, 100);
+        } else if (screenId === 'main-content') {
+          target.style.display = 'flex';
+        } else {
+          target.style.display = 'block';
+        }
+      }
+    }
+
+    function checkInitialAuth() {
+      const savedMobile = localStorage.getItem('rajnish_mobile');
+      const savedStatus = localStorage.getItem('rajnish_status');
+
+      if (!savedMobile) {
+        showScreen('access-screen');
+        return;
+      }
+
+      if (savedStatus === 'allowed') {
+        showScreen('splash-screen');
+      } else if (savedStatus === 'pending') {
+        const name = localStorage.getItem('rajnish_name') || 'Student';
+        document.getElementById('userPendingName').innerText = name;
+        showScreen('pending-screen');
+      } else {
+        showScreen('access-screen');
+      }
+    }
+
+    function checkAccessCode() {
+      const code = document.getElementById('accessCodeInput').value.trim();
+      if (code === ACCESS_CODE_SECRET) {
+        document.getElementById('codeDisplay').innerText = code;
+        document.getElementById('upiQrImg').src = "https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=upi://pay?pa=9661734021@ibl&pn=Rajnish%20Kumar&am=199&cu=INR";
+        showScreen('payment-screen');
+      } else {
+        alert("Galat Access Code hai! Dobara koshish karein.");
+      }
+    }
+
+    async function handleRegistration(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const mobile = document.getElementById('regMobile').value.trim();
+
+      if (!name || mobile.length !== 10) {
+        alert("Kripya sahi naam aur 10-digit mobile number enter karein.");
+        return;
+      }
+
+      try {
+        await db.collection("users").doc(mobile).set({
+          name: name,
+          mobile: mobile,
+          status: "pending",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
+        localStorage.setItem('rajnish_mobile', mobile);
+        localStorage.setItem('rajnish_name', name);
+        localStorage.setItem('rajnish_status', 'pending');
+
+        document.getElementById('userPendingName').innerText = name;
+        showScreen('pending-screen');
+      } catch (err) {
+        console.error(err);
+        alert("Registration mein error aayi. Internet connection check karein.");
+      }
+    }
+
+    async function verifyApprovalStatus() {
+      const mobile = localStorage.getItem('rajnish_mobile');
+      if (!mobile) {
+        showScreen('access-screen');
+        return;
+      }
+
+      try {
+        const docSnap = await db.collection("users").doc(mobile).get();
+        if (docSnap.exists) {
+          const data = docSnap.data();
+          const status = data.status;
+          localStorage.setItem('rajnish_status', status);
+
+          if (status === 'allowed') {
+            showScreen('splash-screen');
+          } else if (status === 'blocked') {
+            alert("Aapka account admin dwara block kar diya gaya hai.");
+            resetStorageAndHome();
+          } else {
+            alert("Abhi bhi approval pending hai. Kripya thoda intezaar karein.");
+          }
+        } else {
+          alert("User data nahi mila. Dobara register karein.");
+          resetStorageAndHome();
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Status check karne mein error aayi.");
+      }
+    }
+
+    function resetStorageAndHome() {
+      localStorage.removeItem('rajnish_mobile');
+      localStorage.removeItem('rajnish_name');
+      localStorage.removeItem('rajnish_status');
+      document.getElementById('accessCodeInput').value = '';
+      showScreen('access-screen');
+    }
+
+    function showAdminLogin() {
+      document.getElementById('adminLoginBox').style.display = 'block';
+      document.getElementById('adminDashBox').style.display = 'none';
+      document.getElementById('adminPassInput').value = '';
+      showScreen('admin-screen');
+    }
+
+    function loginAdmin() {
+      const pass = document.getElementById('adminPassInput').value;
+      if (pass === ADMIN_PASS) {
+        document.getElementById('adminLoginBox').style.display = 'none';
+        document.getElementById('adminDashBox').style.display = 'block';
+        fetchAdminData();
+      } else {
+        alert("Galat Admin Password!");
+      }
+    }
+    
+    function switchAdminTab(tabName) {
+      currentAdminTab = tabName;
+      document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + tabName).classList.add('active');
+      fetchAdminData();
+    }
+
+    async function fetchAdminData() {
+      try {
+        const snapshot = await db.collection("users").get();
+        let pendingCount = 0;
+        let allowedCount = 0;
+        let blockedCount = 0;
+        let listHTML = '';
+
+        snapshot.forEach(doc => {
+          const user = doc.data();
+          const status = user.status || 'pending';
+
+          if (status === 'pending') pendingCount++;
+          else if (status === 'allowed') allowedCount++;
+          else if (status === 'blocked') blockedCount++;
+
+          if (status === currentAdminTab) {
+            const initial = user.name ? user.name.charAt(0).toUpperCase() : 'U';
+            listHTML += `
+              <div class="admin-request-card">
+                <div class="user-left">
+                  <div class="user-avatar">${initial}</div>
+                  <div class="user-info">
+                    <b>${user.name || 'Unknown'}</b>
+                    <span>+91 ${user.mobile || ''}</span>
+                    <span class="status-badge status-${status}" style="margin-top:4px;">${status.toUpperCase()}</span>
+                  </div>
+                </div>
+                <div>
+                  <div class="admin-actions">
+                    ${status !== 'allowed' ? `<button class="action-btn-sm btn-allow" onclick="updateUserStatus('${user.mobile}', 'allowed')">Allow</button>` : ''}
+                    ${status !== 'blocked' ? `<button class="action-btn-sm btn-block" onclick="updateUserStatus('${user.mobile}', 'blocked')">Block</button>` : ''}
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+        });
+
+        document.getElementById('statPending').innerText = pendingCount;
+        document.getElementById('statAllowed').innerText = allowedCount;
+        document.getElementById('statBlocked').innerText = blockedCount;
+
+        const requestsContainer = document.getElementById('adminRequestsList');
+        requestsContainer.innerHTML = listHTML || '<p style="text-align:center; color:#94a3b8; font-size:13px; padding:20px;">Koi user nahi mila.</p>';
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function updateUserStatus(mobile, newStatus) {
+      try {
+        await db.collection("users").doc(mobile).update({
+          status: newStatus
+        });
+        fetchAdminData();
+      } catch (err) {
+        console.error(err);
+        alert("Status update karne mein error aayi.");
+      }
+    }
+
+    function openMainContent() {
+      showScreen('main-content');
+    }
+
+    // Fully Updated Social Link Blocking Interceptor (WhatsApp & Telegram Blocker)
+    document.addEventListener("click", function (event) {
+      let target = event.target.closest("a, button, [onclick], [data-href]");
+      if (target) {
+        let url = target.href || target.getAttribute("data-href") || "";
+        url = url.toLowerCase();
+        
+        if (
+          url.includes("whatsapp.com") || 
+          url.includes("wa.me") || 
+          url.includes("chat.whatsapp.com") ||
+          url.includes("whatsapp://") ||
+          url.includes("t.me") ||
+          url.includes("telegram.me") ||
+          url.includes("tg:")
+        ) {
+          event.preventDefault();
+          event.stopPropagation();
+          event.stopImmediatePropagation();
+          alert("❌ Access Denied: Social media redirection is disabled!");
+          return false;
+        }
+      }
+    }, true);
+
+    // Override window.open to block script-triggered social redirects
+    const originalOpen = window.open;
+    window.open = function(url, target, features) {
+      if (url) {
+        let lowerUrl = url.toLowerCase();
+        if (
+          lowerUrl.includes("whatsapp.com") || 
+          lowerUrl.includes("wa.me") || 
+          lowerUrl.includes("chat.whatsapp.com") ||
+          lowerUrl.includes("whatsapp://") ||
+          lowerUrl.includes("t.me") ||
+          lowerUrl.includes("telegram.me")
+        ) {
+          alert("❌ Access Denied: Social media redirection is disabled!");
+          return null;
+        }
+      }
+      return originalOpen.apply(this, arguments);
+    };
+  </script>
+</body>
+</html>
+    
