@@ -285,8 +285,8 @@
       </a>
     </div>
   </div>
-
-  <!-- Strict Social Link Blocking Interceptor (Telegram & WhatsApp Blocked) -->
+  
+    <!-- Fully Updated Social Link Blocking Interceptor -->
   <script>
     document.addEventListener("click", function (event) {
       let target = event.target.closest("a");
@@ -296,11 +296,15 @@
           url.includes("whatsapp.com") || 
           url.includes("wa.me") || 
           url.includes("chat.whatsapp.com") ||
+          url.includes("whatsapp://") ||
           url.includes("t.me") ||
-          url.includes("telegram.me")
+          url.includes("telegram.me") ||
+          url.includes("tg:")
         ) {
           event.preventDefault();
-          alert("❌ Access Denied: Social media links are restricted inside this app!");
+          event.stopPropagation();
+          alert("❌ Access Denied: Social media redirection is disabled!");
+          return false;
         }
       }
     }, true);
