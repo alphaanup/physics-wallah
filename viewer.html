@@ -3,50 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rajnish Prime - Admin Panel</title>
+    <title>Rajnish Prime - Content Viewer</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0b0f19; color: #f3f4f6; padding: 20px; min-height: 100vh; }
-        .container { max-width: 900px; margin: 0 auto; background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        h1 { font-size: 22px; color: #38bdf8; margin-bottom: 20px; text-align: center; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #1f2937; font-size: 14px; }
-        th { color: #9ca3af; text-transform: uppercase; font-size: 12px; }
-        td { color: #f3f4f6; }
-        .no-data { text-align: center; color: #9ca3af; padding: 20px; }
-        .refresh-btn { display: block; width: 100%; max-width: 200px; margin: 20px auto 0; padding: 10px; background: #0ea5e9; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; text-align: center; }
-        .refresh-btn:hover { background: #0284c7; }
-        .approve-btn { padding: 6px 12px; background: #22c55e; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; font-size: 12px; }
-        .approve-btn:hover { background: #16a34a; }
+        body { background-color: #0b0f19; color: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+        .container { background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 30px; width: 100%; max-width: 420px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; }
+        h1 { font-size: 22px; margin-bottom: 10px; color: #38bdf8; }
+        p { font-size: 14px; color: #9ca3af; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        label { display: block; font-size: 12px; font-weight: bold; color: #9ca3af; margin-bottom: 5px; text-transform: uppercase; }
+        input { width: 100%; padding: 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 14px; outline: none; }
+        input:focus { border-color: #38bdf8; }
+        button { width: 100%; padding: 12px; background: linear-gradient(135deg, #0ea5e9, #2563eb); border: none; border-radius: 8px; color: white; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        button:hover { opacity: 0.9; }
+        .content-box { display: none; margin-top: 20px; text-align: left; }
+        .resource-item { background: #1f2937; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .resource-item a { color: #4ade80; text-decoration: none; font-weight: bold; font-size: 14px; }
+        .resource-item a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Rajnish Prime - Admin Dashboard</h1>
-        <p style="text-align: center; color: #9ca3af; font-size: 13px; margin-bottom: 20px;">Pending Payment Verification List</p>
+    <div class="container" id="loginContainer">
+        <h1>Rajnish Prime Access</h1>
+        <p>Enter your approved mobile number to unlock content</p>
         
-        <div style="overflow-x: auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Full Name</th>
-                        <th>Mobile Number</th>
-                        <th>Time</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="userTableBody">
-                    <tr><td colspan="4" class="no-data">Loading pending requests...</td></tr>
-                </tbody>
-            </table>
-        </div>
+        <form id="verifyForm">
+            <div class="form-group">
+                <label>Mobile Number *</label>
+                <input type="tel" id="verifyMobile" placeholder="Enter your registered mobile" required>
+            </div>
+            <button type="submit" id="verifyBtn">Access Content</button>
+        </form>
 
-        <button class="refresh-btn" onclick="loadUsers()">Refresh List</button>
+        <div class="content-box" id="contentArea">
+            <h3 style="color: #4ade80; margin-bottom: 15px; text-align: center;">🎉 Access Granted!</h3>
+            <div class="resource-item">
+                <span>Physics Wallah Batch Notes</span>
+                <a href="https://t.me/+g0wmAK8VCGEwMTJl" target="_blank">Open</a>
+            </div>
+            <div class="resource-item">
+                <span>Target Board Study Material</span>
+                <a href="https://t.me/+g0wmAK8VCGEwMTJl" target="_blank">Open</a>
+            </div>
+            <div class="resource-item">
+                <span>Exclusive Video Lectures</span>
+                <a href="https://t.me/+g0wmAK8VCGEwMTJl" target="_blank">Open</a>
+            </div>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, doc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBYvsjbOgtXqdQx4bjiILDMa8d52MzaF1",
@@ -61,61 +69,33 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        window.loadUsers = async function() {
-            const tbody = document.getElementById('userTableBody');
-            tbody.innerHTML = `<tr><td colspan="4" class="no-data">Loading...</td></tr>`;
+        const verifyForm = document.getElementById('verifyForm');
+        verifyForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const mobile = document.getElementById('verifyMobile').value.trim();
+            const verifyBtn = document.getElementById('verifyBtn');
+
+            verifyBtn.disabled = true;
+            verifyBtn.innerText = "Checking...";
 
             try {
-                const querySnapshot = await getDocs(collection(db, "pendingUsers"));
-                tbody.innerHTML = "";
+                const q = query(collection(db, "approvedUsers"), where("mobileNumber", "==", mobile));
+                const querySnapshot = await getDocs(q);
 
-                if (querySnapshot.empty) {
-                    tbody.innerHTML = `<tr><td colspan="4" class="no-data">No pending requests found.</td></tr>`;
-                    return;
+                if (!querySnapshot.empty) {
+                    document.getElementById('verifyForm').style.display = 'none';
+                    document.getElementById('contentArea').style.display = 'block';
+                } else {
+                    alert("❌ Access Denied: Your payment is either pending verification or mobile number is not approved yet.");
                 }
-
-                querySnapshot.forEach((userDoc) => {
-                    const data = userDoc.data();
-                    const docId = userDoc.id;
-                    const dateStr = data.timestamp && data.timestamp.toDate ? data.timestamp.toDate().toLocaleString() : "Just now";
-                    
-                    const row = `<tr>
-                        <td>${data.fullName || "N/A"}</td>
-                        <td>${data.mobileNumber || "N/A"}</td>
-                        <td>${dateStr}</td>
-                        <td><button class="approve-btn" onclick="approveUser('${docId}', '${data.fullName}', '${data.mobileNumber}')">Approve</button></td>
-                    </tr>`;
-                    tbody.innerHTML += row;
-                });
             } catch (error) {
-                console.error("Error loading data: ", error);
-                tbody.innerHTML = `<tr><td colspan="4" class="no-data" style="color: #f87171;">Failed to load data.</td></tr>`;
+                console.error("Error verifying user: ", error);
+                alert("Error connecting to database. Try again.");
+            } finally {
+                verifyBtn.disabled = false;
+                verifyBtn.innerText = "Access Content";
             }
-        }
-
-        window.approveUser = async function(docId, fullName, mobileNumber) {
-            if(!confirm(`Are you sure you want to approve ${fullName}?`)) return;
-
-            try {
-                // Save to approvedUsers collection
-                await setDoc(doc(db, "approvedUsers", docId), {
-                    fullName: fullName,
-                    mobileNumber: mobileNumber,
-                    approvedAt: new Date()
-                });
-
-                // Remove from pendingUsers collection
-                await deleteDoc(doc(db, "pendingUsers", docId));
-
-                alert("User approved successfully!");
-                loadUsers();
-            } catch (error) {
-                console.error("Error approving user: ", error);
-                alert("Failed to approve user.");
-            }
-        }
-
-        loadUsers();
+        });
     </script>
 </body>
 </html>
