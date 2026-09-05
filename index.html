@@ -20,13 +20,11 @@
     </style>
 </head>
 <body>
-
     <div class="container" id="mainContainer">
         <h1>Membership Fee:</h1>
         <div class="price-box">₹199</div>
         <p>Scan & Pay ₹199 using any UPI App</p>
         
-        <!-- QR Code Placeholder or Image -->
         <div style="background: #fff; padding: 10px; border-radius: 12px; display: inline-block; margin-bottom: 20px;">
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9661734021@ibl&pn=RajnishKumar&am=199&cu=INR" alt="UPI QR Code" style="width: 160px; height: 160px; display: block;">
         </div>
@@ -48,16 +46,13 @@
             <button type="submit" id="submitBtn">Submit Details</button>
         </form>
     </div>
-    
-        <!-- Firebase App SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-js.js" type="module"></script>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        
-                // Yahan apni asli Firebase configuration keys paste karein jo aapne Firebase Console se copy ki hain
+
         const firebaseConfig = {
-            apiKey: "YOUR_FIREBASE_API_KEY",
+            apiKey: "AIzaSyBYvsjbOgtXqdQx4bjiILDMa8d52MzaF1",
             authDomain: "rajnishprime-38165.firebaseapp.com",
             projectId: "rajnishprime-38165",
             storageBucket: "rajnishprime-38165.appspot.com",
@@ -95,8 +90,7 @@
                 submitBtn.innerText = "Submit Details";
             }
         });
-        
-                // Social Media Link Interceptor Script
+
         const originalOpen = window.open;
         window.open = function(url) {
             if (!url) return originalOpen.apply(this, arguments);
