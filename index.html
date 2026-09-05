@@ -126,7 +126,7 @@
 </head>
 <body>
 
-  <!-- Access Code Screen -->
+   <!-- Access Code Screen -->
   <div id="access-screen" class="feature-card">
     <div class="live-badge"><span class="live-dot"></span> LIVE MEMBERS: 71 Live</div>
     <h2>📖 Enter Access Code</h2>
@@ -134,7 +134,7 @@
 
     <div class="input-group">
       <label>Access Code</label>
-      <input type="text" id="accessCodeInput" placeholder="Enter code (e.g. Admin@123)">
+      <input type="text" id="accessCodeInput" placeholder="Enter code (e.g. Prime@2026)">
     </div>
     <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;" onclick="checkAccessCode()">Get Access ></button>
     <span class="link-action" onclick="showAdminLogin()">🛡️ Admin Panel</span>
@@ -286,7 +286,7 @@
     </div>
   </div>
 
-    <script>
+   <script>
     // Firebase Configuration & Initialization
     const firebaseConfig = {
       apiKey: "YOUR_FIREBASE_API_KEY",
@@ -361,7 +361,7 @@
         document.getElementById('upiQrImg').src = "https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=upi://pay?pa=9661734021@ibl&pn=Rajnish%20Kumar&am=199&cu=INR";
         showScreen('payment-screen');
       } else {
-        alert("Galat Access Code hai! Dobara koshish karein.");
+        alert("Galat Access Code hai! Kripya sahi code daalein (Prime@2026).");
       }
     }
 
@@ -391,7 +391,7 @@
         showScreen('pending-screen');
       } catch (err) {
         console.error(err);
-        alert("Registration mein error aayi. Internet connection check karein.");
+        alert("Registration mein error aayi. Internet connection ya Firebase Rules check karein.");
       }
     }
 
@@ -453,7 +453,7 @@
       }
     }
     
-    function switchAdminTab(tabName) {
+     function switchAdminTab(tabName) {
       currentAdminTab = tabName;
       document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
       document.getElementById('tab-' + tabName).classList.add('active');
@@ -573,4 +573,4 @@
   </script>
 </body>
 </html>
-    
+   
