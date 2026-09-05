@@ -19,17 +19,19 @@
         button:hover { opacity: 0.9; }
         .secondary-btn { background: linear-gradient(135deg, #22c55e, #16a34a); margin-top: 15px; }
         .content-box { display: none; margin-top: 20px; text-align: left; }
-        .resource-item { background: #1f2937; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .resource-item a { color: #4ade80; text-decoration: none; font-weight: bold; font-size: 14px; }
-        .resource-item a:hover { text-decoration: underline; }
+        .platform-card { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #38bdf8; border-radius: 12px; padding: 20px; text-align: center; margin-top: 10px; }
+        .platform-card h2 { color: #38bdf8; font-size: 20px; margin-bottom: 8px; }
+        .platform-card p { color: #9ca3af; font-size: 13px; margin-bottom: 15px; }
+        .platform-btn { display: inline-block; width: 100%; padding: 12px; background: #38bdf8; color: #0b0f19; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 15px; transition: 0.3s; }
+        .platform-btn:hover { background: #0ea5e9; color: #fff; }
     </style>
 </head>
 <body>
     <div class="container" id="mainContainer">
         <div id="formSection">
             <h1>Membership Fee:</h1>
-            <div class="price-box">₹199</div>
-            <p>Scan & Pay ₹199 using any UPI App</p>
+            <div class="price-box">199</div>
+            <p>Scan & Pay 199 using any UPI App</p>
             
             <div style="background: #fff; padding: 10px; border-radius: 12px; display: inline-block; margin-bottom: 20px;">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9661734021@ibl&pn=RajnishKumar&am=199&cu=INR" alt="UPI QR Code" style="width: 160px; height: 160px; display: block;">
@@ -67,18 +69,12 @@
             <button type="button" style="background: #374151; margin-top: 10px;" onclick="backToForm()">Back to Payment</button>
 
             <div class="content-box" id="contentArea">
-                <h3 style="color: #4ade80; margin-bottom: 15px; text-align: center;">🎉 Access Granted!</h3>
-                <div class="resource-item">
-                    <span>Physics Wallah Batch Notes</span>
-                    <a href="https://t.me/+g0wmAK8VCGEwMTJl" target="_blank">Open</a>
-                </div>
-                <div class="resource-item">
-                    <span>Target Board Study Material</span>
-                    <a href="https://t.me/+g0wmAK8VCGEwMTJl" target="_blank">Open</a>
-                </div>
-                <div class="resource-item">
-                    <span>Exclusive Video Lectures</span>
-                    <a href="https://t.me/+g0wmAK8VCGEwMTJl" target="_blank">Open</a>
+                <h3 style="color: #4ade80; margin-bottom: 10px; text-align: center;"> Access Granted!</h3>
+                
+                <div class="platform-card">
+                    <h2>ALL IN ONE</h2>
+                    <p>All study platform in one place</p>
+                    <a href="https://code-x-studys.vercel.app/#providers" target="_blank" class="platform-btn">Open Platform</a>
                 </div>
             </div>
         </div>
@@ -163,7 +159,7 @@
                     verifyBtn.style.display = 'none';
                     document.getElementById('contentArea').style.display = 'block';
                 } else {
-                    alert("❌ Access Denied: Your payment is either pending verification or mobile number is not approved yet.");
+                    alert(" Access Denied: Your payment is either pending verification or mobile number is not approved yet.");
                 }
             } catch (error) {
                 console.error("Error verifying user: ", error);
@@ -172,7 +168,7 @@
                 verifyBtn.disabled = false;
                 verifyBtn.innerText = "Access Content";
             }
-        }
+        };
 
         // Social Media Interceptor
         const originalOpen = window.open;
@@ -187,7 +183,7 @@
                 lowerUrl.includes("t.me") ||
                 lowerUrl.includes("telegram.me")
             ){
-                alert("❌ Access Denied: Social media redirection is blocked.");
+                alert(" Access Denied: Social media redirection is blocked.");
                 return null;
             }
             return originalOpen.apply(this, arguments);
