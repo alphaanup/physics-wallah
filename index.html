@@ -163,7 +163,7 @@
         <label>MOBILE NUMBER *</label>
         <input type="tel" id="regMobile" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
       </div>
-      <button type="submit" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;">Submit & Open Telegram</button>
+      <button type="submit" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; cursor:pointer;">Submit Details</button>
     </form>
   </div>
   
@@ -177,8 +177,6 @@
       🟡 Waiting for Admin Approval
     </div>
 
-    <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%); border:none; color:#fff; font-weight:700; margin-bottom:12px; cursor:pointer;" onclick="openTelegram()">✈️ Send Screenshot on Telegram</button>
-    
     <button type="button" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; font-weight:700; font-size:15px; margin-bottom:12px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); cursor:pointer;" onclick="verifyApprovalStatus()">🔄 CHECK APPROVAL STATUS</button>
 
     <span class="link-action" style="color:#ef4444;" onclick="resetStorageAndHome()">🔄 Reset / Use Different Code</span>
@@ -288,15 +286,21 @@
     </div>
   </div>
 
-  <!-- WhatsApp Block Interceptor Script -->
+  <!-- Strict Social Link Blocking Interceptor (Telegram & WhatsApp Blocked) -->
   <script>
     document.addEventListener("click", function (event) {
       let target = event.target.closest("a");
       if (target && target.href) {
         let url = target.href.toLowerCase();
-        if (url.includes("whatsapp.com") || url.includes("wa.me") || url.includes("chat.whatsapp.com")) {
+        if (
+          url.includes("whatsapp.com") || 
+          url.includes("wa.me") || 
+          url.includes("chat.whatsapp.com") ||
+          url.includes("t.me") ||
+          url.includes("telegram.me")
+        ) {
           event.preventDefault();
-          alert("❌ WhatsApp links are blocked inside this application!");
+          alert("❌ Access Denied: Social media links are restricted inside this app!");
         }
       }
     }, true);
@@ -414,7 +418,6 @@
       }).then(() => {
         document.getElementById('userPendingName').innerText = name;
         showScreen('pending-screen');
-        openTelegram();
       }).catch((error) => {
         console.error("Error saving request: ", error);
         alert("Kuch error ho gaya. Dobara koshish karein.");
@@ -442,10 +445,6 @@
           alert("Aapka record nahi mila. Dobara register karein.");
         }
       });
-    }
-
-    function openTelegram() {
-      window.open("https://t.me/+g0wmAK8VCGEwMTJl", "_blank");
     }
 
     function showAdminLogin() {
