@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rajnish Prime - Admin Panel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0b0f19; color: #f3f4f6; padding: 20px; min-height: 100vh; }
+        .container { max-width: 900px; margin: 0 auto; background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        h1 { font-size: 22px; color: #38bdf8; margin-bottom: 20px; text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #1f2937; font-size: 14px; }
+        th { color: #9ca3af; text-transform: uppercase; font-size: 12px; }
+        td { color: #f3f4f6; }
+        .no-data { text-align: center; color: #9ca3af; padding: 20px; }
+        .refresh-btn { display: block; width: 100%; max-width: 200px; margin: 20px auto 0; padding: 10px; background: #0ea5e9; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; text-align: center; }
+        .refresh-btn:hover { background: #0284c7; }
+        .approve-btn { padding: 6px 12px; background: #22c55e; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; font-size: 12px; }
+        .approve-btn:hover { background: #16a34a; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rajnish Prime - Admin Dashboard</h1>
+        <p style="text-align: center; color: #9ca3af; font-size: 13px; margin-bottom: 20px;">Pending Payment Verification List</p>
+        
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Mobile Number</th>
+                        <th>Time</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <tr><td colspan="4" class="no-data">Loading pending requests...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button class="refresh-btn" onclick="loadUsers()">Refresh List</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYvsjbOgtXqdQx4bjiILDMa8d52MzaF1",
+            authDomain: "rajnishprime-38165.firebaseapp.com",
+            projectId: "rajnishprime-38165",
+            storageBucket: "rajnishprime-38165.appspot.com",
+            messagingSenderId: "411710609786",
+            appId: "1:411710609786:web:9f483a511b5d121b25ec3",
+            measurementId: "G-D501HHZJF0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.loadUsers = async function() {
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = `<tr><td colspan="4" class="no-data">Loading...</td></tr>`;
+
+            try {
+                const querySnapshot = await getDocs(collection(db, "pendingUsers"));
+                tbody.innerHTML = "";
+
+                if (querySnapshot.empty) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="no-data">No pending requests found.</td></tr>`;
+                    return;
+                }
+
+                querySnapshot.forEach((userDoc) => {
+                    const data = userDoc.data();
+                    const docId = userDoc.id;
+                    const dateStr = data.timestamp && data.timestamp.toDate ? data.timestamp.toDate().toLocaleString() : "Just now";
+                    
+                    const row = `<tr>
+                        <td>${data.fullName || "N/A"}</td>
+                        <td>${data.mobileNumber || "N/A"}</td>
+                        <td>${dateStr}</td>
+                        <td><button class="approve-btn" onclick="approveUser('${docId}', '${data.fullName}', '${data.mobileNumber}')">Approve</button></td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                });
+            } catch (error) {
+                console.error("Error loading data: ", error);
+                tbody.innerHTML = `<tr><td colspan="4" class="no-data" style="color: #f87171;">Failed to load data.</td></tr>`;
+            }
+        }
+
+        window.approveUser = async function(docId, fullName, mobileNumber) {
+            if(!confirm(`Are you sure you want to approve ${fullName}?`)) return;
+
+            try {
+                // Save to approvedUsers collection
+                await setDoc(doc(db, "approvedUsers", docId), {
+                    fullName: fullName,
+                    mobileNumber: mobileNumber,
+                    approvedAt: new Date()
+                });
+
+                // Remove from pendingUsers collection
+                await deleteDoc(doc(db, "pendingUsers", docId));
+
+                alert("User approved successfully!");
+                loadUsers();
+            } catch (error) {
+                console.error("Error approving user: ", error);
+                alert("Failed to approve user.");
+            }
+        }
+
+        loadUsers();
+    </script>
+</body>
+</html>
